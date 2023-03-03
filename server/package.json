@@ -4,8 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "lint:fix": "eslint --fix --ext .ts,.tsx ./src"
   },
   "keywords": [],
   "author": "",
@@ -13,10 +14,10 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongodb": "^5.0.1",
-    "mongoose": "^6.9.2"
+    "mongodb": "^5.0.1"
   },
   "devDependencies": {
+    "eslint": "^8.35.0",
     "nodemon": "^2.0.20"
   }
 }
