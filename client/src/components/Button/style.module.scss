@@ -1,0 +1,81 @@
+@use "../common/_fonts";
+
+.button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
+/* font - start */
+
+.nunito {
+  font-family: fonts.$nunito;
+}
+
+.noto {
+  font-family: fonts.$noto;
+}
+
+/* font - end */
+
+/* skins - start */
+
+.zeroStyle {
+  color: #000;
+}
+
+.primary {
+  padding: 10px 15px;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 4px;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.icon {
+  padding: 10px;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.text {
+  color: var(--button-text-color);
+  line-height: 1.4;
+}
+
+/* skins - end */
+
+/* size - start */
+
+.text.small {
+  font-size: 12px;
+}
+
+.text.medium {
+  font-size: 16px;
+}
+
+.text.large {
+  font-size: 20px;
+}
+
+.text.xLarge {
+  font-size: 24px;
+}
+
+.icon.medium {
+  width: 40px;
+  height: 40px;
+}
+
+.icon.large {
+  width: 50px;
+  height: 50px;
+}
+
+/* size - end */
