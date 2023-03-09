@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "lint:fix": "eslint --fix --ext .ts,.tsx ./src"
+    "lint:fix": "eslint --fix --ext .js ./src"
   },
   "keywords": [],
   "author": "",
