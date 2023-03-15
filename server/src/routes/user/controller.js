@@ -12,20 +12,21 @@ module.exports = {
     } catch (error) {
       return res
         .header('Access-Control-Allow-Origin', '*')
-        .send(`could not find user... ${error}`);
+        .send(error);
     }
   },
   create: (req, res) => {
     try {
-      userModel.create();
-
-      return res
-        .header('Access-Control-Allow-Origin', '*')
-        .send('data has been added in db succsessful...');
+      userModel.create()
+        .then(result => {
+          return res
+            .header('Access-Control-Allow-Origin', '*')
+            .send(result);
+        });
     } catch (error) {
       return res
         .header('Access-Control-Allow-Origin', '*')
-        .send(`could not add data to the database... ${error}`);
+        .send(error);
     }
   },
   findUser: (req, res) => {
@@ -38,7 +39,7 @@ module.exports = {
     } catch (error) {
       return res
         .header('Access-Control-Allow-Origin', '*')
-        .send(`could not find user... ${error}`);
+        .send(error);
     }
   },
 };

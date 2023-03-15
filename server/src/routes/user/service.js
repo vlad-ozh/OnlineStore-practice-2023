@@ -6,7 +6,6 @@ module.exports = {
     return await usersCollection.find().toArray();
   },
   create: async () => {
-    await usersCollection.insertOne({ name: 'Vladyslav', age: 27 });
   },
   findUser: async () => {
     return await usersCollection.findOne({ age: 27 });
