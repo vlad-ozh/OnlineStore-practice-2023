@@ -1,1 +1,2 @@
-export { userReducer } from './userSlice/UserSlice';
+export { usersReducer } from './UsersSlice';
+export { productsReducer } from './ProductsSlice';

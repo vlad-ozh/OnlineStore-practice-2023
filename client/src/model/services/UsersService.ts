@@ -1,19 +1,19 @@
 import axios from 'axios';
 import { createAsyncThunk, AnyAction, AsyncThunk } from '@reduxjs/toolkit';
-import { IUser } from './../types/IUser';
+import { IUser } from '../types/IUser';
 
 interface IUserApi {
   getAllUsers: AsyncThunk<IUser[], undefined, {rejectValue: string}>;
   error: any;
 }
-export const userApi = (): IUserApi => {
+export const usersService = (): IUserApi => {
 
   const allUsers = () =>
     createAsyncThunk<IUser[], undefined, {rejectValue: string}>(
       'users/allUsers',
       async (_, { rejectWithValue }) => {
         return await axios
-          .get('http://localhost:3100/user/allUsers')
+          .get('http://localhost:3100/users/allUsers')
           .then((res) => res.data)
           .catch((err) => rejectWithValue(err));
       }
