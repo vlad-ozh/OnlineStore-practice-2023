@@ -6,7 +6,7 @@
   "engines": {
     "node": "18.x"
   },
-  "scripts": {
+ "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "lint:fix": "eslint --fix --ext .js ./src"
