@@ -1,19 +1,23 @@
 import axios from 'axios';
 import { createAsyncThunk, AnyAction, AsyncThunk } from '@reduxjs/toolkit';
 import { IProducts } from '../types/IProducts';
+import { navigationApi } from '../navigationApi';
 
 interface IProductsService {
   getAllProducts: AsyncThunk<IProducts, undefined, {rejectValue: string}>;
   error: any;
 }
 export const productsService = (): IProductsService => {
+  const {
+    getAllProducts,
+  } = navigationApi().queryProductsRoutes;
 
   const allProducts = () => {
     return createAsyncThunk<IProducts, undefined, {rejectValue: string}>(
       'products/allProducts',
       async (_, { rejectWithValue }) => {
         return await axios
-          .get('http://localhost:3100/products/allProducts')
+          .get(getAllProducts)
           .then((res) => res.data)
           .catch((err) => rejectWithValue(err));
       }

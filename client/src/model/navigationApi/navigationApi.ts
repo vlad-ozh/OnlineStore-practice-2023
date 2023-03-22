@@ -11,12 +11,23 @@ export const navigationApi = () => {
     checkoutConfirmation: '/checkout/confirmation ',
   };
 
+  const serverUrl = process.env.SERVER_URL;
+
+  const queryUsersRoutes = {
+    getAllUsers: `${serverUrl}/users/allUsers`,
+  };
+  const queryProductsRoutes = {
+    getAllProducts: `${serverUrl}/products/allProducts`,
+  };
+
   const setRoute = (route: string, params = {}) => {
     return generatePath(route, params);
   };
 
   return {
     routes,
+    queryUsersRoutes,
+    queryProductsRoutes,
     toHome: () => {
       return setRoute(routes.home);
     },

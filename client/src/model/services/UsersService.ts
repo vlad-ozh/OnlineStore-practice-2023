@@ -1,3 +1,4 @@
+import { navigationApi } from './../navigationApi/navigationApi';
 import axios from 'axios';
 import { createAsyncThunk, AnyAction, AsyncThunk } from '@reduxjs/toolkit';
 import { IUser } from '../types/IUser';
@@ -7,13 +8,16 @@ interface IUserApi {
   error: any;
 }
 export const usersService = (): IUserApi => {
+  const {
+    getAllUsers,
+  } = navigationApi().queryUsersRoutes;
 
   const allUsers = () =>
     createAsyncThunk<IUser[], undefined, {rejectValue: string}>(
       'users/allUsers',
       async (_, { rejectWithValue }) => {
         return await axios
-          .get('http://localhost:3100/users/allUsers')
+          .get(getAllUsers)
           .then((res) => res.data)
           .catch((err) => rejectWithValue(err));
       }
