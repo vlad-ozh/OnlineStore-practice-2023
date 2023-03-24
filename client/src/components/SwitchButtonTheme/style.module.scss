@@ -1,0 +1,10 @@
+.button {
+  fill: #fff;
+  color: #fff;
+  transition: .2s;
+
+  &:hover {
+    background-color: #565656;
+    border-radius: 6px;
+  }
+}

@@ -1,0 +1,1 @@
+export { SwitchButtonTheme } from './view';

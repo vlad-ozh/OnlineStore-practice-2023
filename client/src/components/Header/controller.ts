@@ -13,6 +13,8 @@ export const controller = (dispatch: AppDispatch) => {
     onProducts: () => {
       return navigationApi().toProducts();
     },
+    onChangeSearch: (value: string) => {
+    },
     onSearch: () => {
 
     },

@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { Button } from '../Button';
 import { Input } from '../Input';
+import { SwitchButtonTheme } from '../SwitchButtonTheme';
 import { controller } from './controller';
-import { useAppTheme } from '../../hooks';
 import classNames from 'classnames';
 
 import {
@@ -13,8 +13,6 @@ import {
   FavoriteIcon,
   PersonIcon,
   SearchIcon,
-  DarkModeIcon,
-  LightModeIcon,
   DotsIcon,
   HomeIcon,
   MenuIcon,
@@ -24,9 +22,8 @@ import style from './style.module.scss';
 
 const PureHeader: React.FC<Props> = (props) => {
   const [navMobile, setNavMobile] = useState(false);
-  const { theme, setTheme } = useAppTheme();
 
-  const { onSearch, onHome, onProducts } = props;
+  const { onSearch, onHome, onProducts, onChangeSearch } = props;
 
   return (
     <div className={style.header}>
@@ -39,13 +36,39 @@ const PureHeader: React.FC<Props> = (props) => {
         >
           <MenuIcon />
         </Button>
-        <div className={classNames(
+
+        <aside className={classNames(
           style.navigationMobileDisabled, {
             [style.navigationMobileAbled]: navMobile,
           })}
         >
-          sdadsadsadsd
-        </div>
+          <header className={style.asideHeader}>
+            <NavLink
+              to={onHome()}
+              className={classNames(style.navLink, style.navLinkAside)}
+            >
+              <HomeIcon />
+              Home
+            </NavLink>
+
+            <div className={style.asideHeaderOptions}>
+              UA
+              <SwitchButtonTheme />
+            </div>
+          </header>
+          <NavLink to={onProducts()} className={style.asideHeaderProfile}>
+            <PersonIcon />
+            Profile
+          </NavLink>
+          <NavLink to={onProducts()} className={style.asideHeaderProducts}>
+            <DotsIcon />
+            Products
+          </NavLink>
+          <NavLink to={onProducts()} className={style.asideHeaderSelected}>
+            <FavoriteIcon />
+            Selected
+          </NavLink>
+        </aside>
         <button
           onClick={() => setNavMobile(false)}
           className={classNames(
@@ -53,6 +76,7 @@ const PureHeader: React.FC<Props> = (props) => {
               [style.navigationMobileAbledBlur]: navMobile,
             })}
         />
+
         <NavLink
           to={onHome()}
           className={style.navLink}
@@ -73,7 +97,7 @@ const PureHeader: React.FC<Props> = (props) => {
             className={style.searchFormInput}
             value={''}
             placeholder={'Search'}
-            // onBlur={() => }
+            onBlur={(value) => onChangeSearch(value)}
           />
           <Button
             onClick={() => onSearch}
@@ -92,26 +116,7 @@ const PureHeader: React.FC<Props> = (props) => {
             </NavLink>
           </li>
           <li className={style.navListItem}>
-            {
-              theme === 'light' ?
-                <Button
-                  skin='icon'
-                  size='medium'
-                  onClick={() => setTheme('dark')}
-                  className={style.navListItemButton}
-                >
-                  <LightModeIcon />
-                </Button>
-                :
-                <Button
-                  skin="icon"
-                  size="medium"
-                  onClick={() => setTheme('light')}
-                  className={style.navListItemButton}
-                >
-                  <DarkModeIcon />
-                </Button>
-            }
+            <SwitchButtonTheme />
           </li>
           <li className={style.navListItem}>
             <Button
@@ -149,6 +154,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     onHome: ctrl.onHome,
     onProducts: ctrl.onProducts,
+    onChangeSearch: ctrl.onChangeSearch,
     onSearch: ctrl.onSearch,
   };
 };

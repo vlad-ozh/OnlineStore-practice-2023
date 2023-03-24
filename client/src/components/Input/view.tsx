@@ -6,7 +6,8 @@ import style from './style.module.scss';
 interface IInputProps {
   className?: string;
   value: string;
-  onBlur?: (value: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onBlur: (value: string) => void;
   placeholder: string;
 }
 
@@ -18,9 +19,9 @@ export const Input: React.FC<IInputProps> = ({
 }) => {
   const [localValue, setLocalValue] = React.useState(value || '');
 
-  // const onBlurLocal = useCallback(() => {
-  //   onBlur(localValue);
-  // }, [localValue, onBlur]);
+  const onBlurLocal = useCallback(() => {
+    onBlur(localValue);
+  }, [localValue, onBlur]);
 
   return (
     <input
@@ -28,7 +29,7 @@ export const Input: React.FC<IInputProps> = ({
       value={localValue}
       placeholder={placeholder}
       onChange={(event) => setLocalValue(event.target.value)}
-      // onBlur={onBlurLocal}
+      onBlur={onBlurLocal}
       className={classnames(style.input, className)}
     />
   );
