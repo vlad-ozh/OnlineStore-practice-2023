@@ -1,0 +1,6 @@
+@use './../../assets/common/container';
+
+
+.text{
+  @extend %container;
+}

@@ -13,6 +13,7 @@ export const App = () => {
     <div className={style.app}>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/products' element={<>Products</>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

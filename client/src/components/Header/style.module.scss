@@ -1,0 +1,195 @@
+@use './../../assets/common/container';
+@use './../../assets/common/fonts';
+
+.header {
+  font-family: fonts.$roboto;
+  background-color: #303030;
+}
+
+.navigation {
+  @extend %container;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+.navBurgerButton {
+  display: none;
+  
+  @media screen and (max-width: 800px) {
+    display: block;
+    min-width: 40px;
+    fill: #fff;
+    margin-right: 15px;
+    padding: 5px;
+    z-index: 500;
+  }
+}
+
+.navigationMobileDisabled {
+  display: none;
+
+  @media screen and (max-width: 800px) {
+    display: block;
+    position: fixed;
+    background-color: var(--background-color);
+    left: -81vw;
+    top: 0;
+    bottom: 0px;
+    max-width: 80vw;
+    width: 100%;
+    z-index: 50;
+    box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, .3);
+    transition: all .5s;
+  }
+
+  &Blur {
+    display: none;
+
+    @media screen and (max-width: 800px) {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0,0,0,.2);
+      backdrop-filter: blur(1.2px);
+    }
+  }
+}
+
+.navigationMobileAbled {
+  @media screen and (max-width: 800px) {
+    left: 0;
+  }
+
+  &Blur {
+    @media screen and (max-width: 800px) {
+      display: block;
+    }
+  }
+}
+
+.navLink {
+  padding: 10px 35px;
+  background-color: #e00027;
+  color: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: .2s;
+  text-decoration: none;
+
+  @media screen and (max-width: 1000px) {
+    padding: 10px 20px;
+  }
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+  
+  & + & {
+    margin: 0 15px;
+  }
+ 
+  & svg {
+    margin-right: 10px;
+    fill: #fff;
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background-color: #f97988;
+  }
+}
+
+.searchForm {
+  display: flex;
+  max-width: 700px;
+  width: 100%;
+  
+  &Input {
+    color: var(--input-text-color);
+    height: 40px;
+    padding: 7px 20px;
+    border-radius: 6px 0 0 6px;
+    border: none;
+    outline: none;
+  }
+  
+  &Button {
+    background-color: #e00027;
+    fill: #fff;
+    border-radius: 0 6px 6px 0;
+    min-width: 50px;
+    transition: .2s;
+    
+    @media screen and (max-width: 500px) {
+      min-width: 40px;
+    }
+
+    &:hover {
+      background-color: #f97988;
+    }
+  }
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  
+  &Item {
+    padding: 0 15px;
+    transition: .2s;   
+    
+    @media screen and (max-width: 1000px) {
+      padding: 0 5px;
+    }
+    @media screen and (max-width: 800px) {
+      display: none;
+
+      &:last-child {
+        display: block;
+        padding: 0 0 0 15px;
+      }
+    }
+
+    & + & {
+      border-left: 1px solid #fff;
+
+      @media screen and (max-width: 1000px) {
+        border-left: none;
+      }
+    }
+  }
+
+  &ItemLink {
+    display: flex;
+    transition: .2s;
+    
+    & svg {
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+      fill: #fff;
+    }
+
+    &:hover {
+      background-color: #565656;
+      border-radius: 6px;
+    }
+  }
+
+  &ItemButton {
+    fill: #fff;
+    color: #fff;
+    transition: .2s;
+
+    &:hover {
+      background-color: #565656;
+      border-radius: 6px;
+    }
+  }
+}

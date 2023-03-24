@@ -1,20 +1,26 @@
 .layout {
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  height: 100%;
+  min-height: 100%;
+  background-color: var(--background-color);
+}
+
+.layoutTop {
+  position: sticky;
+  top: 0;
 }
 
 .layoutTop,
-.bottomBar {
+.layoutBottom {
+  color: var(--text-color);
   flex: 0 0 auto;
 }
 
 .layoutCenter {
   height: 100%;
-  flex: 1 1 auto;
-  overflow-y: auto;
+  flex: 1 0 auto;
+  color: var(--text-color);
 }
 
 .layoutContent {

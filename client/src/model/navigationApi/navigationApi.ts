@@ -31,5 +31,8 @@ export const navigationApi = () => {
     toHome: () => {
       return setRoute(routes.home);
     },
+    toProducts: () => {
+      return setRoute(routes.products);
+    },
   };
 };

@@ -8,15 +8,16 @@ interface ILayoutProps {
 
 export const Layout = (props: ILayoutProps) => {
   const { topBar, bottomBar, children } = props;
+
   return (
     <div className={style.layout}>
-      {topBar && <div className={style.layoutTop}>{topBar}</div>}
-      <div className={style.layoutCenter}>
+      {topBar && <header className={style.layoutTop}>{topBar}</header>}
+      <main className={style.layoutCenter}>
         <div className={style.layoutContent}>
           {children}
         </div>
-      </div>
-      {bottomBar && <div className={style.layoutBottom}>{bottomBar}</div>}
+      </main>
+      {bottomBar && <footer className={style.layoutBottom}>{bottomBar}</footer>}
     </div>
   );
 };

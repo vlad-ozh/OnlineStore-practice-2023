@@ -6,7 +6,31 @@ body,
 
 .app {
   height: 100%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
+}
+
+html[data-theme='light'] {
+  --input-text-color: #1C1E21;
+  --input-placeholder-text-color: #a7a7a7;
+  --input-background-color: #ffffff;
+
+  --background-color: #fff;
+  --text-color: #1C1E21;
+}
+
+html[data-theme='dark'] {
+  --input-text-color: #e3e3e3;
+  --input-placeholder-text-color: #ddd;
+  --input-background-color: #000;
+
+  --background-color: #1b1b1d;
+  --text-color: #e3e3e3;
+}
+
+input {
+  background-color: var(--input-background-color);
+  // border-color: var(--input-border-color);
+
+  &::placeholder {
+    color: var(--input-placeholder-text-color);
+  }
 }

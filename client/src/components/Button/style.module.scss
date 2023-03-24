@@ -1,23 +1,13 @@
-@use "../common/_fonts";
+@use "./../../assets/common/fonts";
 
 .button {
   border: none;
   padding: 0;
   margin: 0;
   background-color: transparent;
+  font-family: fonts.$roboto;
+  cursor: pointer;
 }
-
-/* font - start */
-
-.nunito {
-  font-family: fonts.$nunito;
-}
-
-.noto {
-  font-family: fonts.$noto;
-}
-
-/* font - end */
 
 /* skins - start */
 
@@ -35,7 +25,7 @@
 }
 
 .icon {
-  padding: 10px;
+  padding: 9px;
 
   > svg {
     width: 100%;
@@ -44,7 +34,7 @@
 }
 
 .text {
-  color: var(--button-text-color);
+  // color: #000;
   line-height: 1.4;
 }
 

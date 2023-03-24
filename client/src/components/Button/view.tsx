@@ -4,17 +4,15 @@ import classnames from 'classnames';
 import style from './style.module.scss';
 
 interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children?: React.ReactNode;
+  children: React.ReactNode;
   onClick?: () => void;
-  className?: string,
-  skin?: 'zero-style' | 'primary' | 'secondary' | 'icon' | 'text';
-  font?: 'nunito' | 'noto';
-  size?:'small' | 'medium' | 'large' | 'xLarge';
+  className?: string;
+  skin: 'zero-style' | 'primary' | 'secondary' | 'icon' | 'text';
+  size:'small' | 'medium' | 'large' | 'xLarge';
 }
 
 export const Button: React.FC<IButtonProps> = ({
   skin,
-  font,
   size,
   className,
   children,
@@ -26,10 +24,6 @@ export const Button: React.FC<IButtonProps> = ({
     [style.primary]: skin === 'primary',
     [style.icon]: skin === 'icon',
     [style.text]: skin === 'text',
-  };
-  const fontClassName = {
-    [style.noto]: font === 'noto',
-    [style.nunito]: font === 'nunito',
   };
   const sizeClassName = {
     [style.small]: size === 'small',
@@ -45,8 +39,7 @@ export const Button: React.FC<IButtonProps> = ({
         className,
         style.button,
         skinClassName,
-        fontClassName,
-        sizeClassName,
+        sizeClassName
       )}
       {...props}
     >
