@@ -11,7 +11,7 @@ export const navigationApi = () => {
     checkoutConfirmation: '/checkout/confirmation ',
   };
 
-  const serverUrl = process.env.SERVER_URL;
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
 
   const queryUsersRoutes = {
     getAllUsers: `${serverUrl}/users/allUsers`,
