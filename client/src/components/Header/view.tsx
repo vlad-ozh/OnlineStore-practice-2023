@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../model/store/store';
+import classNames from 'classnames';
+
 import { Button } from '../Button';
 import { Input } from '../Input';
-import { SwitchButtonTheme } from '../SwitchButtonTheme';
+import { SwitchButtonLanguage } from '../SwitchLanguageButton';
+import { SwitchButtonTheme } from '../SwitchThemeButton';
+
 import { controller } from './controller';
-import classNames from 'classnames';
 
 import {
   CartIcon,
@@ -19,9 +22,11 @@ import {
 } from '../../assets/images/header-images';
 
 import style from './style.module.scss';
+import { useTranslation } from 'react-i18next';
 
 const PureHeader: React.FC<Props> = (props) => {
   const [navMobile, setNavMobile] = useState(false);
+  const { t } = useTranslation(['header']);
 
   const { onSearch, onHome, onProducts, onChangeSearch } = props;
 
@@ -44,29 +49,29 @@ const PureHeader: React.FC<Props> = (props) => {
         >
           <header className={style.asideHeader}>
             <NavLink
-              to={onHome()}
+              to={onHome}
               className={classNames(style.navLink, style.navLinkAside)}
             >
               <HomeIcon />
-              Home
+              {t('home')}
             </NavLink>
 
             <div className={style.asideHeaderOptions}>
-              UA
+              <SwitchButtonLanguage />
               <SwitchButtonTheme />
             </div>
           </header>
-          <NavLink to={onProducts()} className={style.asideHeaderProfile}>
+          <NavLink to={onProducts} className={style.asideHeaderProfile}>
             <PersonIcon />
-            Profile
+            {t('profile')}
           </NavLink>
-          <NavLink to={onProducts()} className={style.asideHeaderProducts}>
+          <NavLink to={onProducts} className={style.asideHeaderProducts}>
             <DotsIcon />
-            Products
+            {t('products')}
           </NavLink>
-          <NavLink to={onProducts()} className={style.asideHeaderSelected}>
+          <NavLink to={onProducts} className={style.asideHeaderSelected}>
             <FavoriteIcon />
-            Selected
+            {t('selected')}
           </NavLink>
         </aside>
         <button
@@ -78,29 +83,29 @@ const PureHeader: React.FC<Props> = (props) => {
         />
 
         <NavLink
-          to={onHome()}
+          to={onHome}
           className={style.navLink}
         >
           <HomeIcon />
-          Home
+          {t('home')}
         </NavLink>
         <NavLink
-          to={onProducts()}
+          to={onProducts}
           className={style.navLink}
         >
           <DotsIcon />
-          Products
+          {t('products')}
         </NavLink>
 
         <form className={style.searchForm}>
           <Input
             className={style.searchFormInput}
             value={''}
-            placeholder={'Search'}
+            placeholder={t('search')}
             onBlur={(value) => onChangeSearch(value)}
           />
           <Button
-            onClick={() => onSearch}
+            onClick={onSearch}
             skin='icon'
             size='medium'
             className={style.searchFormButton}
@@ -111,7 +116,7 @@ const PureHeader: React.FC<Props> = (props) => {
 
         <ul className={style.navList}>
           <li className={style.navListItem}>
-            <NavLink to={onProducts()} className={style.navListItemLink}>
+            <NavLink to={onProducts} className={style.navListItemLink}>
               <PersonIcon />
             </NavLink>
           </li>
@@ -119,22 +124,15 @@ const PureHeader: React.FC<Props> = (props) => {
             <SwitchButtonTheme />
           </li>
           <li className={style.navListItem}>
-            <Button
-              skin='icon'
-              size='medium'
-              onClick={() => onSearch}
-              className={style.navListItemButton}
-            >
-              UA
-            </Button>
+            <SwitchButtonLanguage />
           </li>
           <li className={style.navListItem}>
-            <NavLink to={onProducts()} className={style.navListItemLink}>
+            <NavLink to={onProducts} className={style.navListItemLink}>
               <FavoriteIcon />
             </NavLink>
           </li>
           <li className={style.navListItem}>
-            <NavLink to={onProducts()} className={style.navListItemLink}>
+            <NavLink to={onProducts} className={style.navListItemLink}>
               <CartIcon />
             </NavLink>
           </li>
@@ -152,8 +150,8 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   const ctrl = controller(dispatch);
 
   return {
-    onHome: ctrl.onHome,
-    onProducts: ctrl.onProducts,
+    onHome: ctrl.onHome(),
+    onProducts: ctrl.onProducts(),
     onChangeSearch: ctrl.onChangeSearch,
     onSearch: ctrl.onSearch,
   };

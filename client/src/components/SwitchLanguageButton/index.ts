@@ -1,0 +1,1 @@
+export { SwitchButtonLanguage } from './view';
