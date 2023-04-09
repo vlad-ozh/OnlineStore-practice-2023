@@ -1,5 +1,7 @@
 import { useLayoutEffect, useState } from 'react';
 
+import './style.scss';
+
 const isDarkTheme = window?.matchMedia('(prefers-color-scheme: dark)').matches;
 const defaultTheme = isDarkTheme ? 'dark' : 'light';
 

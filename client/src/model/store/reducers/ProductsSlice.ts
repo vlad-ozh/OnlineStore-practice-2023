@@ -29,7 +29,8 @@ export const productsSlice = createSlice({
         state.error = null;
       })
       .addCase(productsService().getAllProducts.fulfilled, (state, action) => {
-        state.products = action.payload;
+        const data: IProducts = action.payload;
+        state.products = data; // I need to check this
         state.loading = false;
       })
       .addMatcher(productsService().error, (

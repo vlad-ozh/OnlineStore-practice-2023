@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Header, Layout } from '../../components';
+import { Header, Layout, Footer } from '../../components';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { controller } from './controller';
 
@@ -12,7 +12,7 @@ const PureHome: React.FC<Props> = (props) => {
   return (
     <Layout
       topBar={<Header />}
-      bottomBar={<>Footer</>}
+      bottomBar={<Footer />}
     >
       <div className={style.text}>
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Labore omnis eligendi obcaecati nesciunt ex laborum magnam doloremque consectetur, tenetur corrupti voluptatem, aspernatur quidem ullam repellendus? Magnam exercitationem quis quam ipsam.

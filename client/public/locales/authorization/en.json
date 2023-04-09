@@ -1,0 +1,17 @@
+{
+	"loginTitle": "Log in to your account",
+	"registerTitle": "Create your account",
+	"email": "Email Address",
+	"password": "Password",
+	"confirmPassword": "Confirm Password",
+	"next": "Next",
+	"create": "Create",
+	"register": "Register",
+	"login": "Log in",
+	"or": "or",
+	"emailPlaceholder": "Enter email",
+	"passwordPlaceholder": "Enter password",
+	"dontHaveAcc": "Don't have an account? ",
+	"haveAcc": "Have an account? ",
+	"forgotPassword": "Forgot password?"
+}

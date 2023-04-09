@@ -8,12 +8,15 @@ export const controller = (dispatch: AppDispatch) => {
 
   return {
     onHome: () => {
-      return navigationApi().toHome();
+      return navigationApi.toHome();
     },
     onProducts: () => {
-      return navigationApi().toProducts();
+      return navigationApi.toProducts();
     },
     onChangeSearch: (value: string) => {
+    },
+    onAccount: () => {
+      return navigationApi.toAccountLogin();
     },
     onSearch: () => {
 

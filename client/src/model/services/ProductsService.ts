@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { createAsyncThunk, AnyAction, AsyncThunk } from '@reduxjs/toolkit';
 import { IProducts } from '../types/IProducts';
 import { navigationApi } from '../navigationApi';
@@ -10,7 +10,7 @@ interface IProductsService {
 export const productsService = (): IProductsService => {
   const {
     getAllProducts,
-  } = navigationApi().queryProductsRoutes;
+  } = navigationApi.queryProductsRoutes;
 
   const allProducts = () => {
     return createAsyncThunk<IProducts, undefined, {rejectValue: string}>(

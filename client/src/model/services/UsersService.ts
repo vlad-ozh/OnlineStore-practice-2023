@@ -10,7 +10,7 @@ interface IUserApi {
 export const usersService = (): IUserApi => {
   const {
     getAllUsers,
-  } = navigationApi().queryUsersRoutes;
+  } = navigationApi.queryUsersRoutes;
 
   const allUsers = () =>
     createAsyncThunk<IUser[], undefined, {rejectValue: string}>(

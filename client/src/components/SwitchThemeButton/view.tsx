@@ -12,11 +12,11 @@ export const SwitchButtonTheme = () => {
   return (
     <div>
       {
-        theme === 'light' ?
+        theme === 'dark' ?
           <Button
             skin='icon'
             size='medium'
-            onClick={() => setTheme('dark')}
+            onClick={() => setTheme('light')}
             className={style.button}
           >
             <LightModeIcon />
@@ -25,7 +25,7 @@ export const SwitchButtonTheme = () => {
           <Button
             skin="icon"
             size="medium"
-            onClick={() => setTheme('light')}
+            onClick={() => setTheme('dark')}
             className={style.button}
           >
             <DarkModeIcon />

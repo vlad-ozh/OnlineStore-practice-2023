@@ -5,10 +5,10 @@ import style from './style.module.scss';
 
 interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  onClick?: () => void;
-  className?: string;
-  skin: 'zero-style' | 'primary' | 'secondary' | 'icon' | 'text';
-  size:'small' | 'medium' | 'large' | 'xLarge';
+  onClick: () => void;
+  className: string;
+  skin?: 'zero-style' | 'primary' | 'secondary' | 'icon' | 'text';
+  size?:'small' | 'medium' | 'large' | 'xLarge';
 }
 
 export const Button: React.FC<IButtonProps> = ({

@@ -1,6 +1,6 @@
 import { generatePath } from 'react-router-dom';
 
-export const navigationApi = () => {
+const navigation = () => {
   const routes = {
     home: '/',
     products: '/products',
@@ -8,7 +8,9 @@ export const navigationApi = () => {
     openProduct: '/products/:category/:productId',
     checkout: '/checkout',
     openCheckoutProduct: '/checkout/:productId',
-    checkoutConfirmation: '/checkout/confirmation ',
+    checkoutConfirmation: '/checkout/confirmation',
+    accountLogin: '/account/login',
+    accountRegister: '/account/register',
   };
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -34,5 +36,13 @@ export const navigationApi = () => {
     toProducts: () => {
       return setRoute(routes.products);
     },
+    toAccountLogin: () => {
+      return setRoute(routes.accountLogin);
+    },
+    toAccountRegister: () => {
+      return setRoute(routes.accountRegister);
+    },
   };
 };
+
+export const navigationApi = navigation();

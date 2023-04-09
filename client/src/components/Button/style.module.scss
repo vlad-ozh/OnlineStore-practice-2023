@@ -1,10 +1,6 @@
 @use "./../../assets/common/fonts";
 
 .button {
-  border: none;
-  padding: 0;
-  margin: 0;
-  background-color: transparent;
   font-family: fonts.$roboto;
   cursor: pointer;
 }
@@ -34,7 +30,6 @@
 }
 
 .text {
-  // color: #000;
   line-height: 1.4;
 }
 

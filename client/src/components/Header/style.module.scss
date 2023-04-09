@@ -4,6 +4,7 @@
 .header {
   font-family: fonts.$roboto;
   background-color: #303030;
+  margin-bottom: 15px;
 }
 
 .navigation {
@@ -16,13 +17,20 @@
 
 .navBurgerButton {
   display: none;
+  background-color: transparent;
+  border: none;
+  min-width: 40px;
+  fill: #fff;
+  margin-right: 15px;
+  padding: 5px;
+
+  &:hover {
+    border-radius: 6px;
+    background-color: #565656;
+  }
   
   @media screen and (max-width: 800px) {
     display: block;
-    min-width: 40px;
-    fill: #fff;
-    margin-right: 15px;
-    padding: 5px;
   }
 }
 
@@ -85,7 +93,7 @@
     align-items: center;
     color: #fff;
     width: 100%;
-    max-width: 80px;
+    max-width: 90px;
   }
 
   &Profile {
@@ -153,7 +161,7 @@
   }
 }
 
-.navLink {
+.link {
   padding: 10px 35px;
   background-color: #e00027;
   color: #fff;
@@ -196,15 +204,16 @@
   width: 100%;
   
   &Input {
-    color: var(--input-text-color);
     height: 40px;
     padding: 7px 20px;
     border-radius: 6px 0 0 6px;
     border: none;
     outline: none;
+    transition: all .3s;
   }
   
   &Button {
+    border: none;
     background-color: #e00027;
     fill: #fff;
     border-radius: 0 6px 6px 0;

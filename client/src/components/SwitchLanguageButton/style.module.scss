@@ -1,6 +1,8 @@
 .button {
   color: #fff;
   transition: .2s;
+  border: none;
+  background-color: transparent;
 
   &:hover {
     background-color: #565656;

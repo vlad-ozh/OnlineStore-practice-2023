@@ -10,7 +10,7 @@ i18n
   .init({
     fallbackLng: 'en',
     debug: false,
-    ns: ['header'],
+    ns: ['header', 'authorization'],
     interpolation: {
       escapeValue: false,
     },

@@ -1,0 +1,85 @@
+@use './../../assets/common/container';
+
+.box{
+  @extend %container;
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  background-color: var(--form-background-color);
+  max-width: 500px;
+  width: 100%;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 10vh 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+
+  &Title {
+    text-align: center;
+    margin-bottom: 20px;
+
+    @media screen and (max-width: 600px) {
+      font-size: 18px;
+    }
+  }
+
+  &Fieldset {
+    border: none;
+
+    & + & {
+      margin-top: 15px;
+    }
+  }
+  
+  &Label {
+    @media screen and (max-width: 600px) {
+      font-size: 14px;
+    }
+  }
+
+  &Input {
+    border-radius: 6px;
+    transition: all .3s;
+    outline: none;
+    margin-top: 10px;
+    border: 2px solid #cccccc;
+
+    &:focus {
+      border-color: #e00027;
+    } 
+
+    &:hover {
+      border-color: #e00027;
+    }
+  }
+  
+  &Button {
+    background-color: #e00027;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    color: #fff;
+    transition: all .2s;
+    margin: 30px 0;
+
+    &:hover {
+      background-color: #f97988;
+    }
+  }
+
+  &Paragraph {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  &Link {
+    text-decoration: none;
+    color: #e00027;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

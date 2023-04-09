@@ -4,20 +4,24 @@ import classnames from 'classnames';
 import style from './style.module.scss';
 
 interface IInputProps {
-  className?: string;
-  value: string;
+  type: string;
+  name: string;
   // eslint-disable-next-line no-unused-vars
   onBlur: (value: string) => void;
   placeholder: string;
+  required: boolean;
+  className: string;
 }
 
 export const Input: React.FC<IInputProps> = ({
-  value,
+  type,
+  name,
   onBlur,
-  className,
   placeholder,
+  required,
+  className,
 }) => {
-  const [localValue, setLocalValue] = React.useState(value || '');
+  const [localValue, setLocalValue] = React.useState('');
 
   const onBlurLocal = useCallback(() => {
     onBlur(localValue);
@@ -25,11 +29,12 @@ export const Input: React.FC<IInputProps> = ({
 
   return (
     <input
-      type="text"
-      value={localValue}
-      placeholder={placeholder}
+      type={type}
+      name={name}
       onChange={(event) => setLocalValue(event.target.value)}
       onBlur={onBlurLocal}
+      placeholder={placeholder}
+      required={required}
       className={classnames(style.input, className)}
     />
   );

@@ -1,0 +1,17 @@
+{
+	"loginTitle": "Вхід",
+	"registerTitle": "Створити новий акаунт",
+	"email": "Адреса електронної пошти",
+	"password": "Пароль",
+	"confirmPassword": "Підтвердьте пароль",
+	"next": "Далі",
+	"create": "Створити",
+	"register": "Зареєструватися",
+	"login": "Вхід",
+	"or": "або",
+	"emailPlaceholder": "Введіть ел. пошту",
+	"passwordPlaceholder": "Введіть пароль",
+	"dontHaveAcc": "Немає облікового запису? ",
+	"haveAcc": "Є обліковий запис? ",
+	"forgotPassword": "Забули пароль?"
+}

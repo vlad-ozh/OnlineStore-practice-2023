@@ -1,0 +1,1 @@
+export { AccountRegister } from './view';
