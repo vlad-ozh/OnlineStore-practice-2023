@@ -7,7 +7,7 @@ import { Store } from './model/store';
 import { I18nextProvider } from 'react-i18next';
 import i18n from 'i18next';
 
-import { App } from './components';
+import { App, Loader } from './components';
 
 import './index.scss';
 
@@ -18,7 +18,7 @@ const root = createRoot(container!);
 const store = Store();
 
 root.render(
-  <Suspense fallback={<>Loading...</>}>
+  <Suspense fallback={<Loader />}>
     <Provider store={store}>
       <BrowserRouter>
         <I18nextProvider i18n={i18n}>
