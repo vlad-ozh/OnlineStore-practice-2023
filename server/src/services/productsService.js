@@ -1,25 +1,28 @@
-const db = require('../../db').client.db();
+const { connection } = require('mongoose');
 
 module.exports = {
   allProducts: async () => {
-    const allCollections = await db.collections();
+    const allCollections = await connection.db.collections();
 
-    return Promise.all(allCollections.map(async (currentCollection) => {
-      const collectionName = currentCollection.collectionName;
-      if (collectionName !== 'users'){
-        const collectionValue = currentCollection.find().toArray();
+    return Promise.all(
+      allCollections.map(async (currentCollection) => {
+        const collectionName = currentCollection.collectionName;
 
-        return {
-          name: collectionName,
-          value: await collectionValue,
-        };
-      }
+        if (collectionName !== 'users') {
+          const collectionValue = await currentCollection.find().toArray();
 
-      return undefined;
-    })).then(res => {
+          return {
+            name: collectionName,
+            value: collectionValue,
+          };
+        }
+
+        return undefined;
+      }),
+    ).then((res) => {
       let collectionsValues = {};
 
-      res.forEach(collection => {
+      res.forEach((collection) => {
         if (collection !== undefined) {
           collectionsValues = {
             ...collectionsValues,
