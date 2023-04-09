@@ -74,6 +74,7 @@
   &Blur {
     @media screen and (max-width: 800px) {
       display: block;
+      border: none;
     }
   }
 }
@@ -210,6 +211,7 @@
     border: none;
     outline: none;
     transition: all .3s;
+    appearance: none;
   }
   
   &Button {
