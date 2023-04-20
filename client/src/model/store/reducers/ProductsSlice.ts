@@ -1,6 +1,6 @@
 import { IProducts } from '../../types/IProducts';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { productsService } from '../../services';
+import { productsApi } from '../../apis';
 
 interface IProductsState {
   products: IProducts;
@@ -24,16 +24,16 @@ export const productsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(productsService().getAllProducts.pending, (state) => {
+      .addCase(productsApi.getAllProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(productsService().getAllProducts.fulfilled, (state, action) => {
+      .addCase(productsApi.getAllProducts.fulfilled, (state, action) => {
         const data: IProducts = action.payload;
         state.products = data; // I need to check this
         state.loading = false;
       })
-      .addMatcher(productsService().error, (
+      .addMatcher(productsApi.error, (
         state, action: PayloadAction<string>
       ) => {
         state.error = action.payload;

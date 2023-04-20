@@ -1,9 +1,16 @@
 @use './../../assets/common/container';
 
-.box{
+.screen{
   @extend %container;
   display: flex;
-  justify-content: center;
+  min-height: calc(100vh - 145px);
+
+  &Container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .form {
@@ -12,8 +19,11 @@
   width: 100%;
   border-radius: 12px;
   padding: 30px;
-  margin: 10vh 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+
+  @media screen and (max-width: 600px) {
+    padding: 30px 20px;
+  }
 
   &Title {
     text-align: center;
@@ -51,6 +61,16 @@
 
     &:hover {
       border-color: #e00027;
+    }
+  }
+
+  &Error {
+    text-align: center;
+    color: #e00027;
+    margin-top: 15px;
+
+    @media screen and (max-width: 600px) {
+      font-size: 14px;
     }
   }
   

@@ -1,26 +1,27 @@
-import { navigationApi } from './../../model/navigationApi';
-// import { usersService, productsService } from './../../model/services';
+import { navigationApi } from './../../model/apis';
 import { AppDispatch } from './../../model/store/store';
 
 export const controller = (dispatch: AppDispatch) => {
-  // const {} = usersService();
-  // const {} = productsService();
-
   return {
-    onHome: () => {
+    getHomeLink: () => {
       return navigationApi.toHome();
     },
-    onProducts: () => {
+    getProductsLink: () => {
       return navigationApi.toProducts();
     },
     onChangeSearch: (value: string) => {
     },
-    onAccount: () => {
-      return navigationApi.toAccountLogin();
+    getAccountLink: () => {
+      return navigationApi.toAccount();
     },
-    onSearch: () => {
-
+    getSearchProductsLink: (data: string) => {
+      return navigationApi.toSearchProducts(data);
     },
-
+    getSelectedProductsLink: () => {
+      return navigationApi.toSelectedProducts();
+    },
+    getAccountCartLink: () => {
+      return navigationApi.toAccountCart();
+    },
   };
 };

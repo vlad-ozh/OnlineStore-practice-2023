@@ -20,11 +20,11 @@ const store = Store();
 root.render(
   <Suspense fallback={<Loader />}>
     <Provider store={store}>
-      <BrowserRouter>
-        <I18nextProvider i18n={i18n}>
+      <I18nextProvider i18n={i18n}>
+        <BrowserRouter>
           <App />
-        </I18nextProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </I18nextProvider>
     </Provider>
   </Suspense>
 );

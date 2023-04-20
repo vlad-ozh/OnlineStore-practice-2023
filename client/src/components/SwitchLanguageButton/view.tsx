@@ -8,7 +8,7 @@ export const SwitchButtonLanguage = () => {
   return (
     <div>
       {
-        i18n.language === 'en' ?
+        i18n.language !== 'ua' ?
           <Button
             skin='icon'
             size='medium'

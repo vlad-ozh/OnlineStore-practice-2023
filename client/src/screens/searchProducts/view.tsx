@@ -6,7 +6,7 @@ import { controller } from './controller';
 
 import style from './style.module.scss';
 
-const PureProducts: React.FC<Props> = (props) => {
+const PureSearchProducts: React.FC<Props> = (props) => {
 
   return (
     <Layout
@@ -14,7 +14,7 @@ const PureProducts: React.FC<Props> = (props) => {
       bottomBar={<Footer />}
     >
       <div className={style.screen}>
-        Products
+        Search products
       </div>
     </Layout>
   );
@@ -34,4 +34,4 @@ const connector = connect(mapState, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>;
 
-export const Products = connector(PureProducts);
+export const SearchProducts = connector(PureSearchProducts);

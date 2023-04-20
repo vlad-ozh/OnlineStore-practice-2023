@@ -7,8 +7,8 @@ interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   onClick: () => void;
   className: string;
-  skin?: 'zero-style' | 'primary' | 'secondary' | 'icon' | 'text';
-  size?:'small' | 'medium' | 'large' | 'xLarge';
+  skin: 'zero-style' | 'primary' | 'secondary' | 'icon' | 'text';
+  size:'small' | 'medium' | 'large' | 'xLarge';
 }
 
 export const Button: React.FC<IButtonProps> = ({
@@ -34,6 +34,7 @@ export const Button: React.FC<IButtonProps> = ({
 
   return (
     <button
+      type='button'
       onClick={onClick}
       className={classnames(
         className,

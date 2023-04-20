@@ -1,16 +1,16 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { createAsyncThunk, AnyAction, AsyncThunk } from '@reduxjs/toolkit';
 import { IProducts } from '../types/IProducts';
-import { navigationApi } from '../navigationApi';
+import { serverNavApi } from './serverNavApi';
 
-interface IProductsService {
+interface IProductsApi {
   getAllProducts: AsyncThunk<IProducts, undefined, {rejectValue: string}>;
   error: any;
 }
-export const productsService = (): IProductsService => {
+const products = (): IProductsApi => {
   const {
     getAllProducts,
-  } = navigationApi.queryProductsRoutes;
+  } = serverNavApi.productsRoutes;
 
   const allProducts = () => {
     return createAsyncThunk<IProducts, undefined, {rejectValue: string}>(
@@ -33,3 +33,5 @@ export const productsService = (): IProductsService => {
     error: isError,
   };
 };
+
+export const productsApi = products();

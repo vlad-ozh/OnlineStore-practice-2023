@@ -1,14 +1,8 @@
-import { navigationApi } from '../../model/navigationApi';
-import { usersService, productsService } from '../../model/services';
+import { navigationApi, userApi } from '../../model/apis';
 import { AppDispatch } from '../../model/store/store';
+import { IUserLogin } from '../../model/types/IUser';
 
 export const controller = (dispatch: AppDispatch) => {
-  const {
-    getAllUsers,
-  } = usersService();
-  const {
-    getAllProducts,
-  } = productsService();
 
   return {
     getRegisterLink: () => {
@@ -16,6 +10,16 @@ export const controller = (dispatch: AppDispatch) => {
     },
     getForgotPasswordLink: () => {
       return navigationApi.toAccountRegister();
+    },
+    getAccountLink: () => {
+      return navigationApi.toAccount();
+    },
+    onLogin: (user: IUserLogin) => {
+      const { email, password } = user;
+
+      if (!email || !password) return;
+
+      dispatch(userApi.login(user));
     },
   };
 };

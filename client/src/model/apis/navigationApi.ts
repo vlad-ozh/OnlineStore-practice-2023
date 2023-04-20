@@ -4,22 +4,19 @@ const navigation = () => {
   const routes = {
     home: '/',
     products: '/products',
+    searchProducts: '/products/search/:data',
+    selected: '/products/selected',
     openTheProductCategory: '/products/:category',
     openProduct: '/products/:category/:productId',
     checkout: '/checkout',
     openCheckoutProduct: '/checkout/:productId',
     checkoutConfirmation: '/checkout/confirmation',
+    account: '/account',
     accountLogin: '/account/login',
     accountRegister: '/account/register',
-  };
-
-  const serverUrl = process.env.REACT_APP_SERVER_URL;
-
-  const queryUsersRoutes = {
-    getAllUsers: `${serverUrl}/users/allUsers`,
-  };
-  const queryProductsRoutes = {
-    getAllProducts: `${serverUrl}/products/allProducts`,
+    accountCart: '/account/cart',
+    accountInfo: '/account/info',
+    accountOrders: '/account/orders',
   };
 
   const setRoute = (route: string, params = {}) => {
@@ -28,19 +25,37 @@ const navigation = () => {
 
   return {
     routes,
-    queryUsersRoutes,
-    queryProductsRoutes,
     toHome: () => {
       return setRoute(routes.home);
     },
     toProducts: () => {
       return setRoute(routes.products);
     },
+    toSearchProducts: (searchData: string) => {
+      return setRoute(routes.searchProducts, {
+        data: searchData,
+      });
+    },
+    toSelectedProducts: () => {
+      return setRoute(routes.selected);
+    },
+    toAccount: () => {
+      return setRoute(routes.account);
+    },
     toAccountLogin: () => {
       return setRoute(routes.accountLogin);
     },
     toAccountRegister: () => {
       return setRoute(routes.accountRegister);
+    },
+    toAccountCart: () => {
+      return setRoute(routes.accountCart);
+    },
+    toAccountInfo: () => {
+      return setRoute(routes.accountInfo);
+    },
+    toAccountOrders: () => {
+      return setRoute(routes.accountOrders);
     },
   };
 };

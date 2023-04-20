@@ -1,0 +1,1 @@
+export { AccountOrders } from './view';

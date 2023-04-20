@@ -2,7 +2,7 @@ import React from 'react';
 import { useAppTheme } from '../../hooks';
 import { Button } from '../Button';
 
-import { DarkModeIcon, LightModeIcon } from '../../assets/images/header-images';
+import { DarkModeIcon, LightModeIcon } from '../../assets/images/svg-images';
 
 import style from './style.module.scss';
 

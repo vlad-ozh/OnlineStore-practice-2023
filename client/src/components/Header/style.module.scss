@@ -214,16 +214,17 @@
     appearance: none;
   }
   
-  &Button {
-    border: none;
+  &Link {
+    display: flex;
     background-color: #e00027;
     fill: #fff;
     border-radius: 0 6px 6px 0;
-    min-width: 50px;
     transition: .2s;
+    text-decoration: none;
+    padding: 8px 13px;
     
     @media screen and (max-width: 500px) {
-      min-width: 40px;
+      padding: 8px;
     }
 
     &:hover {

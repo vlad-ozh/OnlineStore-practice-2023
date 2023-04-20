@@ -7,7 +7,6 @@ import { controller } from './controller';
 import style from './style.module.scss';
 
 const PureHome: React.FC<Props> = (props) => {
-  // const { getTotalUsers, getTotalProducts } = props;
 
   return (
     <Layout
@@ -26,15 +25,13 @@ const PureHome: React.FC<Props> = (props) => {
 };
 
 const mapState = (state: RootState) => ({
-  users: state.usersReducer.users,
+  user: state.userReducer.user,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   const ctrl = controller(dispatch);
 
   return {
-    getTotalUsers: ctrl.getAllUsers,
-    getTotalProducts: ctrl.getAllProducts,
   };
 };
 

@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Header, Layout, Footer } from '../../components';
+import { Navigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../model/store/store';
+import { Header, Layout, Footer } from '../../components';
 import { controller } from './controller';
 
 import style from './style.module.scss';
 
-const PureProducts: React.FC<Props> = (props) => {
+const PureAccountInfo: React.FC<Props> = (props) => {
+  const { user, getLoginLink } = props;
 
   return (
     <Layout
@@ -14,19 +16,22 @@ const PureProducts: React.FC<Props> = (props) => {
       bottomBar={<Footer />}
     >
       <div className={style.screen}>
-        Products
+        {!user.isAuth && <Navigate to={getLoginLink} replace={true} />}
+        Account Info
       </div>
     </Layout>
   );
 };
 
 const mapState = (state: RootState) => ({
+  user: state.userReducer.user,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   const ctrl = controller(dispatch);
 
   return {
+    getLoginLink: ctrl.getAccountLoginLink(),
   };
 };
 
@@ -34,4 +39,4 @@ const connector = connect(mapState, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>;
 
-export const Products = connector(PureProducts);
+export const AccountInfo = connector(PureAccountInfo);

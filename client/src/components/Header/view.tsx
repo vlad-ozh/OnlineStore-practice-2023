@@ -20,7 +20,7 @@ import {
   DotsIcon,
   HomeIcon,
   MenuIcon,
-} from '../../assets/images/header-images';
+} from '../../assets/images/svg-images';
 
 import style from './style.module.scss';
 
@@ -28,20 +28,19 @@ const PureHeader: React.FC<Props> = (props) => {
   const [navMobile, setNavMobile] = useState(false);
   const { t } = useTranslation(['header']);
 
-  const { onSearch, onHome, onProducts, onAccount, onChangeSearch } = props;
+  const {
+    onSearch,
+    onHome,
+    onProducts,
+    onAccount,
+    onSelected,
+    onChangeSearch,
+    onCart,
+  } = props;
 
-  return (
-    <div className={style.header}>
-      <nav className={style.navigation}>
-        <Button
-          skin='icon'
-          size='medium'
-          onClick={() => setNavMobile(!navMobile)}
-          className={style.navBurgerButton}
-        >
-          <MenuIcon />
-        </Button>
-
+  const renderNavMobile = () => {
+    return (
+      <>
         <aside className={classNames(
           style.navigationMobileDisabled, {
             [style.navigationMobileAbled]: navMobile,
@@ -61,7 +60,10 @@ const PureHeader: React.FC<Props> = (props) => {
               <SwitchButtonTheme />
             </div>
           </header>
-          <Link to={onAccount} className={style.asideHeaderProfile}>
+          <Link
+            to={onAccount}
+            className={style.asideHeaderProfile}
+          >
             <PersonIcon />
             {t('profile')}
           </Link>
@@ -69,18 +71,58 @@ const PureHeader: React.FC<Props> = (props) => {
             <DotsIcon />
             {t('products')}
           </Link>
-          <Link to={onProducts} className={style.asideHeaderSelected}>
+          <Link to={onSelected} className={style.asideHeaderSelected}>
             <FavoriteIcon />
             {t('selected')}
           </Link>
         </aside>
+
         <button
           onClick={() => setNavMobile(false)}
           className={classNames(
             style.navigationMobileDisabledBlur, {
               [style.navigationMobileAbledBlur]: navMobile,
-            })}
+            }
+          )}
         />
+      </>
+    );
+  };
+
+  const renderSearchForm = () => {
+    return (
+      <form className={style.searchForm}>
+        <Input
+          value={''}
+          type='search'
+          name='search'
+          onBlur={(value) => onChangeSearch(value)}
+          placeholder={t('search')}
+          required={false}
+          className={style.searchFormInput}
+        />
+        <Link
+          to={onSearch('iphone 12 pro')}
+          className={style.searchFormLink}
+        >
+          <SearchIcon />
+        </Link>
+      </form>
+    );
+  };
+
+  return (
+    <div className={style.header}>
+      <nav className={style.navigation}>
+        <Button
+          skin='icon'
+          size='medium'
+          onClick={() => setNavMobile(!navMobile)}
+          className={style.navBurgerButton}
+        >
+          <MenuIcon />
+        </Button>
+        {renderNavMobile()}
 
         <Link
           to={onHome}
@@ -97,24 +139,7 @@ const PureHeader: React.FC<Props> = (props) => {
           {t('products')}
         </Link>
 
-        <form className={style.searchForm}>
-          <Input
-            type='search'
-            name='search'
-            onBlur={(value) => onChangeSearch(value)}
-            placeholder={t('search')}
-            required={false}
-            className={style.searchFormInput}
-          />
-          <Button
-            onClick={onSearch}
-            skin='icon'
-            size='medium'
-            className={style.searchFormButton}
-          >
-            <SearchIcon />
-          </Button>
-        </form>
+        {renderSearchForm()}
 
         <ul className={style.navList}>
           <li className={style.navListItem}>
@@ -129,12 +154,12 @@ const PureHeader: React.FC<Props> = (props) => {
             <SwitchButtonLanguage />
           </li>
           <li className={style.navListItem}>
-            <Link to={onProducts} className={style.navListItemLink}>
+            <Link to={onSelected} className={style.navListItemLink}>
               <FavoriteIcon />
             </Link>
           </li>
           <li className={style.navListItem}>
-            <Link to={onProducts} className={style.navListItemLink}>
+            <Link to={onCart} className={style.navListItemLink}>
               <CartIcon />
             </Link>
           </li>
@@ -145,18 +170,19 @@ const PureHeader: React.FC<Props> = (props) => {
 };
 
 const mapStateToProps = (state: RootState) => ({
-  users: state.usersReducer.users,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   const ctrl = controller(dispatch);
 
   return {
-    onHome: ctrl.onHome(),
-    onProducts: ctrl.onProducts(),
-    onAccount: ctrl.onAccount(),
+    onHome: ctrl.getHomeLink(),
+    onProducts: ctrl.getProductsLink(),
+    onAccount: ctrl.getAccountLink(),
     onChangeSearch: ctrl.onChangeSearch,
-    onSearch: ctrl.onSearch,
+    onSearch: ctrl.getSearchProductsLink,
+    onSelected: ctrl.getSelectedProductsLink(),
+    onCart: ctrl.getAccountCartLink(),
   };
 };
 
