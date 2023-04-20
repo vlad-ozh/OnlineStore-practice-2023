@@ -1,19 +1,26 @@
 require('dotenv').config();
 const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const errorMiddleware = require('./src/middlewares/errorMiddleware');
 
+const app = express();
 const routes = require('./src/routes');
 const port = process.env.PORT || 3100;
 
+app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(cors({
+  credentials: true,
   origin: [
     process.env.LOCALHOST_CLIENT_URL,
-    process.env.PRODACTION_CLIENT_URL,
+    process.env.PRODUCTION_CLIENT_URL,
   ],
 }));
 app.use('/', routes);
+app.use(errorMiddleware);
 
 const start = async () => {
   try {

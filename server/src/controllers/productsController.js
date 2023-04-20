@@ -1,13 +1,13 @@
 const { productsService } = require('../services');
 
 module.exports = {
-  allProducts: (req, res) => {
+  getAll: async (req, res) => {
     try {
-      productsService.allProducts().then((result) => {
-        return res.header('Access-Control-Allow-Origin', '*').send(result);
-      });
+      const products = await productsService.getAll();
+
+      return res.json(products);
     } catch (error) {
-      return res.header('Access-Control-Allow-Origin', '*').send(error);
+      return res.json(error);
     }
   },
 };

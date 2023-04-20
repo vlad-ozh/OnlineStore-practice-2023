@@ -1,31 +1,100 @@
 const { userService } = require('../services');
+const { validationResult } = require('express-validator');
+const ApiError = require('../exceptions/apiError');
 
 module.exports = {
-  allUsers: (req, res) => {
+  register: async (req, res, next) => {
     try {
-      userService.allUsers().then((result) => {
-        return res.header('Access-Control-Allow-Origin', '*').send(result);
-      });
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return next(ApiError.BadRequest('validationError', errors.array()));
+      }
+
+      const { email, name, password } = req.body;
+
+      const userData = await userService.register(email, name, password);
+
+      res.cookie(
+        'refreshToken',
+        userData.refreshToken,
+        {
+          maxAge: 30 * 24 * 60 * 60 * 10000,
+          httpOnly: true,
+        },
+      );
+
+      return res.json(userData);
     } catch (error) {
-      return res.header('Access-Control-Allow-Origin', '*').send(error);
+      next(error);
     }
   },
-  create: (req, res) => {
+  login: async (req, res, next) => {
     try {
-      userService.create().then((result) => {
-        return res.header('Access-Control-Allow-Origin', '*').send(result);
-      });
+      const { email, password } = req.body;
+
+      const userData = await userService.login(email, password);
+      res.cookie(
+        'refreshToken',
+        userData.refreshToken,
+        {
+          maxAge: 30 * 24 * 60 * 60 * 10000,
+          httpOnly: true,
+        },
+      );
+
+      return res.json(userData);
     } catch (error) {
-      return res.header('Access-Control-Allow-Origin', '*').send(error);
+      next(error);
     }
   },
-  findUser: (req, res) => {
+  logout: async (req, res, next) => {
     try {
-      userService.findUser().then((result) => {
-        return res.header('Access-Control-Allow-Origin', '*').send(result);
-      });
+      const { refreshToken } = req.cookies;
+      const token = await userService.logout(refreshToken);
+      res.clearCookie('refreshToken');
+
+      return res.json(token);
     } catch (error) {
-      return res.header('Access-Control-Allow-Origin', '*').send(error);
+      next(error);
+    }
+  },
+  activate: async (req, res, next) => {
+    try {
+      const activationLink = req.params.link;
+      await userService.activate(activationLink);
+
+      return res.redirect(process.env.CLIENT_URL);
+    } catch (error) {
+      next(error);
+    }
+  },
+  refresh: async (req, res, next) => {
+    try {
+      const { refreshToken } = req.cookies;
+      const userData = await userService.refresh(refreshToken);
+
+      res.cookie(
+        'refreshToken',
+        userData.refreshToken,
+        {
+          maxAge: 30 * 24 * 60 * 60 * 10000,
+          httpOnly: true,
+        },
+      );
+
+      return res.json(userData);
+    } catch (error) {
+      next(error);
+    }
+  },
+  allUsers: async (req, res) => {
+    try {
+      const users = await userService.allUsers();
+
+      return res.json(users);
+    } catch (error) {
+      next(error);
     }
   },
 };

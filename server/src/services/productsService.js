@@ -1,14 +1,14 @@
 const { connection } = require('mongoose');
 
-module.exports = {
-  allProducts: async () => {
+const productsService = () => {
+  const getAllProducts = async () => {
     const allCollections = await connection.db.collections();
 
     return Promise.all(
       allCollections.map(async (currentCollection) => {
         const collectionName = currentCollection.collectionName;
 
-        if (collectionName !== 'users') {
+        if (collectionName !== 'users' && collectionName !== 'tokens') {
           const collectionValue = await currentCollection.find().toArray();
 
           return {
@@ -33,20 +33,13 @@ module.exports = {
 
       return collectionsValues;
     });
-  },
-  // create: async () => {
-  // POST
-  // const filter = { apple: [] };
+  };
 
-  // const updateDocument = {
-  //   $push: {
-  //     'apple': {
-  //       user4: 'qwe4',
-  //       age4: 35,
-  //     },
-  //   },
-  // };
-
-  // await usersCollection.updateOne(filter, updateDocument);
-  // },
+  return {
+    getAll: async () => {
+      return await getAllProducts();
+    },
+  };
 };
+
+module.exports = productsService();
