@@ -7,3 +7,6 @@ export { ReactComponent as LightModeIcon } from './lightMode.svg';
 export { ReactComponent as DotsIcon } from './dots.svg';
 export { ReactComponent as HomeIcon } from './home.svg';
 export { ReactComponent as MenuIcon } from './menu.svg';
+export { ReactComponent as LogoutIcon } from './logout.svg';
+export { ReactComponent as ListIcon } from './list.svg';
+export { ReactComponent as BackIcon } from './back.svg';

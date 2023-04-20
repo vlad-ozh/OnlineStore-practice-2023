@@ -3,5 +3,6 @@
 	"products": "Каталог",
 	"search": "Пошук",
 	"profile": "Профіль",
-	"selected": "Обране"
+	"selected": "Обране",
+	"pageNotFound": "Ой! Ця сторінка не існує..."
 }

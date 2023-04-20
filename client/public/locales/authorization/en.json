@@ -11,7 +11,17 @@
 	"or": "or",
 	"emailPlaceholder": "Enter email",
 	"passwordPlaceholder": "Enter password",
+	"namePlaceholder": "Enter name",
 	"dontHaveAcc": "Don't have an account? ",
 	"haveAcc": "Have an account? ",
-	"forgotPassword": "Forgot password?"
+	"forgotPassword": "Forgot password?",
+	"name": "Name",
+	"userUnauth": "The user is not authorized!",
+	"unexpectedError": "Unexpected error!",
+	"totalCharacters": " (From 4 to 20 characters)",
+	"candidateExists": "A user with this email address already exists",
+	"noUserFound": "No user found with this email address",
+	"passwordInvalid": "The password is invalid",
+	"activationLinkInvalid": "Invalid activation link",
+	"validationError": "Enter the correct email or password"
 }

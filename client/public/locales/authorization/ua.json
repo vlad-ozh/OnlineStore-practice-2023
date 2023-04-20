@@ -11,7 +11,17 @@
 	"or": "або",
 	"emailPlaceholder": "Введіть ел. пошту",
 	"passwordPlaceholder": "Введіть пароль",
+	"namePlaceholder": "Введіть ім'я",
 	"dontHaveAcc": "Немає облікового запису? ",
 	"haveAcc": "Є обліковий запис? ",
-	"forgotPassword": "Забули пароль?"
+	"forgotPassword": "Забули пароль?",
+	"name": "Ім'я",
+	"userUnauth": "Користувач не авторизований!",
+	"unexpectedError": "Непередбачена помилка!",
+	"totalCharacters": " (Від 4 до 20 символів)",
+	"candidateExists": "Користувач із цією ел. адресою вже існує",
+	"noUserFound": "Користувача з цією адресою ел. пошти не знайдено",
+	"passwordInvalid": "Пароль невірний",
+	"activationLinkInvalid": "Недійсне посилання для активації",
+	"validationError": "Введіть правильну адресу ел. пошти або пароль"
 }

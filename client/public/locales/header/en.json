@@ -3,5 +3,6 @@
 	"products": "Products",
 	"search": "Search",
 	"profile": "Profile",
-	"selected": "Selected"
+	"selected": "Selected",
+	"pageNotFound": "Oops! This page doesn't exist..."
 }
