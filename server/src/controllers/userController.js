@@ -2,6 +2,19 @@ const { userService } = require('../services');
 const { validationResult } = require('express-validator');
 const ApiError = require('../exceptions/apiError');
 
+const addCookieRefreshToken = (res, refreshToken) => {
+  return res.cookie(
+    'refreshToken',
+    refreshToken,
+    {
+      maxAge: 30 * 24 * 60 * 60 * 10000,
+      httpOnly: true,
+      secure: true,
+      sameSite: none,
+    },
+  );
+};
+
 module.exports = {
   register: async (req, res, next) => {
     try {
@@ -15,14 +28,7 @@ module.exports = {
 
       const userData = await userService.register(email, name, password);
 
-      res.cookie(
-        'refreshToken',
-        userData.refreshToken,
-        {
-          maxAge: 30 * 24 * 60 * 60 * 10000,
-          httpOnly: true,
-        },
-      );
+      addCookieRefreshToken(res, userData.refreshToken);
 
       return res.json(userData);
     } catch (error) {
@@ -34,14 +40,8 @@ module.exports = {
       const { email, password } = req.body;
 
       const userData = await userService.login(email, password);
-      res.cookie(
-        'refreshToken',
-        userData.refreshToken,
-        {
-          maxAge: 30 * 24 * 60 * 60 * 10000,
-          httpOnly: true,
-        },
-      );
+
+      addCookieRefreshToken(res, userData.refreshToken);
 
       return res.json(userData);
     } catch (error) {
@@ -74,14 +74,7 @@ module.exports = {
       const { refreshToken } = req.cookies;
       const userData = await userService.refresh(refreshToken);
 
-      res.cookie(
-        'refreshToken',
-        userData.refreshToken,
-        {
-          maxAge: 30 * 24 * 60 * 60 * 10000,
-          httpOnly: true,
-        },
-      );
+      addCookieRefreshToken(res, userData.refreshToken);
 
       return res.json(userData);
     } catch (error) {
