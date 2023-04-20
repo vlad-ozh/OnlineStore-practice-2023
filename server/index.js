@@ -14,10 +14,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(cors({
   credentials: true,
-  origin: [
-    process.env.LOCALHOST_CLIENT_URL,
-    process.env.PRODUCTION_CLIENT_URL,
-  ],
+  origin: process.env.PRODUCTION_CLIENT_URL,
 }));
 app.use('/', routes);
 app.use(errorMiddleware);
