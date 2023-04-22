@@ -10,12 +10,12 @@ const app = express();
 const routes = require('./src/routes');
 const port = process.env.PORT || 3100;
 
-app.use(cookieParser());
-app.use(bodyParser.json());
 app.use(cors({
   credentials: true,
   origin: process.env.PRODUCTION_CLIENT_URL,
 }));
+app.use(cookieParser());
+app.use(bodyParser.json());
 app.use('/', routes);
 app.use(errorMiddleware);
 

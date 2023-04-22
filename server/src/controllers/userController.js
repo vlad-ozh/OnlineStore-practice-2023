@@ -3,14 +3,15 @@ const { validationResult } = require('express-validator');
 const ApiError = require('../exceptions/apiError');
 
 const addCookieRefreshToken = (res, refreshToken) => {
-  return res.cookie(
+  res.cookie(
     'refreshToken',
     refreshToken,
     {
       maxAge: 30 * 24 * 60 * 60 * 10000,
       httpOnly: true,
       secure: true,
-      sameSite: none,
+      sameSite: 'none',
+      path: '/',
     },
   );
 };
