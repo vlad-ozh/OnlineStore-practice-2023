@@ -10,13 +10,22 @@ import {
   Input,
   Button,
   Loader,
+  Breadcrumbs,
 } from '../../components';
 import { controller } from './controller';
 
 import style from './style.module.scss';
 
 const PureAccountRegister: React.FC<Props> = (props) => {
-  const { user, error, loading, onLogin, onCreate, getAccountLink } = props;
+  const {
+    user,
+    error,
+    loading,
+    getBreadcrumbsPaths,
+    onLogin,
+    onCreate,
+    getAccountLink,
+  } = props;
 
   const [formData, setFormData] = useState({
     email: '',
@@ -130,6 +139,7 @@ const PureAccountRegister: React.FC<Props> = (props) => {
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
+      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths}/>}
     >
       <div className={style.screen}>
         {loading && <Loader />}
@@ -150,6 +160,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   const ctrl = controller(dispatch);
 
   return {
+    getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
     getAccountLink: ctrl.getAccountLink(),
     onLogin: ctrl.getLoginLink(),
     onCreate: ctrl.onCreate,

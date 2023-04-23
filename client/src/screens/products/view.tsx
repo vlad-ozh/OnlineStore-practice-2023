@@ -1,17 +1,21 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Header, Layout, Footer } from '../../components';
+import { Header, Layout, Footer, Breadcrumbs } from '../../components';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { controller } from './controller';
 
 import style from './style.module.scss';
 
 const PureProducts: React.FC<Props> = (props) => {
+  const {
+    getBreadcrumbsPaths,
+  } = props;
 
   return (
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
+      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths}/>}
     >
       <div className={style.screen}>
         Products
@@ -27,6 +31,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   const ctrl = controller(dispatch);
 
   return {
+    getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
   };
 };
 

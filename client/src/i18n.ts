@@ -10,7 +10,12 @@ i18n
   .init({
     fallbackLng: 'en',
     debug: false,
-    ns: ['header', 'authorization', 'account'],
+    ns: [
+      'header',
+      'authorization',
+      'account',
+      'breadcrumbs',
+    ],
     interpolation: {
       escapeValue: false,
     },

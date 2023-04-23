@@ -10,6 +10,7 @@ import {
   Input,
   Button,
   Loader,
+  Breadcrumbs,
 } from '../../components';
 import { controller } from './controller';
 
@@ -20,6 +21,7 @@ const PureAccountLogin: React.FC<Props> = (props) => {
     user,
     error,
     loading,
+    getBreadcrumbsPaths,
     onRegister,
     onForgotPassword,
     onLogin,
@@ -113,6 +115,7 @@ const PureAccountLogin: React.FC<Props> = (props) => {
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
+      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths}/>}
     >
       <div className={style.screen}>
         {loading && <Loader />}
@@ -133,6 +136,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   const ctrl = controller(dispatch);
 
   return {
+    getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
     getAccountLink: ctrl.getAccountLink(),
     onRegister: ctrl.getRegisterLink(),
     onForgotPassword: ctrl.getForgotPasswordLink(),

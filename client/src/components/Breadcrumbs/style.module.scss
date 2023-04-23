@@ -1,0 +1,26 @@
+@use './../../assets/common/container';
+
+.breadcrumbs {
+  @extend %container;
+  display: flex;
+  font-size: 14px;
+  list-style: none;
+  overflow-x: auto;
+
+  @media screen and (max-width: 600px) {
+    font-size: 12px;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+}
+
+.slash {
+  padding: 0 6px;
+}

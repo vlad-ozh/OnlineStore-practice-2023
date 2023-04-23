@@ -10,9 +10,17 @@
   top: 0;
 }
 
+.layoutBottom {
+  margin-top: 15px;
+}
+
 .layoutTop,
 .layoutBottom {
   flex: 0 0 auto;
+}
+
+.breadcrumbs {
+  padding: 15px 0;
 }
 
 .layoutCenter {

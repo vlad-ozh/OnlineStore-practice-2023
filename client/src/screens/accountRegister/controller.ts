@@ -5,6 +5,14 @@ import { AppDispatch } from '../../model/store/store';
 export const controller = (dispatch: AppDispatch) => {
 
   return {
+    getBreadcrumbsPaths: () => {
+      const breadcrumbsPaths = [
+        {path: navigationApi.toHome(), name: {title: 'home'}},
+        {path: '', name: {title: 'register'}},
+      ];
+
+      return breadcrumbsPaths;
+    },
     getLoginLink: () => {
       return navigationApi.toAccountLogin();
     },

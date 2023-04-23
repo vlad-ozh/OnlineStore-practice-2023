@@ -1,17 +1,21 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Header, Layout, Footer } from '../../components';
+import { Header, Layout, Footer, Breadcrumbs } from '../../components';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { controller } from './controller';
 
 import style from './style.module.scss';
 
 const PureHome: React.FC<Props> = (props) => {
+  const {
+    getBreadcrumbsPaths,
+  } = props;
 
   return (
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
+      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths}/>}
     >
       <div className={style.text}>
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Labore omnis eligendi obcaecati nesciunt ex laborum magnam doloremque consectetur, tenetur corrupti voluptatem, aspernatur quidem ullam repellendus? Magnam exercitationem quis quam ipsam.
@@ -25,13 +29,13 @@ const PureHome: React.FC<Props> = (props) => {
 };
 
 const mapState = (state: RootState) => ({
-  user: state.userReducer.user,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   const ctrl = controller(dispatch);
 
   return {
+    getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
   };
 };
 

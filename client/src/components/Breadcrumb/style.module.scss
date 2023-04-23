@@ -1,0 +1,15 @@
+@use './../../assets/common/fonts';
+
+.breadcrumb {
+  font-family: fonts.$roboto;
+  white-space: nowrap;
+}
+
+.link {
+  color: var(--text-color);
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}

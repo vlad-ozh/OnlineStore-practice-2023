@@ -1,0 +1,13 @@
+{
+	"home": "Online store",
+	"login": "Log in",
+	"register": "Register",
+	"forgotPassword": "Password recovery",
+	"profile": "Profile",
+	"profileInfo": "Personal information",
+	"products": "Products",
+	"search": "Search results for \"{{search}}\"",
+	"selected": "Selected",
+	"cart": "Cart",
+	"orders": "My orders"
+}

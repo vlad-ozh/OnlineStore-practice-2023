@@ -7,3 +7,4 @@ export { Input } from './Input';
 export { SwitchButtonTheme } from './SwitchThemeButton';
 export { SwitchButtonLanguage } from './SwitchLanguageButton';
 export { Loader } from './Loader';
+export { Breadcrumbs } from './Breadcrumbs';
