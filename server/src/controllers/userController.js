@@ -38,6 +38,14 @@ module.exports = {
   },
   login: async (req, res, next) => {
     try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return next(
+          ApiError.BadRequest('validationLoginError', errors.array()),
+        );
+      }
+
       const { email, password } = req.body;
 
       const userData = await userService.login(email, password);
@@ -60,12 +68,31 @@ module.exports = {
       next(error);
     }
   },
+  forgotPassword: async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return next(
+          ApiError.BadRequest('validationResetError', errors.array()),
+        );
+      }
+
+      const { email } = req.body;
+
+      const token = await userService.forgotPassword(email);
+
+      return res.json(token);
+    } catch (error) {
+      next(error);
+    }
+  },
   activate: async (req, res, next) => {
     try {
       const activationLink = req.params.link;
       await userService.activate(activationLink);
 
-      return res.redirect(process.env.PRODUCTION_CLIENT_URL);
+      return res.redirect(process.env.CLIENT_URL);
     } catch (error) {
       next(error);
     }
@@ -82,11 +109,33 @@ module.exports = {
       next(error);
     }
   },
-  allUsers: async (req, res) => {
+  checkToken: async (req, res, next) => {
     try {
-      const users = await userService.allUsers();
+      const token = req.params.token;
+      const isToken = await userService.checkToken(token);
 
-      return res.json(users);
+      return res.json({ isToken });
+    } catch (error) {
+      next(error);
+    }
+  },
+  resetPassword: async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return next(
+          ApiError.BadRequest('passwordInvalid', errors.array()),
+        );
+      }
+
+      const { password, isToken } = req.body;
+      const token = req.params.token;
+
+      const userData =
+        await userService.resetPassword(password, isToken, token);
+
+      return res.json(userData);
     } catch (error) {
       next(error);
     }

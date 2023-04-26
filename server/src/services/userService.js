@@ -65,6 +65,26 @@ const userService = () => {
     return token;
   };
 
+  const forgotPassword = async (email) => {
+    const user = await UserModel.findOne({email});
+
+    if (!user) {
+      throw ApiError.BadRequest('noUserFound');
+    }
+
+    const userDto = UserDto(user);
+    const token = tokenService.generateToken({...userDto});
+    await tokenService.saveToken(userDto.id, token);
+
+    await mailService.sendResetPasswordMail(
+      email,
+      `${process.env.CLIENT_URL}/account/reset/password/${token}`,
+      user.name,
+    );
+
+    return token;
+  };
+
   const activate = async (activationLink) => {
     const user = await UserModel.findOne({activationLink});
 
@@ -92,31 +112,41 @@ const userService = () => {
 
     return userAndTokens(user);
   };
+  const checkToken = async (token) => {
+    const userData = tokenService.validateRefreshtoken(token);
+    const tokenFromDb = await tokenService.findToken(token);
 
-  const allUsers = async () => {
-    return await UserModel.find();
+    if (!userData || !tokenFromDb) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const resetPassword = async (password, isToken, token) => {
+    if (!isToken) {
+      throw ApiError.BadRequest('activationLinkInvalid');
+    }
+
+    const userData = tokenService.validateRefreshtoken(token);
+    const user = await UserModel.findById(userData.id);
+    const hashPassword = await bcrypt.hash(password, 3);
+    user.password = hashPassword;
+    await user.save();
+
+    return userAndTokens(user);
   };
 
 
   return {
-    register: async (email, name, password) => {
-      return await register(email, name, password);
-    },
-    login: async (email, password) => {
-      return await login(email, password);
-    },
-    logout: async (refreshToken) => {
-      return await logout(refreshToken);
-    },
-    activate: async (activationLink) => {
-      return await activate(activationLink);
-    },
-    refresh: async (refreshToken) => {
-      return await refresh(refreshToken);
-    },
-    allUsers: async () => {
-      return await allUsers();
-    },
+    register,
+    login,
+    logout,
+    forgotPassword,
+    resetPassword,
+    activate,
+    refresh,
+    checkToken,
   };
 };
 

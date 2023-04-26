@@ -20,14 +20,14 @@ const tokenService = () => {
     };
   };
 
-  const validateAccesstoken = (token) => {
-    try {
-      const userDate = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+  const generateToken = (payload) => {
+    const token = jwt.sign(
+      payload,
+      process.env.JWT_REFRESH_SECRET,
+      {expiresIn: '12h'},
+    );
 
-      return userDate;
-    } catch (error) {
-      return null;
-    }
+    return token;
   };
 
   const validateRefreshtoken = (token) => {
@@ -40,52 +40,40 @@ const tokenService = () => {
     }
   };
 
-  const saveToken = async (userId, refreshToken) => {
+  const saveToken = async (userId, token) => {
     const tokenData = await TokenModel.findOne({user: userId});
 
     if (tokenData) {
-      tokenData.refreshToken = refreshToken;
+      tokenData.token = token;
 
-      return tokenData.save();
+      return await tokenData.save();
     }
 
-    const token = await TokenModel.create({user: userId, refreshToken});
+    const newToken = await TokenModel.create({user: userId, token});
 
-    return token;
+    return newToken;
   };
 
   const removeToken = async (refreshToken) => {
-    const tokenData = await TokenModel.deleteOne({ refreshToken });
+    const tokenData = await TokenModel.deleteOne({ token: refreshToken });
 
     return tokenData;
   };
 
-  const findToken = async (refreshToken) => {
-    const tokenData = await TokenModel.findOne({ refreshToken });
+  const findToken = async (token) => {
+    const tokenData = await TokenModel.findOne({ token });
 
     return tokenData;
   };
 
 
   return {
-    generateTokens: (payload) => {
-      return generateTokens(payload);
-    },
-    validateAccesstoken: (token) => {
-      return validateAccesstoken(token);
-    },
-    validateRefreshtoken: (token) => {
-      return validateRefreshtoken(token);
-    },
-    saveToken: async (userId, refreshToken) => {
-      return await saveToken(userId, refreshToken);
-    },
-    removeToken: async (refreshToken) => {
-      return await removeToken(refreshToken);
-    },
-    findToken: async (refreshToken) => {
-      return await findToken(refreshToken);
-    },
+    generateTokens,
+    generateToken,
+    validateRefreshtoken,
+    saveToken,
+    removeToken,
+    findToken,
   };
 };
 

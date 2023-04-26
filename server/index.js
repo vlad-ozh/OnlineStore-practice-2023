@@ -12,7 +12,7 @@ const port = process.env.PORT || 3100;
 
 app.use(cors({
   credentials: true,
-  origin: process.env.PRODUCTION_CLIENT_URL,
+  origin: process.env.CLIENT_URL,
 }));
 app.use(cookieParser());
 app.use(bodyParser.json());
