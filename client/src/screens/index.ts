@@ -1,3 +1,4 @@
+export { NotFound } from './notFound';
 export { Home } from './home';
 export { Products } from './products';
 export { SearchProducts } from './searchProducts';
@@ -8,4 +9,5 @@ export { Selected } from './selected';
 export { Cart } from './cart';
 export { AccountInfo } from './accountInfo';
 export { AccountOrders } from './accountOrders';
-export { NotFound } from './notFound';
+export { ForgotPassword } from './forgotPassword';
+export { AccountResetPassword } from './accountResetPassword';

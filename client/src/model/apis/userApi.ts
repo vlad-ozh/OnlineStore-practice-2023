@@ -2,33 +2,27 @@ import axiosInstance from '../../http';
 import { serverNavApi } from './serverNavApi';
 import { createAsyncThunk, AnyAction, AsyncThunk } from '@reduxjs/toolkit';
 import {
-  IUser,
   IUserRegister,
   IUserLogin,
   IUserResponse,
+  IUserForgotPassword,
+  IUserResetPassword,
 } from '../types/IUser';
 import axios from 'axios';
 
 interface IUserApi {
-  getAll: AsyncThunk<IUser[], undefined, {rejectValue: string}>;
   register: AsyncThunk<IUserResponse, IUserRegister, {rejectValue: string}>;
   login: AsyncThunk<IUserResponse, IUserLogin, {rejectValue: string}>;
-  logout: AsyncThunk<void, undefined, {rejectValue: string}>;
+  logout: AsyncThunk<undefined, undefined, {rejectValue: string}>;
   refresh: AsyncThunk<IUserResponse, undefined, {rejectValue: string}>;
+  forgotPassword:
+    AsyncThunk<undefined, IUserForgotPassword, {rejectValue: string}>;
+  checkToken: AsyncThunk<{isToken: boolean}, string, {rejectValue: string}>;
+  resetPassword:
+    AsyncThunk<IUserResponse, IUserResetPassword, {rejectValue: string}>;
   error: any;
 }
 const user = (): IUserApi => {
-
-  const getAll = () =>
-    createAsyncThunk<IUser[], undefined, {rejectValue: string}>(
-      'user/allUsers',
-      async (_, { rejectWithValue }) => {
-        return await axiosInstance
-          .get<IUser[]>(serverNavApi.userRoutes.getAllUsers)
-          .then((res) => res.data)
-          .catch((err) => rejectWithValue(err));
-      }
-    );
 
   const register = () =>
     createAsyncThunk<IUserResponse, IUserRegister, {rejectValue: string}>(
@@ -53,7 +47,7 @@ const user = (): IUserApi => {
     );
 
   const logout = () =>
-    createAsyncThunk<void, undefined, {rejectValue: string}>(
+    createAsyncThunk<undefined, undefined, {rejectValue: string}>(
       'user/logout',
       async (_, { rejectWithValue }) => {
         return await axiosInstance
@@ -77,16 +71,53 @@ const user = (): IUserApi => {
       }
     );
 
+  const forgotPassword = () =>
+    createAsyncThunk<undefined, IUserForgotPassword, {rejectValue: string}>(
+      'user/forgot/password',
+      async (email, { rejectWithValue }) => {
+        return await axiosInstance
+          .post(serverNavApi.userRoutes.forgotPassword, email)
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+
+  const checkToken = () =>
+    createAsyncThunk<{isToken: boolean}, string, {rejectValue: string}>(
+      'user/check/token',
+      async (token, { rejectWithValue }) => {
+        return await axiosInstance
+          .get<{isToken: boolean}>(serverNavApi.toCheckToken(token))
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+  const resetPassword = () =>
+    createAsyncThunk<IUserResponse, IUserResetPassword, {rejectValue: string}>(
+      'user/reset/password',
+      async ({password, isToken, token}, { rejectWithValue }) => {
+        return await axiosInstance
+          .post<IUserResponse>(
+            serverNavApi.toResetPassword(token),
+            {password, isToken}
+          )
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+
   const isError = (action: AnyAction) => {
     return action.type.endsWith('rejected');
   };
 
   return {
-    getAll: getAll(),
     register: register(),
     login: login(),
     logout: logout(),
     refresh: refresh(),
+    forgotPassword: forgotPassword(),
+    checkToken: checkToken(),
+    resetPassword: resetPassword(),
     error: isError,
   };
 };

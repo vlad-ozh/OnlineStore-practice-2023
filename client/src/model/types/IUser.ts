@@ -25,3 +25,17 @@ export interface IUserResponse {
   refreshToken: string;
   user: IUser;
 }
+export interface IUserForgotPassword {
+  email: string;
+}
+export interface IUserResetPassword {
+  password: string;
+  isToken: boolean;
+  token: string | undefined;
+}
+export interface IUserResetPasswordData {
+  password: string;
+  confirmPassword: string;
+  isToken: boolean;
+  token: string | undefined;
+}

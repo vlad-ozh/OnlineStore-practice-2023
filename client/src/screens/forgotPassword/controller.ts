@@ -1,5 +1,5 @@
-import { IUserRegisterConfirm } from './../../model/types/IUser';
 import { navigationApi, userApi } from '../../model/apis';
+import { userActions } from '../../model/store/reducers/UserSlice';
 import { AppDispatch } from '../../model/store/store';
 
 export const controller = (dispatch: AppDispatch) => {
@@ -8,23 +8,22 @@ export const controller = (dispatch: AppDispatch) => {
     getBreadcrumbsPaths: () => {
       const breadcrumbsPaths = [
         {path: navigationApi.toHome(), name: {title: 'home'}},
-        {path: '', name: {title: 'register'}},
+        {path: '', name: {title: 'forgotPassword'}},
       ];
 
       return breadcrumbsPaths;
     },
-    getLoginLink: () => {
-      return navigationApi.toAccountLogin();
-    },
     getAccountLink: () => {
       return navigationApi.toAccount();
     },
-    onCreate: (user: IUserRegisterConfirm) => {
-      const { email, name, password, confirmPassword } = user;
-
-      if (password !== confirmPassword) return;
-
-      dispatch(userApi.register({email, name, password}));
+    onChangeEmail: (email: string) => {
+      dispatch(userActions.changeEmail(email));
+    },
+    onReset: (email: string) => {
+      dispatch(userApi.forgotPassword({ email }));
+    },
+    onBack: () => {
+      dispatch(userActions.toResetPassword());
     },
   };
 };

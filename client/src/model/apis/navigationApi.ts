@@ -14,6 +14,8 @@ const navigation = () => {
     account: '/account',
     accountLogin: '/account/login',
     accountRegister: '/account/register',
+    accountForgotPassword: '/account/reset/password',
+    accountResetPassword: '/account/reset/password/:token',
     accountCart: '/account/cart',
     accountInfo: '/account/info',
     accountOrders: '/account/orders',
@@ -47,6 +49,9 @@ const navigation = () => {
     },
     toAccountRegister: () => {
       return setRoute(routes.accountRegister);
+    },
+    toAccountForgotPassword: () => {
+      return setRoute(routes.accountForgotPassword);
     },
     toAccountCart: () => {
       return setRoute(routes.accountCart);

@@ -4,6 +4,7 @@ import { navigationApi, userApi } from '../../model/apis';
 import { AppDispatch } from '../../model/store/store';
 import { useDispatch } from 'react-redux';
 import {
+  NotFound,
   Home,
   Products,
   SearchProducts,
@@ -14,7 +15,8 @@ import {
   Cart,
   AccountInfo,
   AccountOrders,
-  NotFound,
+  ForgotPassword,
+  AccountResetPassword,
 } from '../../screens';
 
 import style from './style.module.scss';
@@ -70,6 +72,14 @@ export const App: React.FC = () => {
         <Route
           path={navigationApi.routes.accountOrders}
           element={<AccountOrders />}
+        />
+        <Route
+          path={navigationApi.routes.accountForgotPassword}
+          element={<ForgotPassword />}
+        />
+        <Route
+          path={navigationApi.routes.accountResetPassword}
+          element={<AccountResetPassword />}
         />
         <Route
           path='*' element={<NotFound />}

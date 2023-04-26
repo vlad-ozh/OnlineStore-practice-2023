@@ -1,0 +1,1 @@
+export { AccountResetPassword } from './view';

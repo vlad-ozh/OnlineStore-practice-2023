@@ -17,16 +17,12 @@ export const controller = (dispatch: AppDispatch) => {
       return navigationApi.toAccountRegister();
     },
     getForgotPasswordLink: () => {
-      return navigationApi.toAccountRegister();
+      return navigationApi.toAccountForgotPassword();
     },
     getAccountLink: () => {
       return navigationApi.toAccount();
     },
     onLogin: (user: IUserLogin) => {
-      const { email, password } = user;
-
-      if (!email || !password) return;
-
       dispatch(userApi.login(user));
     },
   };
