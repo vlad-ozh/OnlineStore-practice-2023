@@ -16,6 +16,20 @@
     }
   }
 
+  &ActivationMsg {
+    display: block;
+    color: #e00027;
+    margin-bottom: 20px;
+
+    @media screen and (max-width: 600px) {
+      font-size: 14px;
+    }
+  }
+  
+  &NoActivationMsg {
+    display: none;
+  }
+
   &Box {
     width: 100%;
     background-color: var(--form-background-color);
@@ -59,6 +73,7 @@
 
     @media screen and (max-width: 600px) {
       padding: 10px;
+      font-size: 14px;
     }
 
     & svg {

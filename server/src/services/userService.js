@@ -72,6 +72,10 @@ const userService = () => {
       throw ApiError.BadRequest('noUserFound');
     }
 
+    if (!user.isActivated) {
+      throw ApiError.BadRequest('accountNotActivated');
+    }
+
     const userDto = UserDto(user);
     const token = tokenService.generateToken({...userDto});
     await tokenService.saveToken(userDto.id, token);

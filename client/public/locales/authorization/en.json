@@ -30,5 +30,6 @@
 	"validationResetError": "Еnter a valid email address",
 	"resetTitle": "Password reset",
 	"reset": "Reset password",
-	"resetMsgSent": "Password recovery instructions have been sent to the specified e-mail address"
+	"resetMsgSent": "Password recovery instructions have been sent to the specified e-mail address",
+	"accountNotActivated": "The account is not activated"
 }

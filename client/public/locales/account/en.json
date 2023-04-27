@@ -2,5 +2,6 @@
   "hello": "Hello, {{name}}!",
 	"personalInfo": "Personal information",
 	"myOrders": "My orders",
-	"logout": "Log out of the account"
+	"logout": "Log out of the account",
+	"needActivateAcc": "An account activation message has been sent to your email."
 }

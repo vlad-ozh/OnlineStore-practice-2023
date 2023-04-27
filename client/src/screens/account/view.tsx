@@ -12,6 +12,7 @@ import {
 } from '../../assets/images/svg-images';
 
 import style from './style.module.scss';
+import classNames from 'classnames';
 
 const PureAccount: React.FC<Props> = (props) => {
   const { t } = useTranslation(['account']);
@@ -30,6 +31,11 @@ const PureAccount: React.FC<Props> = (props) => {
         <h2 className={style.contentTitle}>
           {t('hello', { name: user.name })}
         </h2>
+        <p className={classNames(style.contentActivationMsg, {
+          [style.contentNoActivationMsg]: user.isActivated,
+        })}>
+          {t('needActivateAcc')}
+        </p>
         <div className={style.contentBox}>
           <ul className={style.contentList}>
             <li className={style.contentListItem}>
