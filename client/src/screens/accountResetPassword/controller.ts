@@ -3,6 +3,9 @@ import { navigationApi, userApi } from '../../model/apis';
 import { AppDispatch } from '../../model/store/store';
 
 export const controller = (dispatch: AppDispatch) => {
+  const getParams = () => navigationApi.getPathParams(
+    navigationApi.routes.accountResetPassword
+  );
 
   return {
     getBreadcrumbsPaths: () => {
@@ -19,15 +22,22 @@ export const controller = (dispatch: AppDispatch) => {
     getAccountLink: () => {
       return navigationApi.toAccount();
     },
-    checkToken: (token: string) => {
-      dispatch(userApi.checkToken(token));
+    checkToken: () => {
+      const token = getParams().token;
+
+      if (typeof token === 'string') {
+        dispatch(userApi.checkToken(token));
+      }
     },
     onReset: (user: IUserResetPasswordData) => {
-      const { password, confirmPassword, isToken, token } = user;
+      const { password, confirmPassword, isToken } = user;
+      const token = getParams().token;
 
       if (password !== confirmPassword) return;
 
-      dispatch(userApi.resetPassword({password, isToken, token}));
+      if (typeof token === 'string') {
+        dispatch(userApi.resetPassword({password, isToken, token}));
+      }
     },
   };
 };

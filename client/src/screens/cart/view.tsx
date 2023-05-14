@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { Header, Layout, Footer, Breadcrumbs } from '../../components';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { controller } from './controller';
 
 import style from './style.module.scss';
-import { Navigate } from 'react-router-dom';
 
 const PureCart: React.FC<Props> = (props) => {
   const {
@@ -29,7 +29,7 @@ const PureCart: React.FC<Props> = (props) => {
 };
 
 const mapState = (state: RootState) => ({
-  user: state.userReducer.user,
+  user: state.userApi.user,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {

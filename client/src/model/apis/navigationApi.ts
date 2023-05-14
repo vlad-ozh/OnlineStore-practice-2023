@@ -1,16 +1,8 @@
-import { generatePath } from 'react-router-dom';
+import { generatePath, matchPath } from 'react-router-dom';
 
 const navigation = () => {
   const routes = {
     home: '/',
-    products: '/products',
-    searchProducts: '/products/search/:data',
-    selected: '/products/selected',
-    openTheProductCategory: '/products/:category',
-    openProduct: '/products/:category/:productId',
-    checkout: '/checkout',
-    openCheckoutProduct: '/checkout/:productId',
-    checkoutConfirmation: '/checkout/confirmation',
     account: '/account',
     accountLogin: '/account/login',
     accountRegister: '/account/register',
@@ -19,7 +11,18 @@ const navigation = () => {
     accountCart: '/account/cart',
     accountInfo: '/account/info',
     accountOrders: '/account/orders',
+    products: '/products',
+    openProductsCategory: '/products/:category',
+    openProducts: '/products/:category/:brand',
+    openProduct: '/products/:category/:product',
+    searchProducts: '/products/search/:data',
+    selected: '/products/selected',
+    checkout: '/checkout',
+    openCheckoutProduct: '/checkout/:product',
+    checkoutConfirmation: '/checkout/confirmation',
   };
+
+  const getPathName = () => window.location.pathname || routes.home;
 
   const setRoute = (route: string, params = {}) => {
     return generatePath(route, params);
@@ -29,14 +32,6 @@ const navigation = () => {
     routes,
     toHome: () => {
       return setRoute(routes.home);
-    },
-    toProducts: () => {
-      return setRoute(routes.products);
-    },
-    toSearchProducts: (searchData: string) => {
-      return setRoute(routes.searchProducts, {
-        data: searchData,
-      });
     },
     toSelectedProducts: () => {
       return setRoute(routes.selected);
@@ -61,6 +56,29 @@ const navigation = () => {
     },
     toAccountOrders: () => {
       return setRoute(routes.accountOrders);
+    },
+    toProductsCategories: () => {
+      return setRoute(routes.products);
+    },
+    toSearchProducts: (searchData: string) => {
+      return setRoute(routes.searchProducts, {
+        data: searchData,
+      });
+    },
+    toProductsCategory: (category: string) => {
+      return setRoute(routes.openProductsCategory, {
+        category,
+      });
+    },
+    toProducts: (category: string, brand: string) => {
+      return setRoute(routes.openProducts, {
+        category,
+        brand,
+      });
+    },
+    getPathParams: (route: string) => {
+      const match = matchPath(route, getPathName());
+      return match?.params ?? {};
     },
   };
 };

@@ -9,5 +9,10 @@
 	"search": "Search results for \"{{search}}\"",
 	"selected": "Selected",
 	"cart": "Cart",
-	"orders": "My orders"
+	"orders": "My orders",
+	"smartphones": "Smartphones",
+	"tablets": "Tablets",
+	"laptops": "Laptops",
+	"headphones": "Headphones",
+	"televisions": "Televisions"
 }

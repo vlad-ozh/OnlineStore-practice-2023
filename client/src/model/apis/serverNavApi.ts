@@ -15,7 +15,8 @@ const serverNavigation = () => {
   };
 
   const productsRoutes = {
-    getAllProducts: '/products/allProducts',
+    getCategoryInfo: '/products/:category/info',
+    getProductsByBrand: '/products/:category/:brand',
   };
 
   const setRoute = (route: string, params = {}) => {
@@ -27,12 +28,23 @@ const serverNavigation = () => {
     productsRoutes,
     toCheckToken: (token: string) => {
       return setRoute(userRoutes.checkToken, {
-        token: token,
+        token,
       });
     },
-    toResetPassword: (token: string | undefined) => {
+    toResetPassword: (token: string) => {
       return setRoute(userRoutes.resetPassword, {
-        token: token,
+        token,
+      });
+    },
+    toGetCategory: (category: string) => {
+      return setRoute(productsRoutes.getCategoryInfo, {
+        category,
+      });
+    },
+    toGetProductsByBrand: (category: string, brand: string) => {
+      return setRoute(productsRoutes.getProductsByBrand, {
+        category,
+        brand,
       });
     },
   };

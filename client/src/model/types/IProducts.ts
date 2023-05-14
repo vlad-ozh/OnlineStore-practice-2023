@@ -21,43 +21,32 @@ interface IMemory {
 };
 interface ICamera {
   camera: string;
-  diaphragm: string;
   videoRecording: string;
-  opticalStabilization: boolean;
+  opticalStabilization: string;
   frontCamera: string;
 };
 interface IWirelessTechnologies {
   wifi: string;
   gps: string;
   bluetooth: number;
-  nfc: boolean;
-  wirelessCharging: boolean;
-  infraredPort: boolean;
+  nfc: string;
+  wirelessCharging: string;
+  infraredPort: string;
 };
 interface IFrame {
   protectionStandard: string;
-  gps: string;
   color: string;
 };
 interface IBattery {
-  capacity?: number;
-  fastCharging: boolean;
-  color: string;
+  capacity: number;
+  fastCharging: string;
 };
 interface IDimensions {
   dimensions: string;
   weight: number;
 };
 
-
-
-
 interface ISmartphone {
-  id: string;
-  name: string;
-  series: number;
-  modification: string;
-  images: string[];
   connection: IConnection;
   screen: IScreen;
   cpu: IProcessor;
@@ -71,14 +60,36 @@ interface ISmartphone {
   dimensions: IDimensions;
 };
 interface ITablet {
-  name: string;
 };
 interface ILaptop {
+};
+interface IProduct {
+  id: string;
   name: string;
+  price: number;
+  brand: string;
+  category: string;
+  description: string;
+  image: string[];
+  salesCount: number;
+  characteristics: ISmartphone | ITablet | ILaptop;
+};
+export interface IProducts {
+  products: IProduct[];
 };
 
-export interface IProducts {
-  smartphones: ISmartphone[];
-  tablets: ITablet[];
-  laptops: ILaptop[];
+export interface IProductsCategory {
+  name: string;
+  brands: string[];
+};
+export interface IProductsByBrandData {
+  category: string;
+  brand: string;
+};
+export interface IProductsCategories {
+  smartphones: string;
+  tablets: string;
+  laptops: string;
+  headphones: string;
+  televisions: string;
 };

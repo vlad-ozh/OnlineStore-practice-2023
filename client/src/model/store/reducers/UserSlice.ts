@@ -96,6 +96,7 @@ export const userSlice = createSlice({
       .addCase(userApi.resetPassword.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
+        localStorage.setItem('token', action.payload.accessToken);
       })
       .addMatcher(userApi.error, (
         state, action: PayloadAction<any>

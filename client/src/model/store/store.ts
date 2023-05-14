@@ -2,8 +2,8 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { userReducer, productsReducer } from './reducers';
 
 const rootReducer = combineReducers({
-  userReducer,
-  productsReducer,
+  userApi: userReducer,
+  productsApi: productsReducer,
 });
 
 export const Store = () => {

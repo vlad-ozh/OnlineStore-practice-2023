@@ -17,6 +17,8 @@ import {
   AccountOrders,
   ForgotPassword,
   AccountResetPassword,
+  OpenCategory,
+  OpenProducts,
 } from '../../screens';
 
 import style from './style.module.scss';
@@ -80,6 +82,14 @@ export const App: React.FC = () => {
         <Route
           path={navigationApi.routes.accountResetPassword}
           element={<AccountResetPassword />}
+        />
+        <Route
+          path={navigationApi.routes.openProductsCategory}
+          element={<OpenCategory />}
+        />
+        <Route
+          path={navigationApi.routes.openProducts}
+          element={<OpenProducts />}
         />
         <Route
           path='*' element={<NotFound />}

@@ -82,7 +82,7 @@ const PureAccount: React.FC<Props> = (props) => {
 };
 
 const mapState = (state: RootState) => ({
-  user: state.userReducer.user,
+  user: state.userApi.user,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {

@@ -8,13 +8,14 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'en',
+    fallbackLng: 'ua',
     debug: false,
     ns: [
       'header',
       'authorization',
       'account',
       'breadcrumbs',
+      'home',
     ],
     interpolation: {
       escapeValue: false,

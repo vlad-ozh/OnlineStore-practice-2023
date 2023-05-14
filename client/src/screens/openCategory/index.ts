@@ -1,0 +1,1 @@
+export { OpenCategory } from './view';

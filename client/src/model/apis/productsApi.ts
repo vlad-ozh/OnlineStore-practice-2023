@@ -1,35 +1,51 @@
-import axios from 'axios';
 import { createAsyncThunk, AnyAction, AsyncThunk } from '@reduxjs/toolkit';
-import { IProducts } from '../types/IProducts';
+import { IProductsCategory, IProductsByBrandData } from '../types/IProducts';
 import { serverNavApi } from './serverNavApi';
+import axiosInstance from '../../http';
 
 interface IProductsApi {
-  getAllProducts: AsyncThunk<IProducts, undefined, {rejectValue: string}>;
+  getCategoryInfo:
+    AsyncThunk<IProductsCategory, string, {rejectValue: string}>;
+  getProductsByBrand:
+    AsyncThunk<IProductsCategory, IProductsByBrandData, {rejectValue: string}>;
   error: any;
 }
 const products = (): IProductsApi => {
-  const {
-    getAllProducts,
-  } = serverNavApi.productsRoutes;
-
-  const allProducts = () => {
-    return createAsyncThunk<IProducts, undefined, {rejectValue: string}>(
-      'products/allProducts',
-      async (_, { rejectWithValue }) => {
-        return await axios
-          .get(getAllProducts)
+  const categoryInfo = () =>
+    createAsyncThunk<IProductsCategory, string, {rejectValue: string}>(
+      'products/getCategoryInfo',
+      async (category, { rejectWithValue }) => {
+        return await axiosInstance
+          .get<IProductsCategory>(serverNavApi.toGetCategory(category))
           .then((res) => res.data)
           .catch((err) => rejectWithValue(err));
       }
     );
-  };
+
+  const productsByBrand = () =>
+    createAsyncThunk<
+      IProductsCategory,
+      IProductsByBrandData,
+      {rejectValue: string}
+    >(
+      'products/getProductsByBrand',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .get<IProductsCategory>(
+            serverNavApi.toGetProductsByBrand(data.category, data.brand)
+          )
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
 
   const isError = (action: AnyAction) => {
     return action.type.endsWith('rejected');
   };
 
   return {
-    getAllProducts: allProducts(),
+    getCategoryInfo: categoryInfo(),
+    getProductsByBrand: productsByBrand(),
     error: isError,
   };
 };

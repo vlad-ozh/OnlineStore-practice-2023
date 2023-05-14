@@ -120,11 +120,11 @@ const PureForgotPassword: React.FC<Props> = (props) => {
 };
 
 const mapState = (state: RootState) => ({
-  user: state.userReducer.user,
-  error: state.userReducer.error,
-  loading: state.userReducer.loading,
-  email: state.userReducer.email,
-  isEmailSent: state.userReducer.isResetPasswordEmailSent,
+  user: state.userApi.user,
+  error: state.userApi.error,
+  loading: state.userApi.loading,
+  email: state.userApi.email,
+  isEmailSent: state.userApi.isResetPasswordEmailSent,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {

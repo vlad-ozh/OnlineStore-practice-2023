@@ -31,11 +31,10 @@ export interface IUserForgotPassword {
 export interface IUserResetPassword {
   password: string;
   isToken: boolean;
-  token: string | undefined;
+  token: string;
 }
 export interface IUserResetPasswordData {
   password: string;
   confirmPassword: string;
   isToken: boolean;
-  token: string | undefined;
 }

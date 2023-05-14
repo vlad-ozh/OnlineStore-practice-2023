@@ -10,3 +10,8 @@ export { ReactComponent as MenuIcon } from './menu.svg';
 export { ReactComponent as LogoutIcon } from './logout.svg';
 export { ReactComponent as ListIcon } from './list.svg';
 export { ReactComponent as BackIcon } from './back.svg';
+export { ReactComponent as TVIcon } from './tv.svg';
+export { ReactComponent as LaptopIcon } from './laptop.svg';
+export { ReactComponent as HeadphonesIcon } from './headphones.svg';
+export { ReactComponent as SmartphoneIcon } from './smartphone.svg';
+export { ReactComponent as TabletIcon } from './tablet.svg';

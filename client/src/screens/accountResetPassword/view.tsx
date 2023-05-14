@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { useTranslation } from 'react-i18next';
@@ -35,13 +35,11 @@ const PureAccountResetPassword: React.FC<Props> = (props) => {
   });
 
   const { t } = useTranslation(['authorization']);
-  const { token } = useParams();
 
   useEffect(() => {
-    if (typeof token === 'string') {
-      checkToken(token);
-    }
-  }, [token, checkToken]);
+    checkToken();
+
+  }, [checkToken]);
 
 
   const renderError = () => {
@@ -96,7 +94,7 @@ const PureAccountResetPassword: React.FC<Props> = (props) => {
           <Button
             skin='text'
             size='medium'
-            onClick={() => onReset({...formData, isToken, token})}
+            onClick={() => onReset({...formData, isToken})}
             className={style.formButton}
           >
             {t('reset')}
@@ -115,7 +113,9 @@ const PureAccountResetPassword: React.FC<Props> = (props) => {
       <div className={style.screen}>
         {loading && <Loader />}
         {user.isAuth && <Navigate to={getAccountLink} replace={true} />}
-        {!isToken && <Navigate to={getLoginLink} replace={true} />}
+        {!isToken && !user.isAuth
+          && <Navigate to={getLoginLink} replace={true} />
+        }
         {!user.isAuth && !loading && renderRegisterForm()}
       </div>
     </Layout>
@@ -123,10 +123,10 @@ const PureAccountResetPassword: React.FC<Props> = (props) => {
 };
 
 const mapState = (state: RootState) => ({
-  user: state.userReducer.user,
-  error: state.userReducer.error,
-  loading: state.userReducer.loading,
-  isToken: state.userReducer.isToken,
+  user: state.userApi.user,
+  error: state.userApi.error,
+  loading: state.userApi.loading,
+  isToken: state.userApi.isToken,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {

@@ -7,7 +7,7 @@ export const controller = (dispatch: AppDispatch) => {
       return navigationApi.toHome();
     },
     getProductsLink: () => {
-      return navigationApi.toProducts();
+      return navigationApi.toProductsCategories();
     },
     onChangeSearch: (value: string) => {
     },

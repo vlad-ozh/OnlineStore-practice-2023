@@ -9,5 +9,10 @@
 	"search": "Результати пошуку для \"{{search}}\"",
 	"selected": "Обране",
 	"cart": "Кошик",
-	"orders": "Мої замовлення"
+	"orders": "Мої замовлення",
+	"smartphones": "Смартфони",
+	"tablets": "Планшети",
+	"laptops": "Ноутбуки",
+	"headphones": "Навушники",
+	"televisions": "Телевізори"
 }
