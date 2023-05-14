@@ -4,4 +4,5 @@ module.exports = {
   mailService: require('./mailService'),
   htmlForMailService: require('./htmlForMailService'),
   tokenService: require('./tokenService'),
+  imagesService: require('./imagesService'),
 };

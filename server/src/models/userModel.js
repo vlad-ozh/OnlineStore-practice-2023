@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const collections = require('./collections');
 
 const UserSchema = new Schema({
   email: {type: String, unique: true, required: true},
@@ -8,4 +9,4 @@ const UserSchema = new Schema({
   activationLink: {type: String},
 });
 
-module.exports = model('users', UserSchema);
+module.exports = model('User', UserSchema, collections.users);

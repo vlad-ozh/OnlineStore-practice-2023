@@ -32,9 +32,9 @@ const tokenService = () => {
 
   const validateRefreshtoken = (token) => {
     try {
-      const userDate = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+      const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
 
-      return userDate;
+      return userData;
     } catch (error) {
       return null;
     }

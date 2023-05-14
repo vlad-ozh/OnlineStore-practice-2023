@@ -135,6 +135,8 @@ module.exports = {
       const userData =
         await userService.resetPassword(password, isToken, token);
 
+      addCookieRefreshToken(res, userData.refreshToken);
+
       return res.json(userData);
     } catch (error) {
       next(error);

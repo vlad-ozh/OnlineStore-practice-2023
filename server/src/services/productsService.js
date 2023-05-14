@@ -1,44 +1,70 @@
-const { connection } = require('mongoose');
+const { CategoryModel, ProductModel } = require('../models');
+const ApiError = require('../exceptions/apiError');
 
 const productsService = () => {
-  const getAllProducts = async () => {
-    const allCollections = await connection.db.collections();
+  const getCategoryInfo = async (categoryName) => {
+    const category = await CategoryModel.findOne({ name: categoryName });
 
-    return Promise.all(
-      allCollections.map(async (currentCollection) => {
-        const collectionName = currentCollection.collectionName;
+    if (!category) {
+      throw ApiError.NotFound();
+    }
 
-        if (collectionName !== 'users' && collectionName !== 'tokens') {
-          const collectionValue = await currentCollection.find().toArray();
-
-          return {
-            name: collectionName,
-            value: collectionValue,
-          };
-        }
-
-        return undefined;
-      }),
-    ).then((res) => {
-      let collectionsValues = {};
-
-      res.forEach((collection) => {
-        if (collection !== undefined) {
-          collectionsValues = {
-            ...collectionsValues,
-            [collection.name]: collection.value,
-          };
-        }
-      });
-
-      return collectionsValues;
+    const products = await ProductModel.find({
+      category,
+    }).populate({
+      path: 'category',
+      select: 'name',
+      model: 'Category',
     });
+
+    let categoryBrands = [];
+
+    products.forEach(product => {
+      const brand = product.brand;
+
+      if (!categoryBrands.includes(brand)) {
+        categoryBrands.push(brand);
+      }
+    });
+
+    categoryBrands.sort((a, b) => a.localeCompare(b));
+
+    return {
+      name: category.name,
+      brands: categoryBrands,
+    };
+  };
+
+  const getProductsByBrand = async (categoryName, brand) => {
+    const category = await CategoryModel.findOne({ name: categoryName });
+    console.log('🚀 ~ getProductsByBrand ~ category:', category);
+
+    if (!category) {
+      throw ApiError.NotFound();
+    }
+
+    let settingsFindProducts = {};
+
+    if (brand === 'all') {
+      settingsFindProducts = { category };
+    } else {
+      settingsFindProducts = { category, brand };
+    }
+
+    const products = await ProductModel.find(
+      settingsFindProducts,
+    ).populate({
+      path: 'category',
+      select: 'name',
+      model: 'Category',
+    });
+
+    return products;
   };
 
   return {
-    getAll: async () => {
-      return await getAllProducts();
-    },
+    getCategoryInfo,
+    getProductsByBrand,
   };
 };
 

@@ -1,13 +1,27 @@
 const { productsService } = require('../services');
 
 module.exports = {
-  getAll: async (req, res) => {
+  getCategoryInfo: async (req, res, next) => {
     try {
-      const products = await productsService.getAll();
+      const category = req.params.category;
+
+      const categoryInfo = await productsService.getCategoryInfo(category);
+
+      return res.json(categoryInfo);
+    } catch (error) {
+      next(error);
+    }
+  },
+  getProductsByBrand: async (req, res, next) => {
+    try {
+      const { category, brand } = req.params;
+
+      const products =
+        await productsService.getProductsByBrand(category, brand);
 
       return res.json(products);
     } catch (error) {
-      return res.json(error);
+      next(error);
     }
   },
 };
