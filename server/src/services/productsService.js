@@ -1,5 +1,6 @@
 const { CategoryModel, ProductModel } = require('../models');
 const ApiError = require('../exceptions/apiError');
+const { ProductDto } = require('../dtos');
 
 const productsService = () => {
   const getCategoryInfo = async (categoryName) => {
@@ -37,7 +38,6 @@ const productsService = () => {
 
   const getProductsByBrand = async (categoryName, brand) => {
     const category = await CategoryModel.findOne({ name: categoryName });
-    console.log('🚀 ~ getProductsByBrand ~ category:', category);
 
     if (!category) {
       throw ApiError.NotFound();
@@ -59,7 +59,9 @@ const productsService = () => {
       model: 'Category',
     });
 
-    return products;
+    const productsDto = products.map(product => ProductDto(product));
+
+    return productsDto;
   };
 
   return {
