@@ -1,0 +1,13 @@
+@use './../../assets/common/container';
+
+.screen{
+  @extend %container;
+}
+
+.product {
+
+}
+
+.noProduct {
+  text-align: center;
+}

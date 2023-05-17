@@ -6,7 +6,6 @@ import {
   Footer,
   Breadcrumbs,
   Loader,
-  ProductCard,
 } from '../../components';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +13,7 @@ import { controller } from './controller';
 
 import style from './style.module.scss';
 
-const PureOpenProducts: React.FC<Props> = (props) => {
+const PureOpenProduct: React.FC<Props> = (props) => {
   const { t } = useTranslation(['home']);
 
   const {
@@ -22,40 +21,24 @@ const PureOpenProducts: React.FC<Props> = (props) => {
     getProducts,
     loading,
     getBreadcrumbsPaths,
-    productLink,
   } = props;
 
 
   React.useEffect(() => {
-    getProducts();
+    // getProducts();
   }, [getProducts]);
 
   const renderProducts = () => {
     return (
-      <div className={style.products}>
-        <ul className={style.productsList}>
-          {products.map((product) => {
-            return (
-              <li key={product.id}>
-                <ProductCard
-                  name={product.name}
-                  image={product.image[0]}
-                  price={product.price}
-                  productLink={
-                    productLink(product.category, product.brand, product.id)
-                  }
-                />
-              </li>
-            );
-          })}
-        </ul>
+      <div className={style.product}>
+        product
       </div>
     );
   };
   const renderNoData = () => {
     return (
-      <h3 className={style.noProducts}>
-        {t('noProducts')}
+      <h3 className={style.noProduct}>
+        {t('noProduct')}
       </h3>
     );
   };
@@ -70,8 +53,8 @@ const PureOpenProducts: React.FC<Props> = (props) => {
     >
       <div className={style.screen}>
         {loading && <Loader />}
-        {!loading && isProducts && renderProducts()}
-        {!loading && !isProducts && renderNoData()}
+        {!loading && renderProducts()}
+        {/* {!loading && !isProducts && renderNoData()} */}
       </div>
     </Layout>
   );
@@ -88,7 +71,6 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     getProducts: ctrl.getProducts,
     getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
-    productLink: ctrl.getProductLink,
   };
 };
 
@@ -96,4 +78,4 @@ const connector = connect(mapState, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>;
 
-export const OpenProducts = connector(PureOpenProducts);
+export const OpenProduct = connector(PureOpenProduct);

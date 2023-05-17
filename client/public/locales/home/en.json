@@ -5,5 +5,7 @@
 	"headphones": "Headphones",
 	"televisions": "Televisions",
 	"brands": "Brands",
-	"all": "All"
+	"all": "All",
+	"noProducts": "Products no  found",
+	"noCategory": "Category not found"
 }

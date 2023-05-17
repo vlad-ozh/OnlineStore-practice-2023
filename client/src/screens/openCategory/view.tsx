@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Navigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Header, Layout, Footer, Breadcrumbs, Loader } from '../../components';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,6 @@ const PureOpenCategory: React.FC<Props> = (props) => {
 
   const {
     category,
-    error,
     data,
     loading,
     getBreadcrumbsPaths,
@@ -23,7 +22,7 @@ const PureOpenCategory: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     data();
-  }, [data, error]);
+  }, [data]);
 
   const renderCategory = () => {
     return (
@@ -62,6 +61,14 @@ const PureOpenCategory: React.FC<Props> = (props) => {
     );
   };
 
+  const renderNoCategory = () => {
+    return (
+      <h3 className={style.noCategory}>
+        {t('noCategory')}
+      </h3>
+    );
+  };
+
   return (
     <Layout
       topBar={<Header />}
@@ -71,7 +78,7 @@ const PureOpenCategory: React.FC<Props> = (props) => {
       <div className={style.screen}>
         {loading && <Loader />}
         {!loading && category && renderCategory()}
-        {!loading && error && <Navigate to={'/'} replace={true} />}
+        {!loading && !category && renderNoCategory()}
       </div>
     </Layout>
   );
@@ -80,7 +87,6 @@ const PureOpenCategory: React.FC<Props> = (props) => {
 const mapState = (state: RootState) => ({
   category: state.productsApi.category,
   loading: state.productsApi.loading,
-  error: state.productsApi.error,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {

@@ -14,7 +14,7 @@ const navigation = () => {
     products: '/products',
     openProductsCategory: '/products/:category',
     openProducts: '/products/:category/:brand',
-    openProduct: '/products/:category/:product',
+    openProduct: '/products/:category/:brand/:product',
     searchProducts: '/products/search/:data',
     selected: '/products/selected',
     checkout: '/checkout',
@@ -74,6 +74,13 @@ const navigation = () => {
       return setRoute(routes.openProducts, {
         category,
         brand,
+      });
+    },
+    toProduct: (category: string, brand: string, productId: string) => {
+      return setRoute(routes.openProduct, {
+        category,
+        brand,
+        product: productId,
       });
     },
     getPathParams: (route: string) => {

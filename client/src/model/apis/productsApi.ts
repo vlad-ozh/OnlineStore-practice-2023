@@ -1,5 +1,9 @@
 import { createAsyncThunk, AnyAction, AsyncThunk } from '@reduxjs/toolkit';
-import { IProductsCategory, IProductsByBrandData } from '../types/IProducts';
+import {
+  IProductsCategory,
+  IProductsByBrandData,
+  IProduct,
+} from '../types/IProducts';
 import { serverNavApi } from './serverNavApi';
 import axiosInstance from '../../http';
 
@@ -7,7 +11,7 @@ interface IProductsApi {
   getCategoryInfo:
     AsyncThunk<IProductsCategory, string, {rejectValue: string}>;
   getProductsByBrand:
-    AsyncThunk<IProductsCategory, IProductsByBrandData, {rejectValue: string}>;
+    AsyncThunk<IProduct[], IProductsByBrandData, {rejectValue: string}>;
   error: any;
 }
 const products = (): IProductsApi => {
@@ -23,15 +27,11 @@ const products = (): IProductsApi => {
     );
 
   const productsByBrand = () =>
-    createAsyncThunk<
-      IProductsCategory,
-      IProductsByBrandData,
-      {rejectValue: string}
-    >(
+    createAsyncThunk<IProduct[], IProductsByBrandData, {rejectValue: string}>(
       'products/getProductsByBrand',
       async (data, { rejectWithValue }) => {
         return await axiosInstance
-          .get<IProductsCategory>(
+          .get<IProduct[]>(
             serverNavApi.toGetProductsByBrand(data.category, data.brand)
           )
           .then((res) => res.data)

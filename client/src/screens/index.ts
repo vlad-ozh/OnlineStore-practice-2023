@@ -13,3 +13,4 @@ export { ForgotPassword } from './forgotPassword';
 export { AccountResetPassword } from './accountResetPassword';
 export { OpenCategory } from './openCategory';
 export { OpenProducts } from './openProducts';
+export { OpenProduct } from './openProduct';

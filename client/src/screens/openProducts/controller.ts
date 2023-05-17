@@ -3,31 +3,35 @@ import { navigationApi, productsApi } from '../../model/apis';
 
 export const controller = (dispatch: AppDispatch) => {
   const getParams = () =>
-    navigationApi.getPathParams(navigationApi.routes.openProductsCategory);
+    navigationApi.getPathParams(navigationApi.routes.openProducts);
 
   return {
-    getCategory: () => {
+    getProducts: () => {
       const category = getParams().category;
-      const validCategory = category !== undefined ? category : '';
+      const brand = getParams().brand;
 
-      dispatch(productsApi.getCategoryInfo(validCategory));
+      dispatch(productsApi.getProductsByBrand({
+        category: `${category}`, brand: `${brand}`,
+      }));
     },
     getBreadcrumbsPaths: () => {
       const categoryName = getParams().category;
+      const brand = getParams().brand;
 
       const breadcrumbsPaths = [
         {path: navigationApi.toHome(), name: {title: 'home'}},
         {path: navigationApi.toProductsCategories(), name: {title: 'products'}},
-        {path: '', name: {title: `${categoryName}`}},
+        {
+          path: navigationApi.toProductsCategory(`${categoryName}`),
+          name: {title: `${categoryName}`},
+        },
+        {path: '', name: {title: `${brand}`}},
       ];
 
       return breadcrumbsPaths;
     },
-    getProductsLink: (brand: string) => {
-      const category = getParams().category;
-      const validCategory = category !== undefined ? category : '';
-
-      return navigationApi.toProducts(validCategory, brand);
+    getProductLink: (category: string, brand: string, productId: string) => {
+      return navigationApi.toProduct(category, brand, productId);
     },
   };
 };

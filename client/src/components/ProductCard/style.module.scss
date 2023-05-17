@@ -1,0 +1,88 @@
+@use './../../assets/common/container';
+@use './../../assets/common/fonts';
+
+.card {
+  padding: 22px 15px;
+  background-color: var(--form-background-color);
+  border-radius: 6px;
+  box-shadow: var(--box-shadow);
+  text-align: center;
+  transition: all .3s;
+  font-family: fonts.$roboto;
+  
+  &:hover {
+    transform: scale(1.015);
+    box-shadow: var(--box-shadow-hover);
+  }
+
+  @media screen and (max-width: 500px) {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+  }
+
+  &Info {
+    @media screen and (max-width: 500px) {
+      padding-left: 15px;
+      width: 100%;
+    }
+  }
+
+  &Link {
+    text-decoration: none;
+    color: var(--text-color);
+  }
+
+  &Title {
+    margin-bottom: 5px;
+    font-size: 14px;
+    height: 36px;
+  }
+
+  &Image {
+    max-width: 210px;
+    width: 100%;
+    margin-bottom: 10px;
+
+    @media screen and (max-width: 500px) {
+      max-width: 130px;
+    }
+  }
+
+  &Main {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  &Select {
+    background-color: transparent;
+    border: none;
+    fill: var(--fill-color);
+    transition: all .3s;
+
+    &:hover {
+      fill: #e00027;
+    }
+  }
+
+  &Buy {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &Cart {
+    background-color: #e00027;
+    border: none;
+    border-radius: 3px;
+    fill: #fff;
+    transition: all .3s;
+
+    &:hover {
+      background-color: #f97988;
+    }
+  }
+}
+

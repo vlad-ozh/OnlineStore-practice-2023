@@ -4,6 +4,10 @@
   @extend %container;
 }
 
+.noCategory {
+  text-align: center;
+}
+
 .category {
   display: flex;
   justify-content: center;
@@ -12,7 +16,7 @@
   width: 100%;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--box-shadow);
   
   &Info {
     margin: 0;

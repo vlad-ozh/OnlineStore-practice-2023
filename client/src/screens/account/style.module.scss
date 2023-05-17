@@ -34,7 +34,7 @@
     width: 100%;
     background-color: var(--form-background-color);
     padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--box-shadow);
     border-radius: 12px;
 
     @media screen and (max-width: 600px) {

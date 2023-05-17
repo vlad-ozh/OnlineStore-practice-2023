@@ -1,5 +1,5 @@
 import {
-  IProducts,
+  IProduct,
   IProductsCategories,
   IProductsCategory,
 } from '../../types/IProducts';
@@ -7,7 +7,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { productsApi } from '../../apis';
 
 interface IProductsState {
-  products: IProducts;
+  products: IProduct[];
+  product: IProduct;
   categories: IProductsCategories;
   category: IProductsCategory | null;
   loading: boolean;
@@ -15,7 +16,8 @@ interface IProductsState {
 };
 
 const initialState: IProductsState = {
-  products: {} as IProducts,
+  products: [] as IProduct[],
+  product: {} as IProduct,
   categories: {
     smartphones: 'smartphones',
     tablets: 'tablets',
@@ -41,6 +43,15 @@ export const productsSlice = createSlice({
       })
       .addCase(productsApi.getCategoryInfo.fulfilled, (state, action) => {
         state.category = action.payload;
+        state.loading = false;
+      })
+      .addCase(productsApi.getProductsByBrand.pending, (state) => {
+        state.category = null;
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(productsApi.getProductsByBrand.fulfilled, (state, action) => {
+        state.products = action.payload;
         state.loading = false;
       })
       .addMatcher(productsApi.error, (

@@ -1,0 +1,1 @@
+export { OpenProduct } from './view';
