@@ -11,11 +11,20 @@ interface IProps {
   image: string;
   price: number;
   productLink: string;
+  addToSelected: () => void;
+  addToCart: () => void;
 };
 
 
 export const ProductCard: React.FC<IProps> = (props) => {
-  const { name, image, price, productLink } = props;
+  const {
+    name,
+    image,
+    price,
+    productLink,
+    addToSelected,
+    addToCart,
+  } = props;
 
   return (
     <div className={style.card}>
@@ -32,7 +41,7 @@ export const ProductCard: React.FC<IProps> = (props) => {
           <Button
             size='medium'
             skin='icon'
-            onClick={() => console.log('first')}
+            onClick={addToSelected}
             className={style.cardSelect}
           >
             <FavoriteIcon />
@@ -43,7 +52,7 @@ export const ProductCard: React.FC<IProps> = (props) => {
           <Button
             size='medium'
             skin='icon'
-            onClick={() => console.log('first')}
+            onClick={addToCart}
             className={style.cardCart}
           >
             <CartIcon />

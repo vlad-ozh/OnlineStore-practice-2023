@@ -44,6 +44,8 @@ const PureOpenProducts: React.FC<Props> = (props) => {
                   productLink={
                     productLink(product.category, product.brand, product.id)
                   }
+                  addToSelected={() => console.log('first')}
+                  addToCart={() => console.log('second')}
                 />
               </li>
             );

@@ -1,3 +1,4 @@
+import { productsActions } from '../../model/store/reducers/ProductsSlice';
 import { navigationApi } from './../../model/apis';
 import { AppDispatch } from './../../model/store/store';
 
@@ -10,12 +11,17 @@ export const controller = (dispatch: AppDispatch) => {
       return navigationApi.toProductsCategories();
     },
     onChangeSearch: (value: string) => {
+      dispatch(productsActions.changeSearch(value));
     },
     getAccountLink: () => {
       return navigationApi.toAccount();
     },
     getSearchProductsLink: (data: string) => {
-      return navigationApi.toSearchProducts(data);
+      if (data.length > 0) {
+        return navigationApi.toSearchProducts(data.trim());
+      } else{
+        return '';
+      }
     },
     getSelectedProductsLink: () => {
       return navigationApi.toSelectedProducts();

@@ -36,6 +36,7 @@ const PureHeader: React.FC<Props> = (props) => {
     onSelected,
     onChangeSearch,
     onCart,
+    searchData,
   } = props;
 
   const renderNavMobile = () => {
@@ -91,10 +92,10 @@ const PureHeader: React.FC<Props> = (props) => {
 
   const renderSearchForm = () => {
     return (
-      <form className={style.searchForm}>
+      <div className={style.searchForm}>
         <Input
           value={''}
-          type='search'
+          type='text'
           name='search'
           onBlur={(value) => onChangeSearch(value)}
           placeholder={t('search')}
@@ -102,12 +103,12 @@ const PureHeader: React.FC<Props> = (props) => {
           className={style.searchFormInput}
         />
         <Link
-          to={onSearch('iphone 12 pro')}
+          to={onSearch(searchData)}
           className={style.searchFormLink}
         >
           <SearchIcon />
         </Link>
-      </form>
+      </div>
     );
   };
 
@@ -170,6 +171,7 @@ const PureHeader: React.FC<Props> = (props) => {
 };
 
 const mapStateToProps = (state: RootState) => ({
+  searchData: state.productsApi.search,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {

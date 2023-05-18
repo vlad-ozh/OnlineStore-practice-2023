@@ -17,6 +17,7 @@ const serverNavigation = () => {
   const productsRoutes = {
     getCategoryInfo: '/products/:category/info',
     getProductsByBrand: '/products/:category/:brand',
+    getSearchProducts: '/products/:search',
   };
 
   const setRoute = (route: string, params = {}) => {
@@ -45,6 +46,11 @@ const serverNavigation = () => {
       return setRoute(productsRoutes.getProductsByBrand, {
         category,
         brand,
+      });
+    },
+    toGetSearchProducts: (search: string) => {
+      return setRoute(productsRoutes.getSearchProducts, {
+        search,
       });
     },
   };

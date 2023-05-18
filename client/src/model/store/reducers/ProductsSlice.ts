@@ -11,6 +11,7 @@ interface IProductsState {
   product: IProduct;
   categories: IProductsCategories;
   category: IProductsCategory | null;
+  search: string;
   loading: boolean;
   error: string | null;
 };
@@ -26,6 +27,7 @@ const initialState: IProductsState = {
     televisions: 'televisions',
   },
   category: null,
+  search: '',
   loading: false,
   error: null,
 };
@@ -33,7 +35,11 @@ const initialState: IProductsState = {
 export const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {},
+  reducers: {
+    changeSearch: (state, action: PayloadAction<string>) => {
+      state.search = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(productsApi.getCategoryInfo.pending, (state) => {
@@ -46,11 +52,20 @@ export const productsSlice = createSlice({
         state.loading = false;
       })
       .addCase(productsApi.getProductsByBrand.pending, (state) => {
-        state.category = null;
+        state.products = [] as IProduct[];
         state.loading = true;
         state.error = null;
       })
       .addCase(productsApi.getProductsByBrand.fulfilled, (state, action) => {
+        state.products = action.payload;
+        state.loading = false;
+      })
+      .addCase(productsApi.getSearchProducts.pending, (state) => {
+        state.products = [] as IProduct[];
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(productsApi.getSearchProducts.fulfilled, (state, action) => {
         state.products = action.payload;
         state.loading = false;
       })
@@ -64,5 +79,7 @@ export const productsSlice = createSlice({
       });
   },
 });
+
+export const productsActions = productsSlice.actions;
 
 export const productsReducer = productsSlice.reducer;
