@@ -52,7 +52,7 @@ const productsService = () => {
     }
 
     const products = await ProductModel.find(
-      settingsFindProducts,
+      settingsFindProducts
     ).populate({
       path: 'category',
       select: 'name',
@@ -64,9 +64,26 @@ const productsService = () => {
     return productsDto;
   };
 
+  const getSearchProducts = async (searchData) => {
+    const products = await ProductModel.find().populate({
+      path: 'category',
+      select: 'name',
+      model: 'Category',
+    });
+
+    const productsFound = products.filter(product =>
+      product.name.toLowerCase().includes(searchData.toLowerCase())
+    );
+
+    const productsDto = productsFound.map(product => ProductDto(product));
+
+    return productsDto;
+  };
+
   return {
     getCategoryInfo,
     getProductsByBrand,
+    getSearchProducts,
   };
 };
 

@@ -24,4 +24,16 @@ module.exports = {
       next(error);
     }
   },
+  getSearchProducts: async (req, res, next) => {
+    try {
+      const { search } = req.params;
+
+      const products =
+        await productsService.getSearchProducts(search);
+
+      return res.json(products);
+    } catch (error) {
+      next(error);
+    }
+  },
 };
