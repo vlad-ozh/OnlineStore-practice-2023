@@ -7,13 +7,14 @@ const tokenService = () => {
     const accessToken = jwt.sign(
       payload,
       process.env.JWT_ACCESS_SECRET,
-      {expiresIn: '15m'},
+      {expiresIn: '15m'}
     );
     const refreshToken = jwt.sign(
       payload,
       process.env.JWT_REFRESH_SECRET,
-      {expiresIn: '30d'},
+      {expiresIn: '30d'}
     );
+
     return {
       accessToken,
       refreshToken,
@@ -24,7 +25,7 @@ const tokenService = () => {
     const token = jwt.sign(
       payload,
       process.env.JWT_REFRESH_SECRET,
-      {expiresIn: '12h'},
+      {expiresIn: '12h'}
     );
 
     return token;

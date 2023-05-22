@@ -1,4 +1,4 @@
-const { CategoryModel, ProductModel } = require('../models');
+const { CategoryModel, ProductModel, UserModel } = require('../models');
 const ApiError = require('../exceptions/apiError');
 const { ProductDto } = require('../dtos');
 
@@ -80,10 +80,25 @@ const productsService = () => {
     return productsDto;
   };
 
+  const getSelectedProducts = async (userId) => {
+    const user = await UserModel.findOne({ id: userId });
+    const products = await ProductModel.find({
+      id: { $in: user.selectedProducts },
+    }).populate({
+      path: 'category',
+      select: 'name',
+      model: 'Category',
+    });
+    const productsDto = products.map(product => ProductDto(product));
+
+    return productsDto;
+  };
+
   return {
     getCategoryInfo,
     getProductsByBrand,
     getSearchProducts,
+    getSelectedProducts,
   };
 };
 

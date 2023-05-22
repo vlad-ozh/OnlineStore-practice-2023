@@ -3,14 +3,15 @@ const mailService = require('./mailService')();
 const tokenService = require('./tokenService');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
-const UserDto = require('../dtos/UserDto');
+const { UserDto, TokenDto } = require('../dtos');
 const ApiError = require('../exceptions/apiError');
 
 const userService = () => {
   const userAndTokens = async (user) => {
     const userDto = UserDto(user);
-    const tokens = tokenService.generateTokens({...userDto});
-    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+    const tokenDto = TokenDto(user);
+    const tokens = tokenService.generateTokens({...tokenDto});
+    await tokenService.saveToken(tokenDto.id, tokens.refreshToken);
 
     return {
       ...tokens,
@@ -19,16 +20,18 @@ const userService = () => {
   };
 
   const register = async (email, name, password) => {
-    const candidate = await UserModel.findOne({email});
+    const candidate = await UserModel.findOne({ email });
 
     if (candidate) {
       throw ApiError.BadRequest('candidateExists');
     }
 
+    const id = uuid.v4();
     const hashPassword = await bcrypt.hash(password, 3);
     const activationLink = uuid.v4();
 
     const user = await UserModel.create({
+      id,
       email,
       name,
       password: hashPassword,
@@ -38,14 +41,14 @@ const userService = () => {
     await mailService.sendActivationMail(
       email,
       `${process.env.API_URL}/user/activate/${activationLink}`,
-      name,
+      name
     );
 
     return userAndTokens(user);
   };
 
   const login = async (email, password) => {
-    const user = await UserModel.findOne({email});
+    const user = await UserModel.findOne({ email });
 
     if (!user) {
       throw ApiError.BadRequest('noUserFound');
@@ -66,7 +69,7 @@ const userService = () => {
   };
 
   const forgotPassword = async (email) => {
-    const user = await UserModel.findOne({email});
+    const user = await UserModel.findOne({ email });
 
     if (!user) {
       throw ApiError.BadRequest('noUserFound');
@@ -76,21 +79,21 @@ const userService = () => {
       throw ApiError.BadRequest('accountNotActivated');
     }
 
-    const userDto = UserDto(user);
-    const token = tokenService.generateToken({...userDto});
-    await tokenService.saveToken(userDto.id, token);
+    const tokenDto = TokenDto(user);
+    const token = tokenService.generateToken({...tokenDto});
+    await tokenService.saveToken(tokenDto.id, token);
 
     await mailService.sendResetPasswordMail(
       email,
       `${process.env.CLIENT_URL}/account/reset/password/${token}`,
-      user.name,
+      user.name
     );
 
     return token;
   };
 
   const activate = async (activationLink) => {
-    const user = await UserModel.findOne({activationLink});
+    const user = await UserModel.findOne({ activationLink });
 
     if (!user) {
       throw ApiError.BadRequest('activationLinkInvalid');
@@ -116,6 +119,7 @@ const userService = () => {
 
     return userAndTokens(user);
   };
+
   const checkToken = async (token) => {
     const userData = tokenService.validateRefreshtoken(token);
     const tokenFromDb = await tokenService.findToken(token);
@@ -141,6 +145,29 @@ const userService = () => {
     return userAndTokens(user);
   };
 
+  const addProductToSelected = async (userId, productId) => {
+    const user = await UserModel.findOne({ id: userId });
+    const isProductSelect = user.selectedProducts.find(product =>
+      product === productId
+    );
+
+    if (isProductSelect) {
+      user.selectedProducts = user.selectedProducts.filter(prod =>
+        prod !== productId
+      );
+
+      await user.save();
+
+      return UserDto(user);
+    }
+
+    user.selectedProducts.push(productId);
+
+    await user.save();
+
+    return UserDto(user);
+  };
+
 
   return {
     register,
@@ -151,6 +178,7 @@ const userService = () => {
     activate,
     refresh,
     checkToken,
+    addProductToSelected,
   };
 };
 

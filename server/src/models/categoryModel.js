@@ -9,5 +9,5 @@ const CategorySchema = new Schema({
 module.exports = model(
   'Category',
   CategorySchema,
-  collections.categories,
+  collections.categories
 );

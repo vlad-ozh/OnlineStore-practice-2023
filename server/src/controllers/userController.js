@@ -12,7 +12,7 @@ const addCookieRefreshToken = (res, refreshToken) => {
       secure: true,
       sameSite: 'none',
       path: '/',
-    },
+    }
   );
 };
 
@@ -42,7 +42,7 @@ module.exports = {
 
       if (!errors.isEmpty()) {
         return next(
-          ApiError.BadRequest('validationLoginError', errors.array()),
+          ApiError.BadRequest('validationLoginError', errors.array())
         );
       }
 
@@ -74,7 +74,7 @@ module.exports = {
 
       if (!errors.isEmpty()) {
         return next(
-          ApiError.BadRequest('validationResetError', errors.array()),
+          ApiError.BadRequest('validationResetError', errors.array())
         );
       }
 
@@ -125,7 +125,7 @@ module.exports = {
 
       if (!errors.isEmpty()) {
         return next(
-          ApiError.BadRequest('passwordInvalid', errors.array()),
+          ApiError.BadRequest('passwordInvalid', errors.array())
         );
       }
 
@@ -136,6 +136,18 @@ module.exports = {
         await userService.resetPassword(password, isToken, token);
 
       addCookieRefreshToken(res, userData.refreshToken);
+
+      return res.json(userData);
+    } catch (error) {
+      next(error);
+    }
+  },
+  addProductToSelected: async (req, res, next) => {
+    try {
+      const { userId, productId } = req.body;
+
+      const userData =
+        await userService.addProductToSelected(userId, productId);
 
       return res.json(userData);
     } catch (error) {

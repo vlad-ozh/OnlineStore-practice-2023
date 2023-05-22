@@ -36,4 +36,16 @@ module.exports = {
       next(error);
     }
   },
+  getSelectedProducts: async (req, res, next) => {
+    try {
+      const { userId } = req.params;
+
+      const products =
+        await productsService.getSelectedProducts(userId);
+
+      return res.json(products);
+    } catch (error) {
+      next(error);
+    }
+  },
 };
