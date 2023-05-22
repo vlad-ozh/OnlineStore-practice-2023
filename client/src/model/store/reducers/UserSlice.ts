@@ -19,7 +19,8 @@ const initialState: IUserState = {
   loading: false,
   error: null,
 };
-
+// в кожному товарі в функцію кидати айді та перевіряти чи є воно в масиві
+// вибраних товарів, повертати булеан
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -97,6 +98,14 @@ export const userSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         localStorage.setItem('token', action.payload.accessToken);
+      })
+      .addCase(userApi.addProductToSelected.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userApi.addProductToSelected.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
       })
       .addMatcher(userApi.error, (
         state, action: PayloadAction<any>

@@ -30,8 +30,5 @@ export const controller = (dispatch: AppDispatch) => {
 
       return breadcrumbsPaths;
     },
-    getProductLink: (category: string, brand: string, productId: string) => {
-      return navigationApi.toProduct(category, brand, productId);
-    },
   };
 };

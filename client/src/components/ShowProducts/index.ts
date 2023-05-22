@@ -1,0 +1,1 @@
+export { ShowProducts } from './view';

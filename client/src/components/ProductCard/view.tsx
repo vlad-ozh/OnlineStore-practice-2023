@@ -5,16 +5,17 @@ import { Button } from '../Button';
 import { FavoriteIcon } from '../../assets/images/svg-images';
 import { CartIcon } from '../../assets/images/svg-images';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 interface IProps {
   name: string;
   image: string;
   price: number;
   productLink: string;
-  addToSelected: () => void;
-  addToCart: () => void;
+  onSelect: () => void;
+  onCart: () => void;
+  isSelect?: boolean;
 };
-
 
 export const ProductCard: React.FC<IProps> = (props) => {
   const {
@@ -22,14 +23,17 @@ export const ProductCard: React.FC<IProps> = (props) => {
     image,
     price,
     productLink,
-    addToSelected,
-    addToCart,
+    onSelect,
+    onCart,
+    isSelect,
   } = props;
 
   return (
     <div className={style.card}>
       <Link to={productLink} className={style.cardLink}>
-        <img className={style.cardImage} src={image} alt='ProductImage'/>
+        <div className={style.cardImageContainer}>
+          <img className={style.cardImage} src={image} alt={name}/>
+        </div>
       </Link>
       <div className={style.cardInfo}>
         <h4 className={style.cardTitle}>
@@ -41,8 +45,10 @@ export const ProductCard: React.FC<IProps> = (props) => {
           <Button
             size='medium'
             skin='icon'
-            onClick={addToSelected}
-            className={style.cardSelect}
+            onClick={onSelect}
+            className={classNames(style.cardSelect, {
+              [style.cardOnSelect]: isSelect,
+            })}
           >
             <FavoriteIcon />
           </Button>
@@ -52,7 +58,7 @@ export const ProductCard: React.FC<IProps> = (props) => {
           <Button
             size='medium'
             skin='icon'
-            onClick={addToCart}
+            onClick={onCart}
             className={style.cardCart}
           >
             <CartIcon />

@@ -12,12 +12,14 @@ const serverNavigation = () => {
     forgotPassword: '/user/forgot/password',
     checkToken: '/user/check/token/:token',
     resetPassword: '/user/reset/password/:token',
+    addProductToSelected: '/user/add/product-to-selected',
   };
 
   const productsRoutes = {
     getCategoryInfo: '/products/:category/info',
     getProductsByBrand: '/products/:category/:brand',
     getSearchProducts: '/products/:search',
+    getSelectedProducts: '/products/selected/user/:userId',
   };
 
   const setRoute = (route: string, params = {}) => {
@@ -51,6 +53,11 @@ const serverNavigation = () => {
     toGetSearchProducts: (search: string) => {
       return setRoute(productsRoutes.getSearchProducts, {
         search,
+      });
+    },
+    toGetSelectedProducts: (userId: string) => {
+      return setRoute(productsRoutes.getSelectedProducts, {
+        userId,
       });
     },
   };

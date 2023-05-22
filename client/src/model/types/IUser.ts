@@ -19,6 +19,8 @@ export interface IUser {
   id: string;
   isActivated: boolean;
   isAuth: boolean;
+  selectedProducts: string[];
+  // cart: IProduct[];
 };
 export interface IUserResponse {
   accessToken: string;
@@ -37,4 +39,8 @@ export interface IUserResetPasswordData {
   password: string;
   confirmPassword: string;
   isToken: boolean;
+}
+export interface IUserAddToSelected {
+  userId: string;
+  productId: string;
 }

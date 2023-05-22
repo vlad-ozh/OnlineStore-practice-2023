@@ -37,6 +37,8 @@ const PureHeader: React.FC<Props> = (props) => {
     onChangeSearch,
     onCart,
     searchData,
+    selectedProducts,
+    totalSelectedProducts,
   } = props;
 
   const renderNavMobile = () => {
@@ -73,6 +75,11 @@ const PureHeader: React.FC<Props> = (props) => {
             {t('products')}
           </Link>
           <Link to={onSelected} className={style.asideHeaderSelected}>
+            <span className={classNames(style.amountSelected, {
+              [style.noSelected]: !totalSelectedProducts(selectedProducts),
+            })}>
+              {totalSelectedProducts(selectedProducts)}
+            </span>
             <FavoriteIcon />
             {t('selected')}
           </Link>
@@ -156,6 +163,11 @@ const PureHeader: React.FC<Props> = (props) => {
           </li>
           <li className={style.navListItem}>
             <Link to={onSelected} className={style.navListItemLink}>
+              <span className={classNames(style.amountSelected, {
+                [style.noSelected]: !totalSelectedProducts(selectedProducts),
+              })}>
+                {totalSelectedProducts(selectedProducts)}
+              </span>
               <FavoriteIcon />
             </Link>
           </li>
@@ -172,6 +184,7 @@ const PureHeader: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state: RootState) => ({
   searchData: state.productsApi.search,
+  selectedProducts: state.userApi.user.selectedProducts,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
@@ -185,6 +198,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     onSearch: ctrl.getSearchProductsLink,
     onSelected: ctrl.getSelectedProductsLink(),
     onCart: ctrl.getAccountCartLink(),
+    totalSelectedProducts: ctrl.getTotalSelectedProducts,
   };
 };
 

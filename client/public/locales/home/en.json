@@ -3,9 +3,5 @@
 	"tablets": "Tablets",
 	"laptops": "Laptops",
 	"headphones": "Headphones",
-	"televisions": "Televisions",
-	"brands": "Brands",
-	"all": "All",
-	"noProducts": "Products no  found",
-	"noCategory": "Category not found"
+	"televisions": "Televisions"
 }

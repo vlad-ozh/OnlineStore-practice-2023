@@ -9,3 +9,4 @@ export { SwitchButtonLanguage } from './SwitchLanguageButton';
 export { Loader } from './Loader';
 export { Breadcrumbs } from './Breadcrumbs';
 export { ProductCard } from './ProductCard';
+export { ShowProducts } from './ShowProducts';

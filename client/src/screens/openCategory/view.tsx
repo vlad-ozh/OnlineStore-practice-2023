@@ -9,7 +9,7 @@ import { controller } from './controller';
 import style from './style.module.scss';
 
 const PureOpenCategory: React.FC<Props> = (props) => {
-  const { t } = useTranslation(['home']);
+  const { t } = useTranslation(['products']);
 
   const {
     category,

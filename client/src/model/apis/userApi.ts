@@ -2,11 +2,13 @@ import axiosInstance from '../../http';
 import { serverNavApi } from './serverNavApi';
 import { createAsyncThunk, AnyAction, AsyncThunk } from '@reduxjs/toolkit';
 import {
+  IUser,
   IUserRegister,
   IUserLogin,
   IUserResponse,
   IUserForgotPassword,
   IUserResetPassword,
+  IUserAddToSelected,
 } from '../types/IUser';
 import axios from 'axios';
 
@@ -20,6 +22,8 @@ interface IUserApi {
   checkToken: AsyncThunk<{isToken: boolean}, string, {rejectValue: string}>;
   resetPassword:
     AsyncThunk<IUserResponse, IUserResetPassword, {rejectValue: string}>;
+  addProductToSelected:
+    AsyncThunk<IUser, IUserAddToSelected, {rejectValue: string}>;
   error: any;
 }
 const user = (): IUserApi => {
@@ -105,6 +109,16 @@ const user = (): IUserApi => {
           .catch((err) => rejectWithValue(err));
       }
     );
+  const addProductToSelected = () =>
+    createAsyncThunk<IUser, IUserAddToSelected, {rejectValue: string}>(
+      'user/add/product-to-selected',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .put<IUser>(serverNavApi.userRoutes.addProductToSelected, data)
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
 
   const isError = (action: AnyAction) => {
     return action.type.endsWith('rejected');
@@ -118,6 +132,7 @@ const user = (): IUserApi => {
     forgotPassword: forgotPassword(),
     checkToken: checkToken(),
     resetPassword: resetPassword(),
+    addProductToSelected: addProductToSelected(),
     error: isError,
   };
 };

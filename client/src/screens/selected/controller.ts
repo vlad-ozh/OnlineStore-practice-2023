@@ -1,9 +1,12 @@
 import { AppDispatch } from '../../model/store/store';
-import { navigationApi } from '../../model/apis';
+import { navigationApi, productsApi } from '../../model/apis';
 
 export const controller = (dispatch: AppDispatch) => {
 
   return {
+    getProducts: (userId: string) => {
+      dispatch(productsApi.getSelectedProducts(userId));
+    },
     getBreadcrumbsPaths: () => {
       const breadcrumbsPaths = [
         {path: navigationApi.toHome(), name: {title: 'home'}},

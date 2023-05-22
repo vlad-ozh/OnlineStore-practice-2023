@@ -13,6 +13,7 @@ interface IProductsApi {
   getProductsByBrand:
     AsyncThunk<IProduct[], IProductsByBrandData, {rejectValue: string}>;
   getSearchProducts: AsyncThunk<IProduct[], string, {rejectValue: string}>;
+  getSelectedProducts: AsyncThunk<IProduct[], string, {rejectValue: string}>;
   error: any;
 }
 const products = (): IProductsApi => {
@@ -53,6 +54,19 @@ const products = (): IProductsApi => {
       }
     );
 
+  const selectedProducts = () =>
+    createAsyncThunk<IProduct[], string, {rejectValue: string}>(
+      'products/getSelectedProducts',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .get<IProduct[]>(
+            serverNavApi.toGetSelectedProducts(data)
+          )
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+
   const isError = (action: AnyAction) => {
     return action.type.endsWith('rejected');
   };
@@ -61,6 +75,7 @@ const products = (): IProductsApi => {
     getCategoryInfo: categoryInfo(),
     getProductsByBrand: productsByBrand(),
     getSearchProducts: searchProducts(),
+    getSelectedProducts: selectedProducts(),
     error: isError,
   };
 };

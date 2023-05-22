@@ -29,5 +29,10 @@ export const controller = (dispatch: AppDispatch) => {
     getAccountCartLink: () => {
       return navigationApi.toAccountCart();
     },
+    getTotalSelectedProducts: (products: string[]) => {
+      if (products !== undefined) {
+        return products.length;
+      }
+    },
   };
 };

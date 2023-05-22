@@ -1,18 +1,28 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { Header, Layout, Footer, Breadcrumbs } from '../../components';
+import {
+  Header,
+  Layout,
+  Footer,
+  Breadcrumbs,
+  ShowProducts,
+} from '../../components';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { controller } from './controller';
 
 import style from './style.module.scss';
-
 const PureSelected: React.FC<Props> = (props) => {
   const {
     user,
     getBreadcrumbsPaths,
     getLoginLink,
+    getProducts,
   } = props;
+
+  React.useEffect(() => {
+    getProducts(user.id);
+  }, [getProducts, user]);
 
   return (
     <Layout
@@ -22,7 +32,7 @@ const PureSelected: React.FC<Props> = (props) => {
     >
       <div className={style.screen}>
         {!user.isAuth && <Navigate to={getLoginLink} replace={true} />}
-        Selected products
+        <ShowProducts />
       </div>
     </Layout>
   );
@@ -38,6 +48,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
     getLoginLink: ctrl.getAccountLoginLink(),
+    getProducts: ctrl.getProducts,
   };
 };
 

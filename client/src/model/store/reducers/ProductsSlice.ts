@@ -69,6 +69,15 @@ export const productsSlice = createSlice({
         state.products = action.payload;
         state.loading = false;
       })
+      .addCase(productsApi.getSelectedProducts.pending, (state) => {
+        state.products = [] as IProduct[];
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(productsApi.getSelectedProducts.fulfilled, (state, action) => {
+        state.products = action.payload;
+        state.loading = false;
+      })
       .addMatcher(productsApi.error, (
         state, action: PayloadAction<any>
       ) => {

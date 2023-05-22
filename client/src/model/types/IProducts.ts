@@ -74,9 +74,6 @@ export interface IProduct {
   // amount: number;
   characteristics: ICharacteristics;
 }
-export interface IProducts {
-  products: IProduct[];
-};
 
 export interface IProductsCategory {
   name: string;
