@@ -5,6 +5,7 @@ const UserDto = (model) => ({
   isActivated: model.isActivated,
   isAuth: true,
   selectedProducts: model.selectedProducts,
+  cart: model.cart,
 });
 
 module.exports = UserDto;

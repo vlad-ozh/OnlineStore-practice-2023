@@ -154,4 +154,40 @@ module.exports = {
       next(error);
     }
   },
+  removeProductFromSelected: async (req, res, next) => {
+    try {
+      const { userId, productId } = req.body;
+
+      const userData =
+        await userService.removeProductFromSelected(userId, productId);
+
+      return res.json(userData);
+    } catch (error) {
+      next(error);
+    }
+  },
+  addProductToCart: async (req, res, next) => {
+    try {
+      const { userId, productId } = req.body;
+
+      const userData =
+        await userService.addProductToCart(userId, productId);
+
+      return res.json(userData);
+    } catch (error) {
+      next(error);
+    }
+  },
+  removeProductFromCart: async (req, res, next) => {
+    try {
+      const { userId, productId } = req.body;
+
+      const userData =
+        await userService.removeProductFromCart(userId, productId);
+
+      return res.json(userData);
+    } catch (error) {
+      next(error);
+    }
+  },
 };

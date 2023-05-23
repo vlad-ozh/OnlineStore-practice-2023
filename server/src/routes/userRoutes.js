@@ -30,5 +30,11 @@ router.post(
   userController.resetPassword
 );
 router.put('/add/product-to-selected', userController.addProductToSelected);
+router.put(
+  '/remove/product-from-selected',
+  userController.removeProductFromSelected
+);
+router.put('/add/product-to-cart', userController.addProductToCart);
+router.put('/remove/product-from-cart', userController.removeProductFromCart);
 
 module.exports = router;

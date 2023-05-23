@@ -48,4 +48,16 @@ module.exports = {
       next(error);
     }
   },
+  getProductsInCart: async (req, res, next) => {
+    try {
+      const { userId } = req.params;
+
+      const products =
+        await productsService.getProductsInCart(userId);
+
+      return res.json(products);
+    } catch (error) {
+      next(error);
+    }
+  },
 };

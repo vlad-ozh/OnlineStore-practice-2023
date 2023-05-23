@@ -7,6 +7,7 @@ const UserSchema = new Schema({
   name: {type: String, required: true},
   password: {type: String, required: true},
   selectedProducts: {type: [String], default: []},
+  cart: {type: [String], default: []},
   isActivated: {type: Boolean, default: false},
   activationLink: {type: String},
 });

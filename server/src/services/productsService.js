@@ -82,8 +82,32 @@ const productsService = () => {
 
   const getSelectedProducts = async (userId) => {
     const user = await UserModel.findOne({ id: userId });
+
+    if (!user) {
+      throw ApiError.NotFound();
+    }
+
     const products = await ProductModel.find({
       id: { $in: user.selectedProducts },
+    }).populate({
+      path: 'category',
+      select: 'name',
+      model: 'Category',
+    });
+    const productsDto = products.map(product => ProductDto(product));
+
+    return productsDto;
+  };
+
+  const getProductsInCart = async (userId) => {
+    const user = await UserModel.findOne({ id: userId });
+
+    if (!user) {
+      throw ApiError.NotFound();
+    }
+
+    const products = await ProductModel.find({
+      id: { $in: user.cart },
     }).populate({
       path: 'category',
       select: 'name',
@@ -99,6 +123,7 @@ const productsService = () => {
     getProductsByBrand,
     getSearchProducts,
     getSelectedProducts,
+    getProductsInCart,
   };
 };
 

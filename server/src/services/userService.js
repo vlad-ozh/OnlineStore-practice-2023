@@ -147,21 +147,42 @@ const userService = () => {
 
   const addProductToSelected = async (userId, productId) => {
     const user = await UserModel.findOne({ id: userId });
-    const isProductSelect = user.selectedProducts.find(product =>
-      product === productId
+
+    user.selectedProducts = user.selectedProducts.concat(productId);
+
+    await user.save();
+
+    return UserDto(user);
+  };
+
+  const removeProductFromSelected = async (userId, productId) => {
+    const user = await UserModel.findOne({ id: userId });
+
+    user.selectedProducts = user.selectedProducts.filter(product =>
+      product !== productId
     );
 
-    if (isProductSelect) {
-      user.selectedProducts = user.selectedProducts.filter(prod =>
-        prod !== productId
-      );
+    await user.save();
 
-      await user.save();
+    return UserDto(user);
+  };
 
-      return UserDto(user);
-    }
+  const addProductToCart = async (userId, productId) => {
+    const user = await UserModel.findOne({ id: userId });
 
-    user.selectedProducts.push(productId);
+    user.cart = user.cart.concat(productId);
+
+    await user.save();
+
+    return UserDto(user);
+  };
+
+  const removeProductFromCart = async (userId, productId) => {
+    const user = await UserModel.findOne({ id: userId });
+
+    user.cart = user.cart.filter(product =>
+      product !== productId
+    );
 
     await user.save();
 
@@ -179,6 +200,9 @@ const userService = () => {
     refresh,
     checkToken,
     addProductToSelected,
+    removeProductFromSelected,
+    addProductToCart,
+    removeProductFromCart,
   };
 };
 
