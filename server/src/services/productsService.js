@@ -106,8 +106,10 @@ const productsService = () => {
       throw ApiError.NotFound();
     }
 
+    const productIds = user.cart.map(product => product.id);
+
     const products = await ProductModel.find({
-      id: { $in: user.cart },
+      id: { $in: productIds },
     }).populate({
       path: 'category',
       select: 'name',

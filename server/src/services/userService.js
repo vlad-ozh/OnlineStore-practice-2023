@@ -170,7 +170,7 @@ const userService = () => {
   const addProductToCart = async (userId, productId) => {
     const user = await UserModel.findOne({ id: userId });
 
-    user.cart = user.cart.concat(productId);
+    user.cart = user.cart.concat({ id: productId, amount: 1});
 
     await user.save();
 
@@ -181,8 +181,36 @@ const userService = () => {
     const user = await UserModel.findOne({ id: userId });
 
     user.cart = user.cart.filter(product =>
-      product !== productId
+      product.id !== productId
     );
+
+    await user.save();
+
+    return UserDto(user);
+  };
+
+  const changeAmountProductBuy = async (userId, productId, amount) => {
+    const user = await UserModel.findOne({ id: userId });
+    let correctAmount = amount;
+
+    if (amount < 1) {
+      correctAmount = 1;
+    } else if (amount > 200) {
+      correctAmount = 200;
+    }
+
+    const newCart = user.cart.map(product => {
+      if (product.id === productId) {
+        return {
+          ...product,
+          amount: correctAmount,
+        };
+      }
+
+      return product;
+    });
+
+    user.cart = newCart;
 
     await user.save();
 
@@ -203,6 +231,7 @@ const userService = () => {
     removeProductFromSelected,
     addProductToCart,
     removeProductFromCart,
+    changeAmountProductBuy,
   };
 };
 

@@ -36,5 +36,6 @@ router.put(
 );
 router.put('/add/product-to-cart', userController.addProductToCart);
 router.put('/remove/product-from-cart', userController.removeProductFromCart);
+router.put('/change/amount-product-buy', userController.changeAmountProductBuy);
 
 module.exports = router;

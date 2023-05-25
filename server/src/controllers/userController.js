@@ -190,4 +190,16 @@ module.exports = {
       next(error);
     }
   },
+  changeAmountProductBuy: async (req, res, next) => {
+    try {
+      const { userId, productId, amount } = req.body;
+
+      const userData =
+        await userService.changeAmountProductBuy(userId, productId, amount);
+
+      return res.json(userData);
+    } catch (error) {
+      next(error);
+    }
+  },
 };
