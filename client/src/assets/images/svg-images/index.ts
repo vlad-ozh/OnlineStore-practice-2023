@@ -15,3 +15,5 @@ export { ReactComponent as LaptopIcon } from './laptop.svg';
 export { ReactComponent as HeadphonesIcon } from './headphones.svg';
 export { ReactComponent as SmartphoneIcon } from './smartphone.svg';
 export { ReactComponent as TabletIcon } from './tablet.svg';
+export { ReactComponent as DoneIcon } from './done.svg';
+export { ReactComponent as RemoveIcon } from './remove.svg';

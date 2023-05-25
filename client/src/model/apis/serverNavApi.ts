@@ -4,7 +4,6 @@ const serverNavigation = () => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
 
   const userRoutes = {
-    getAllUsers: '/user/allUsers',
     register: '/user/register',
     login: '/user/login',
     logout: '/user/logout',
@@ -13,6 +12,10 @@ const serverNavigation = () => {
     checkToken: '/user/check/token/:token',
     resetPassword: '/user/reset/password/:token',
     addProductToSelected: '/user/add/product-to-selected',
+    removeProductFromSelected: '/user/remove/product-from-selected',
+    addProductToCart: '/user/add/product-to-cart',
+    removeProductFromCart: '/user/remove/product-from-cart',
+    changeAmountProductBuy: '/user/change/amount-product-buy',
   };
 
   const productsRoutes = {
@@ -20,6 +23,7 @@ const serverNavigation = () => {
     getProductsByBrand: '/products/:category/:brand',
     getSearchProducts: '/products/:search',
     getSelectedProducts: '/products/selected/user/:userId',
+    getProductsInCart: '/products/cart/user/:userId',
   };
 
   const setRoute = (route: string, params = {}) => {
@@ -57,6 +61,11 @@ const serverNavigation = () => {
     },
     toGetSelectedProducts: (userId: string) => {
       return setRoute(productsRoutes.getSelectedProducts, {
+        userId,
+      });
+    },
+    toGetProductsInCart: (userId: string) => {
+      return setRoute(productsRoutes.getProductsInCart, {
         userId,
       });
     },

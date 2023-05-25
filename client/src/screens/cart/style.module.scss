@@ -1,5 +1,159 @@
 @use './../../assets/common/container';
+@use './../../assets/common/fonts';
 
 .screen{
   @extend %container;
+}
+
+.products {
+  &List {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 15px;
+    list-style: none;
+  }
+
+  &Order {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 6px;
+    box-shadow: var(--box-shadow-hover);
+    background-color: var(--form-background-color);
+    font-family: fonts.$roboto;
+    margin-top: 40px;
+    transition: all .3s;
+    height: 60px;
+  }
+
+  &TotalPrice {
+    display: flex;
+  }
+  
+  &Text {
+    margin-right: 15px;
+
+    @media screen and (max-width: 600px) {
+      font-size: 16px;
+    }
+  }
+  
+  &Price {
+    @media screen and (max-width: 600px) {
+      font-size: 16px;
+    }
+  }
+
+  &OrderLink {
+    text-decoration: none;
+    color: #fff;
+    background-color: #e00027;
+    border-radius: 6px;
+    padding: 10px 25px;
+    transition: all .3s;
+
+    @media screen and (max-width: 600px) {
+      font-size: 14px;
+    }
+
+    &:hover {
+      background-color: #f97988;
+    }
+  }
+}
+
+.noProducts {
+  text-align: center;
+}
+
+.product {
+  display: flex;
+  align-items: center;
+  padding: 15px 35px 15px 15px;
+  background-color: var(--form-background-color);
+  border-radius: 6px;
+  box-shadow: var(--box-shadow);
+  font-family: fonts.$roboto;
+  transition: all .3s;
+  min-height: 140px;
+
+  @media screen and (max-width: 550px) {
+    padding: 15px 13px 15px 8px;
+  }
+  
+  &:hover {
+    transform: scale(1.015);
+    box-shadow: var(--box-shadow-hover);
+  }
+
+  &RemoveButton {
+    background-color: transparent;
+    border: none;
+    fill: var(--fill-color);
+    transition: all .3s;
+    margin-right: 15px;
+    width: 100%;
+    
+    @media screen and (max-width: 500px) {
+      margin-right: 6px;
+    }
+
+    &:hover {
+      fill: #e00027;
+    }
+  }
+
+  &ImageContainer {
+    max-height: 220px;
+    height: 100%;
+  }
+  
+  &Image {
+    display: flex;
+    max-width: 130px;
+    min-width: 90px;
+    width: 100%;
+  }
+
+  &Info {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 18px;
+    width: 100%;
+
+    @media screen and (max-width: 700px) {
+      display: block;
+      text-align: center;
+    }
+  }
+
+  &Link {
+    text-decoration: none;
+    color: var(--text-color);
+  }
+
+  &Title {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-right: 20px;
+    
+    @media screen and (max-width: 700px) {
+      justify-content: center;
+      margin-right: 0;
+    }
+  }
+
+  &Price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 250px;
+    width: 100%;
+
+    @media screen and (max-width: 700px) {
+      margin-top: 25px;
+      max-width: 100%;
+    }
+  }
 }

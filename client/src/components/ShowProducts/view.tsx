@@ -16,8 +16,13 @@ const PureShowProducts: React.FC<Props> = (props) => {
     loading,
     productLink,
     onSelect,
+    onRemoveSelected,
     user,
     isSelect,
+    onCart,
+    linkToCart,
+    isCart,
+    loginLink,
   } = props;
 
   const renderProducts = () => {
@@ -25,18 +30,30 @@ const PureShowProducts: React.FC<Props> = (props) => {
       <div className={style.products}>
         <ul className={style.productsList}>
           {products.map((product) => {
+            const {
+              id,
+              brand,
+              category,
+              image,
+              name,
+              price,
+            } = product;
+
             return (
-              <li key={product.id}>
+              <li key={id}>
                 <ProductCard
-                  name={product.name}
-                  image={product.image[0]}
-                  price={product.price}
-                  productLink={
-                    productLink(product.category, product.brand, product.id)
-                  }
-                  onSelect={() => onSelect(user.id, product.id)}
-                  onCart={() => console.log('second')}
-                  isSelect={isSelect(product.id, user.selectedProducts)}
+                  name={name}
+                  image={image[0]}
+                  price={price.toLocaleString()}
+                  productLink={productLink(category, brand, id)}
+                  onSelect={() => onSelect(user.id, id)}
+                  onRemoveSelected={() => onRemoveSelected(user.id, id)}
+                  isSelect={isSelect(id, user.selectedProducts)}
+                  onCart={() => onCart(user.id, id)}
+                  linkToCart={linkToCart}
+                  isCart={isCart(id, user.cart)}
+                  loginLink={loginLink}
+                  isUser={user.isAuth}
                 />
               </li>
             );
@@ -76,8 +93,13 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
 
   return {
     onSelect: ctrl.onSelect,
-    productLink: ctrl.getProductLink,
+    onRemoveSelected: ctrl.onRemoveSelected,
     isSelect: ctrl.isSelect,
+    onCart: ctrl.onCart,
+    linkToCart: ctrl.getLinkToCart(),
+    isCart: ctrl.isCart,
+    productLink: ctrl.getProductLink,
+    loginLink: ctrl.getLoginLink(),
   };
 };
 

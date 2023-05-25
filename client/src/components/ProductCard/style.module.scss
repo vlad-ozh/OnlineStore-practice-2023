@@ -79,6 +79,21 @@
     }
   }
 
+  &SelectLink {
+    display: flex;
+    padding: 8px;
+    fill: var(--fill-color);
+    transition: all .3s;
+
+    &:hover {
+      fill: #e00027;
+    }
+  }
+
+  &NoSelect {
+    display: none;
+  }
+
   &OnSelect {
     fill: #e00027;
   }
@@ -99,6 +114,23 @@
     &:hover {
       background-color: #f97988;
     }
+  }
+
+  &CartLink {
+    display: flex;
+    padding: 8px;
+    background-color: #e00027;
+    border-radius: 3px;
+    fill: #fff;
+    transition: all .3s;
+
+    &:hover {
+      background-color: #f97988;
+    }
+  }
+
+  &NoCart {
+    display: none;
   }
 }
 

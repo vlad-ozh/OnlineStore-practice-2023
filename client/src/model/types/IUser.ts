@@ -13,6 +13,10 @@ export interface IUserLogin {
   email: string;
   password: string;
 };
+export interface IUserCart {
+  id: string;
+  amount: number;
+};
 export interface IUser {
   email: string;
   name: string;
@@ -20,7 +24,7 @@ export interface IUser {
   isActivated: boolean;
   isAuth: boolean;
   selectedProducts: string[];
-  // cart: IProduct[];
+  cart: IUserCart[];
 };
 export interface IUserResponse {
   accessToken: string;
@@ -40,7 +44,12 @@ export interface IUserResetPasswordData {
   confirmPassword: string;
   isToken: boolean;
 }
-export interface IUserAddToSelected {
+export interface IUserCartSelectedOperations  {
   userId: string;
   productId: string;
+}
+export interface IChangeAmountProductBuy  {
+  userId: string;
+  productId: string;
+  amount: number;
 }

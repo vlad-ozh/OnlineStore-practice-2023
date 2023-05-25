@@ -7,5 +7,8 @@
 	"brands": "Brands",
 	"all": "All",
 	"noProducts": "Products no  found",
-	"noCategory": "Category not found"
+	"noCategory": "Category not found",
+	"order": "To order",
+	"totalPrice": "Total:",
+	"emptyCart": "The cart is empty"
 }

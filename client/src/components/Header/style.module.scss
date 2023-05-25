@@ -282,7 +282,7 @@
   }
 }
 
-.amountSelected {
+.counter {
   display: flex;
   justify-content: center;
   position: absolute;
@@ -300,6 +300,11 @@
   }
 }
 
-.noSelected {
+.noCount {
   display: none;
+}
+
+.cartCounter {
+  right: -4px;
+  top: -6px;
 }

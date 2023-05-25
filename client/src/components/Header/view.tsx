@@ -37,8 +37,10 @@ const PureHeader: React.FC<Props> = (props) => {
     onChangeSearch,
     onCart,
     searchData,
+    cart,
     selectedProducts,
     totalSelectedProducts,
+    totalProductsInCart,
   } = props;
 
   const renderNavMobile = () => {
@@ -75,8 +77,8 @@ const PureHeader: React.FC<Props> = (props) => {
             {t('products')}
           </Link>
           <Link to={onSelected} className={style.asideHeaderSelected}>
-            <span className={classNames(style.amountSelected, {
-              [style.noSelected]: !totalSelectedProducts(selectedProducts),
+            <span className={classNames(style.counter, {
+              [style.noCount]: !totalSelectedProducts(selectedProducts),
             })}>
               {totalSelectedProducts(selectedProducts)}
             </span>
@@ -94,28 +96,6 @@ const PureHeader: React.FC<Props> = (props) => {
           )}
         />
       </>
-    );
-  };
-
-  const renderSearchForm = () => {
-    return (
-      <div className={style.searchForm}>
-        <Input
-          value={''}
-          type='text'
-          name='search'
-          onBlur={(value) => onChangeSearch(value)}
-          placeholder={t('search')}
-          required={false}
-          className={style.searchFormInput}
-        />
-        <Link
-          to={onSearch(searchData)}
-          className={style.searchFormLink}
-        >
-          <SearchIcon />
-        </Link>
-      </div>
     );
   };
 
@@ -147,7 +127,23 @@ const PureHeader: React.FC<Props> = (props) => {
           {t('products')}
         </Link>
 
-        {renderSearchForm()}
+        <div className={style.searchForm}>
+          <Input
+            value={''}
+            type='text'
+            name='search'
+            onBlur={(value) => onChangeSearch(value)}
+            placeholder={t('search')}
+            required={false}
+            className={style.searchFormInput}
+          />
+          <Link
+            to={onSearch(searchData)}
+            className={style.searchFormLink}
+          >
+            <SearchIcon />
+          </Link>
+        </div>
 
         <ul className={style.navList}>
           <li className={style.navListItem}>
@@ -163,8 +159,8 @@ const PureHeader: React.FC<Props> = (props) => {
           </li>
           <li className={style.navListItem}>
             <Link to={onSelected} className={style.navListItemLink}>
-              <span className={classNames(style.amountSelected, {
-                [style.noSelected]: !totalSelectedProducts(selectedProducts),
+              <span className={classNames(style.counter, {
+                [style.noCount]: !totalSelectedProducts(selectedProducts),
               })}>
                 {totalSelectedProducts(selectedProducts)}
               </span>
@@ -173,6 +169,11 @@ const PureHeader: React.FC<Props> = (props) => {
           </li>
           <li className={style.navListItem}>
             <Link to={onCart} className={style.navListItemLink}>
+              <span className={classNames(style.counter, style.cartCounter, {
+                [style.noCount]: !totalProductsInCart(cart),
+              })}>
+                {totalProductsInCart(cart)}
+              </span>
               <CartIcon />
             </Link>
           </li>
@@ -185,6 +186,7 @@ const PureHeader: React.FC<Props> = (props) => {
 const mapStateToProps = (state: RootState) => ({
   searchData: state.productsApi.search,
   selectedProducts: state.userApi.user.selectedProducts,
+  cart: state.userApi.user.cart,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
@@ -199,6 +201,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     onSelected: ctrl.getSelectedProductsLink(),
     onCart: ctrl.getAccountCartLink(),
     totalSelectedProducts: ctrl.getTotalSelectedProducts,
+    totalProductsInCart: ctrl.getTotalProductsInCart,
   };
 };
 

@@ -14,6 +14,7 @@ interface IProductsApi {
     AsyncThunk<IProduct[], IProductsByBrandData, {rejectValue: string}>;
   getSearchProducts: AsyncThunk<IProduct[], string, {rejectValue: string}>;
   getSelectedProducts: AsyncThunk<IProduct[], string, {rejectValue: string}>;
+  getProductsInCart: AsyncThunk<IProduct[], string, {rejectValue: string}>;
   error: any;
 }
 const products = (): IProductsApi => {
@@ -44,10 +45,10 @@ const products = (): IProductsApi => {
   const searchProducts = () =>
     createAsyncThunk<IProduct[], string, {rejectValue: string}>(
       'products/getSearchProducts',
-      async (data, { rejectWithValue }) => {
+      async (userId, { rejectWithValue }) => {
         return await axiosInstance
           .get<IProduct[]>(
-            serverNavApi.toGetSearchProducts(data)
+            serverNavApi.toGetSearchProducts(userId)
           )
           .then((res) => res.data)
           .catch((err) => rejectWithValue(err));
@@ -57,10 +58,23 @@ const products = (): IProductsApi => {
   const selectedProducts = () =>
     createAsyncThunk<IProduct[], string, {rejectValue: string}>(
       'products/getSelectedProducts',
-      async (data, { rejectWithValue }) => {
+      async (userId, { rejectWithValue }) => {
         return await axiosInstance
           .get<IProduct[]>(
-            serverNavApi.toGetSelectedProducts(data)
+            serverNavApi.toGetSelectedProducts(userId)
+          )
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+
+  const productsInCart = () =>
+    createAsyncThunk<IProduct[], string, {rejectValue: string}>(
+      'products/getProductsInCart',
+      async (userId, { rejectWithValue }) => {
+        return await axiosInstance
+          .get<IProduct[]>(
+            serverNavApi.toGetProductsInCart(userId)
           )
           .then((res) => res.data)
           .catch((err) => rejectWithValue(err));
@@ -76,6 +90,7 @@ const products = (): IProductsApi => {
     getProductsByBrand: productsByBrand(),
     getSearchProducts: searchProducts(),
     getSelectedProducts: selectedProducts(),
+    getProductsInCart: productsInCart(),
     error: isError,
   };
 };

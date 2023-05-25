@@ -4,6 +4,7 @@ export { Footer } from './Footer';
 export { Layout } from './Layout';
 export { Button } from './Button';
 export { Input } from './Input';
+export { InputCounter } from './InputCounter';
 export { SwitchButtonTheme } from './SwitchThemeButton';
 export { SwitchButtonLanguage } from './SwitchLanguageButton';
 export { Loader } from './Loader';

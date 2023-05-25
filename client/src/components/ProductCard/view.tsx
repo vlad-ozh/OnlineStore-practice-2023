@@ -1,20 +1,28 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from '../Button';
+import {
+  FavoriteIcon,
+  CartIcon,
+  DoneIcon,
+} from '../../assets/images/svg-images';
+import classNames from 'classnames';
 
 import style from './style.module.scss';
-import { Button } from '../Button';
-import { FavoriteIcon } from '../../assets/images/svg-images';
-import { CartIcon } from '../../assets/images/svg-images';
-import { Link } from 'react-router-dom';
-import classNames from 'classnames';
 
 interface IProps {
   name: string;
   image: string;
-  price: number;
+  price: string;
   productLink: string;
   onSelect: () => void;
+  onRemoveSelected: () => void;
+  isSelect: boolean;
   onCart: () => void;
-  isSelect?: boolean;
+  linkToCart: string;
+  isCart: boolean;
+  loginLink: string;
+  isUser: boolean;
 };
 
 export const ProductCard: React.FC<IProps> = (props) => {
@@ -24,8 +32,13 @@ export const ProductCard: React.FC<IProps> = (props) => {
     price,
     productLink,
     onSelect,
-    onCart,
+    onRemoveSelected,
     isSelect,
+    onCart,
+    linkToCart,
+    isCart,
+    loginLink,
+    isUser,
   } = props;
 
   return (
@@ -47,11 +60,30 @@ export const ProductCard: React.FC<IProps> = (props) => {
             skin='icon'
             onClick={onSelect}
             className={classNames(style.cardSelect, {
+              [style.cardNoSelect]: isSelect || !isUser,
+            })}
+          >
+            <FavoriteIcon />
+          </Button>
+          <Button
+            size='medium'
+            skin='icon'
+            onClick={onRemoveSelected}
+            className={classNames(style.cardSelect, {
+              [style.cardNoSelect]: !isSelect,
               [style.cardOnSelect]: isSelect,
             })}
           >
             <FavoriteIcon />
           </Button>
+          <Link
+            to={loginLink}
+            className={classNames(style.cardSelectLink, {
+              [style.cardNoSelect]: isUser,
+            })}
+          >
+            <FavoriteIcon />
+          </Link>
         </div>
         <div className={style.cardBuy}>
           <h4>{price} ₴</h4>
@@ -59,10 +91,28 @@ export const ProductCard: React.FC<IProps> = (props) => {
             size='medium'
             skin='icon'
             onClick={onCart}
-            className={style.cardCart}
+            className={classNames(style.cardCart, {
+              [style.cardNoCart]: isCart || !isUser,
+            })}
           >
             <CartIcon />
           </Button>
+          <Link
+            to={linkToCart}
+            className={classNames(style.cardCartLink, {
+              [style.cardNoCart]: !isCart,
+            })}
+          >
+            <DoneIcon />
+          </Link>
+          <Link
+            to={loginLink}
+            className={classNames(style.cardCartLink, {
+              [style.cardNoCart]: isUser,
+            })}
+          >
+            <CartIcon />
+          </Link>
         </div>
       </div>
     </div>

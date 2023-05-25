@@ -51,6 +51,7 @@ export const productsSlice = createSlice({
         state.category = action.payload;
         state.loading = false;
       })
+
       .addCase(productsApi.getProductsByBrand.pending, (state) => {
         state.products = [] as IProduct[];
         state.loading = true;
@@ -60,6 +61,7 @@ export const productsSlice = createSlice({
         state.products = action.payload;
         state.loading = false;
       })
+
       .addCase(productsApi.getSearchProducts.pending, (state) => {
         state.products = [] as IProduct[];
         state.loading = true;
@@ -69,6 +71,7 @@ export const productsSlice = createSlice({
         state.products = action.payload;
         state.loading = false;
       })
+
       .addCase(productsApi.getSelectedProducts.pending, (state) => {
         state.products = [] as IProduct[];
         state.loading = true;
@@ -78,6 +81,17 @@ export const productsSlice = createSlice({
         state.products = action.payload;
         state.loading = false;
       })
+
+      .addCase(productsApi.getProductsInCart.pending, (state) => {
+        state.products = [] as IProduct[];
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(productsApi.getProductsInCart.fulfilled, (state, action) => {
+        state.products = action.payload;
+        state.loading = false;
+      })
+
       .addMatcher(productsApi.error, (
         state, action: PayloadAction<any>
       ) => {

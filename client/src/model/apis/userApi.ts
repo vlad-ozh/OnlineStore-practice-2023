@@ -8,7 +8,8 @@ import {
   IUserResponse,
   IUserForgotPassword,
   IUserResetPassword,
-  IUserAddToSelected,
+  IUserCartSelectedOperations,
+  IChangeAmountProductBuy,
 } from '../types/IUser';
 import axios from 'axios';
 
@@ -23,7 +24,15 @@ interface IUserApi {
   resetPassword:
     AsyncThunk<IUserResponse, IUserResetPassword, {rejectValue: string}>;
   addProductToSelected:
-    AsyncThunk<IUser, IUserAddToSelected, {rejectValue: string}>;
+    AsyncThunk<IUser, IUserCartSelectedOperations, {rejectValue: string}>;
+  removeProductFromSelected:
+    AsyncThunk<IUser, IUserCartSelectedOperations, {rejectValue: string}>;
+  addProductToCart:
+    AsyncThunk<IUser, IUserCartSelectedOperations, {rejectValue: string}>;
+  removeProductFromCart:
+    AsyncThunk<IUser, IUserCartSelectedOperations, {rejectValue: string}>;
+  changeAmountProductBuy:
+    AsyncThunk<IUser, IChangeAmountProductBuy, {rejectValue: string}>;
   error: any;
 }
 const user = (): IUserApi => {
@@ -110,11 +119,51 @@ const user = (): IUserApi => {
       }
     );
   const addProductToSelected = () =>
-    createAsyncThunk<IUser, IUserAddToSelected, {rejectValue: string}>(
+    createAsyncThunk<IUser, IUserCartSelectedOperations, {rejectValue: string}>(
       'user/add/product-to-selected',
       async (data, { rejectWithValue }) => {
         return await axiosInstance
           .put<IUser>(serverNavApi.userRoutes.addProductToSelected, data)
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+  const removeProductFromSelected = () =>
+    createAsyncThunk<IUser, IUserCartSelectedOperations, {rejectValue: string}>(
+      'user/remove/product-from-selected',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .put<IUser>(serverNavApi.userRoutes.removeProductFromSelected, data)
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+  const addProductToCart = () =>
+    createAsyncThunk<IUser, IUserCartSelectedOperations, {rejectValue: string}>(
+      'user/add/product-to-cart',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .put<IUser>(serverNavApi.userRoutes.addProductToCart, data)
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+  const removeProductFromCart = () =>
+    createAsyncThunk<IUser, IUserCartSelectedOperations, {rejectValue: string}>(
+      'user/remove/product-from-cart',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .put<IUser>(serverNavApi.userRoutes.removeProductFromCart, data)
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+  const changeAmountProductBuy = () =>
+    createAsyncThunk<IUser, IChangeAmountProductBuy, {rejectValue: string}>(
+      'user/change/amount-product-buy',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .put<IUser>(serverNavApi.userRoutes.changeAmountProductBuy, data)
           .then((res) => res.data)
           .catch((err) => rejectWithValue(err));
       }
@@ -133,6 +182,10 @@ const user = (): IUserApi => {
     checkToken: checkToken(),
     resetPassword: resetPassword(),
     addProductToSelected: addProductToSelected(),
+    removeProductFromSelected: removeProductFromSelected(),
+    addProductToCart: addProductToCart(),
+    removeProductFromCart: removeProductFromCart(),
+    changeAmountProductBuy: changeAmountProductBuy(),
     error: isError,
   };
 };

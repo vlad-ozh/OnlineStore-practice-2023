@@ -1,4 +1,5 @@
 import { productsActions } from '../../model/store/reducers/ProductsSlice';
+import { IUserCart } from '../../model/types/IUser';
 import { navigationApi } from './../../model/apis';
 import { AppDispatch } from './../../model/store/store';
 
@@ -30,6 +31,11 @@ export const controller = (dispatch: AppDispatch) => {
       return navigationApi.toAccountCart();
     },
     getTotalSelectedProducts: (products: string[]) => {
+      if (products !== undefined) {
+        return products.length;
+      }
+    },
+    getTotalProductsInCart: (products: IUserCart[]) => {
       if (products !== undefined) {
         return products.length;
       }

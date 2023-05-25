@@ -43,6 +43,7 @@ export const userSlice = createSlice({
         state.loading = false;
         localStorage.setItem('token', action.payload.accessToken);
       })
+
       .addCase(userApi.login.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -52,6 +53,7 @@ export const userSlice = createSlice({
         state.loading = false;
         localStorage.setItem('token', action.payload.accessToken);
       })
+
       .addCase(userApi.logout.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -61,6 +63,7 @@ export const userSlice = createSlice({
         state.loading = false;
         localStorage.removeItem('token');
       })
+
       .addCase(userApi.refresh.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -74,6 +77,7 @@ export const userSlice = createSlice({
         state.loading = false;
         localStorage.removeItem('token');
       })
+
       .addCase(userApi.forgotPassword.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -82,6 +86,7 @@ export const userSlice = createSlice({
         state.loading = false;
         state.isResetPasswordEmailSent = true;
       })
+
       .addCase(userApi.checkToken.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -90,6 +95,7 @@ export const userSlice = createSlice({
         state.loading = false;
         state.isToken = action.payload.isToken;
       })
+
       .addCase(userApi.resetPassword.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -99,6 +105,7 @@ export const userSlice = createSlice({
         state.user = action.payload.user;
         localStorage.setItem('token', action.payload.accessToken);
       })
+
       .addCase(userApi.addProductToSelected.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -107,6 +114,43 @@ export const userSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
       })
+
+      .addCase(userApi.removeProductFromSelected.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userApi.removeProductFromSelected.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+
+      .addCase(userApi.addProductToCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userApi.addProductToCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+
+      .addCase(userApi.removeProductFromCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userApi.removeProductFromCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+
+      .addCase(userApi.changeAmountProductBuy.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userApi.changeAmountProductBuy.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+
       .addMatcher(userApi.error, (
         state, action: PayloadAction<any>
       ) => {
