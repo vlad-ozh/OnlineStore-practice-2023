@@ -60,4 +60,28 @@ module.exports = {
       next(error);
     }
   },
+  getProduct: async (req, res, next) => {
+    try {
+      const { productId } = req.params;
+
+      const product =
+        await productsService.getProduct(productId);
+
+      return res.json(product);
+    } catch (error) {
+      next(error);
+    }
+  },
+  createReview: async (req, res, next) => {
+    try {
+      const { userId, productId, rating, text } = req.body;
+
+      const product =
+        await productsService.createReview(userId, productId, rating, text);
+
+      return res.json(product);
+    } catch (error) {
+      next(error);
+    }
+  },
 };

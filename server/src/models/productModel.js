@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 const collections = require('./collections');
 
 const ProductSchema = new Schema({
-  id: { type: String, required: true },
+  id: { type: String, unique: true, required: true },
   name: { type: String, required: true },
   brand: { type: String, required: true },
   category: { type: Schema.Types.ObjectId, ref: collections.categories },
@@ -10,6 +10,19 @@ const ProductSchema = new Schema({
   description: { type: String, required: true },
   image: { type: [String], required: true },
   salesCount: { type: Number, required: true },
+  amount: { type: Number, required: true },
+  reviews: {
+    type: [{
+      id: {type: String, unique: true, required: true},
+      userId: {type: String, required: true},
+      userName: {type: String, required: true},
+      rating: {type: Number, required: true},
+      text: {type: String, required: true},
+      date: {type: String, required: true},
+    }],
+    required: true,
+    default: [],
+  },
   characteristics: {
     connection: {
       numOfSimCards: { type: String },

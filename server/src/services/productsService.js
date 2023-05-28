@@ -1,6 +1,7 @@
 const { CategoryModel, ProductModel, UserModel } = require('../models');
 const ApiError = require('../exceptions/apiError');
 const { ProductDto } = require('../dtos');
+const uuid = require('uuid');
 
 const productsService = () => {
   const getCategoryInfo = async (categoryName) => {
@@ -115,9 +116,76 @@ const productsService = () => {
       select: 'name',
       model: 'Category',
     });
-    const productsDto = products.map(product => ProductDto(product));
+
+    const productsAvailable = products.filter(product => product.amount > 0);
+
+    if (productsAvailable.length !== user.cart.length) {
+      const productsAvailableIds = productsAvailable.map(product => product.id);
+
+      user.cart = user.cart.filter(product =>
+        productsAvailableIds.includes(product.id)
+      );
+
+      await user.save();
+    }
+
+    const productsDto = productsAvailable.map(product => ProductDto(product));
 
     return productsDto;
+  };
+
+  const getProduct = async (productId) => {
+    const product = await ProductModel.findOne({
+      id: productId,
+    }).populate({
+      path: 'category',
+      select: 'name',
+      model: 'Category',
+    });
+
+    if (!product) {
+      throw ApiError.NotFound();
+    }
+
+    const productDto = ProductDto(product);
+
+    return productDto;
+  };
+
+  const createReview = async (userId, productId, rating, text) => {
+    const product = await ProductModel.findOne({
+      id: productId,
+    });
+
+    if (!product) {
+      throw ApiError.NotFound();
+    }
+
+    const user = await UserModel.findOne({ id: userId });
+
+    const getDate = () => {
+      const date = new Date();
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+
+      return `${day}.${month}.${year}`;
+    };
+
+    product.reviews.unshift({
+      id: uuid.v4(),
+      userName: user.name,
+      userId: user.id,
+      rating,
+      text,
+      date: getDate(),
+    });
+
+    await product.save();
+
+    const productDto = ProductDto(product);
+
+    return productDto;
   };
 
   return {
@@ -126,6 +194,8 @@ const productsService = () => {
     getSearchProducts,
     getSelectedProducts,
     getProductsInCart,
+    getProduct,
+    createReview,
   };
 };
 
