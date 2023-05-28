@@ -1,5 +1,6 @@
 import { navigationApi, userApi } from '../../model/apis';
 import { AppDispatch } from '../../model/store/store';
+import { IReview } from '../../model/types/IProducts';
 import { IUserCart } from '../../model/types/IUser';
 
 export const controller = (dispatch: AppDispatch) => {
@@ -45,6 +46,16 @@ export const controller = (dispatch: AppDispatch) => {
     },
     getLoginLink: () => {
       return navigationApi.toAccountLogin();
+    },
+    getRating: (reviews: IReview[]) => {
+      let sum = 0;
+
+      reviews.forEach(review => sum += review.rating);
+
+      const rating = sum !== 0 ?
+        Math.round((sum / reviews.length) * 10) / 10 : 0;
+
+      return rating;
     },
   };
 };

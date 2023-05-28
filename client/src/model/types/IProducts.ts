@@ -60,6 +60,14 @@ interface ICharacteristics {
   battery?: IBattery;
   dimensions?: IDimensions;
 };
+export interface IReview {
+  id: string ,
+  userId: string,
+  userName: string,
+  rating: number,
+  text: string,
+  date: string,
+};
 
 export interface IProduct {
   id: string;
@@ -70,8 +78,8 @@ export interface IProduct {
   description: string;
   image: string[];
   salesCount: number;
-  // comments: string[];
-  // amount: number;
+  reviews: IReview[];
+  amount: number;
   characteristics: ICharacteristics;
 }
 
@@ -89,4 +97,10 @@ export interface IProductsCategories {
   laptops: string;
   headphones: string;
   televisions: string;
+};
+export interface ICreateReview {
+  userId: string;
+  productId: string;
+  rating: number;
+  text: string;
 };

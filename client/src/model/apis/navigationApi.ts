@@ -14,11 +14,10 @@ const navigation = () => {
     products: '/products',
     openProductsCategory: '/products/:category',
     openProducts: '/products/:category/:brand',
-    openProduct: '/products/:category/:brand/:product',
+    openProduct: '/products/:category/:brand/:productId',
     searchProducts: '/products/search/:data',
     selected: '/products/selected',
     checkout: '/checkout',
-    openCheckoutProduct: '/checkout/:product',
     checkoutConfirmation: '/checkout/confirmation',
   };
 
@@ -80,7 +79,7 @@ const navigation = () => {
       return setRoute(routes.openProduct, {
         category,
         brand,
-        product: productId,
+        productId,
       });
     },
     getPathParams: (route: string) => {

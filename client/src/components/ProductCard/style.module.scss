@@ -63,7 +63,7 @@
 
   &Main {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
   }
@@ -88,10 +88,6 @@
     &:hover {
       fill: #e00027;
     }
-  }
-
-  &NoSelect {
-    display: none;
   }
 
   &OnSelect {
@@ -129,7 +125,11 @@
     }
   }
 
-  &NoCart {
+  &CartNoActive {
+    background-color: #5c5c5c;
+  }
+
+  &NoShow {
     display: none;
   }
 }

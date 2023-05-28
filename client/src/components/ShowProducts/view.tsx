@@ -23,6 +23,7 @@ const PureShowProducts: React.FC<Props> = (props) => {
     linkToCart,
     isCart,
     loginLink,
+    totalRating,
   } = props;
 
   const renderProducts = () => {
@@ -37,6 +38,8 @@ const PureShowProducts: React.FC<Props> = (props) => {
               image,
               name,
               price,
+              reviews,
+              amount,
             } = product;
 
             return (
@@ -54,6 +57,8 @@ const PureShowProducts: React.FC<Props> = (props) => {
                   isCart={isCart(id, user.cart)}
                   loginLink={loginLink}
                   isUser={user.isAuth}
+                  amount={Boolean(amount)}
+                  rating={totalRating(reviews)}
                 />
               </li>
             );
@@ -100,6 +105,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     isCart: ctrl.isCart,
     productLink: ctrl.getProductLink,
     loginLink: ctrl.getLoginLink(),
+    totalRating: ctrl.getRating,
   };
 };
 

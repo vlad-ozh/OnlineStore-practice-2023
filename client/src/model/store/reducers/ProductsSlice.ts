@@ -43,6 +43,7 @@ export const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(productsApi.getCategoryInfo.pending, (state) => {
+        state.product = {} as IProduct;
         state.category = null;
         state.loading = true;
         state.error = null;
@@ -54,6 +55,7 @@ export const productsSlice = createSlice({
 
       .addCase(productsApi.getProductsByBrand.pending, (state) => {
         state.products = [] as IProduct[];
+        state.product = {} as IProduct;
         state.loading = true;
         state.error = null;
       })
@@ -64,6 +66,7 @@ export const productsSlice = createSlice({
 
       .addCase(productsApi.getSearchProducts.pending, (state) => {
         state.products = [] as IProduct[];
+        state.product = {} as IProduct;
         state.loading = true;
         state.error = null;
       })
@@ -74,6 +77,7 @@ export const productsSlice = createSlice({
 
       .addCase(productsApi.getSelectedProducts.pending, (state) => {
         state.products = [] as IProduct[];
+        state.product = {} as IProduct;
         state.loading = true;
         state.error = null;
       })
@@ -84,11 +88,32 @@ export const productsSlice = createSlice({
 
       .addCase(productsApi.getProductsInCart.pending, (state) => {
         state.products = [] as IProduct[];
+        state.product = {} as IProduct;
         state.loading = true;
         state.error = null;
       })
       .addCase(productsApi.getProductsInCart.fulfilled, (state, action) => {
         state.products = action.payload;
+        state.loading = false;
+      })
+
+      .addCase(productsApi.getProduct.pending, (state) => {
+        state.product = {} as IProduct;
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(productsApi.getProduct.fulfilled, (state, action) => {
+        state.product = action.payload;
+        state.loading = false;
+      })
+
+      .addCase(productsApi.createReview.pending, (state) => {
+        state.product = {} as IProduct;
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(productsApi.createReview.fulfilled, (state, action) => {
+        state.product = action.payload;
         state.loading = false;
       })
 

@@ -19,11 +19,13 @@ const serverNavigation = () => {
   };
 
   const productsRoutes = {
-    getCategoryInfo: '/products/:category/info',
-    getProductsByBrand: '/products/:category/:brand',
+    getCategoryInfo: '/products/categories/:category/info',
+    getProductsByBrand: '/products/categories/:category/:brand',
     getSearchProducts: '/products/:search',
     getSelectedProducts: '/products/selected/user/:userId',
     getProductsInCart: '/products/cart/user/:userId',
+    getProduct: '/products/product/:productId',
+    createReview: '/products/create-review',
   };
 
   const setRoute = (route: string, params = {}) => {
@@ -67,6 +69,11 @@ const serverNavigation = () => {
     toGetProductsInCart: (userId: string) => {
       return setRoute(productsRoutes.getProductsInCart, {
         userId,
+      });
+    },
+    toGetProduct: (productId: string) => {
+      return setRoute(productsRoutes.getProduct, {
+        productId,
       });
     },
   };

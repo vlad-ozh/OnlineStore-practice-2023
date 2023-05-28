@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../Button';
+import { useTranslation } from 'react-i18next';
 import {
   FavoriteIcon,
   CartIcon,
@@ -23,9 +24,12 @@ interface IProps {
   isCart: boolean;
   loginLink: string;
   isUser: boolean;
+  amount: boolean;
+  rating: number;
 };
 
 export const ProductCard: React.FC<IProps> = (props) => {
+  const { t } = useTranslation(['products']);
   const {
     name,
     image,
@@ -39,6 +43,8 @@ export const ProductCard: React.FC<IProps> = (props) => {
     isCart,
     loginLink,
     isUser,
+    amount,
+    rating,
   } = props;
 
   return (
@@ -55,12 +61,13 @@ export const ProductCard: React.FC<IProps> = (props) => {
           </Link>
         </h4>
         <div className={style.cardMain}>
+          {t('rating')}: {rating}
           <Button
             size='medium'
             skin='icon'
             onClick={onSelect}
             className={classNames(style.cardSelect, {
-              [style.cardNoSelect]: isSelect || !isUser,
+              [style.cardNoShow]: isSelect || !isUser,
             })}
           >
             <FavoriteIcon />
@@ -70,7 +77,7 @@ export const ProductCard: React.FC<IProps> = (props) => {
             skin='icon'
             onClick={onRemoveSelected}
             className={classNames(style.cardSelect, {
-              [style.cardNoSelect]: !isSelect,
+              [style.cardNoShow]: !isSelect,
               [style.cardOnSelect]: isSelect,
             })}
           >
@@ -79,7 +86,7 @@ export const ProductCard: React.FC<IProps> = (props) => {
           <Link
             to={loginLink}
             className={classNames(style.cardSelectLink, {
-              [style.cardNoSelect]: isUser,
+              [style.cardNoShow]: isUser,
             })}
           >
             <FavoriteIcon />
@@ -91,8 +98,10 @@ export const ProductCard: React.FC<IProps> = (props) => {
             size='medium'
             skin='icon'
             onClick={onCart}
+            disabled={!amount}
             className={classNames(style.cardCart, {
-              [style.cardNoCart]: isCart || !isUser,
+              [style.cardNoShow]: isCart || !isUser,
+              [style.cardCartNoActive]: !amount,
             })}
           >
             <CartIcon />
@@ -100,7 +109,7 @@ export const ProductCard: React.FC<IProps> = (props) => {
           <Link
             to={linkToCart}
             className={classNames(style.cardCartLink, {
-              [style.cardNoCart]: !isCart,
+              [style.cardNoShow]: !isCart,
             })}
           >
             <DoneIcon />
@@ -108,7 +117,7 @@ export const ProductCard: React.FC<IProps> = (props) => {
           <Link
             to={loginLink}
             className={classNames(style.cardCartLink, {
-              [style.cardNoCart]: isUser,
+              [style.cardNoShow]: isUser,
             })}
           >
             <CartIcon />

@@ -3,6 +3,7 @@ import {
   IProductsCategory,
   IProductsByBrandData,
   IProduct,
+  ICreateReview,
 } from '../types/IProducts';
 import { serverNavApi } from './serverNavApi';
 import axiosInstance from '../../http';
@@ -15,6 +16,8 @@ interface IProductsApi {
   getSearchProducts: AsyncThunk<IProduct[], string, {rejectValue: string}>;
   getSelectedProducts: AsyncThunk<IProduct[], string, {rejectValue: string}>;
   getProductsInCart: AsyncThunk<IProduct[], string, {rejectValue: string}>;
+  getProduct: AsyncThunk<IProduct, string, {rejectValue: string}>;
+  createReview: AsyncThunk<IProduct, ICreateReview, {rejectValue: string}>;
   error: any;
 }
 const products = (): IProductsApi => {
@@ -81,6 +84,32 @@ const products = (): IProductsApi => {
       }
     );
 
+  const product = () =>
+    createAsyncThunk<IProduct, string, {rejectValue: string}>(
+      'products/getProduct',
+      async (productId, { rejectWithValue }) => {
+        return await axiosInstance
+          .get<IProduct>(
+            serverNavApi.toGetProduct(productId)
+          )
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+
+  const createReview = () =>
+    createAsyncThunk<IProduct, ICreateReview, {rejectValue: string}>(
+      'products/create-review',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .put<IProduct>(
+            serverNavApi.productsRoutes.createReview, data
+          )
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+
   const isError = (action: AnyAction) => {
     return action.type.endsWith('rejected');
   };
@@ -91,6 +120,8 @@ const products = (): IProductsApi => {
     getSearchProducts: searchProducts(),
     getSelectedProducts: selectedProducts(),
     getProductsInCart: productsInCart(),
+    getProduct: product(),
+    createReview: createReview(),
     error: isError,
   };
 };
