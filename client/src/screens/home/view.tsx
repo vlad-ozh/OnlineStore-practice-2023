@@ -92,7 +92,7 @@ const PureHome: React.FC<Props> = (props) => {
 };
 
 const mapState = (state: RootState) => ({
-  categories: state.productsApi.categories,
+  categories: state.productsApi.categoriesNames,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {

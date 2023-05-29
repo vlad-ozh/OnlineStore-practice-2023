@@ -9,7 +9,8 @@ import { productsApi } from '../../apis';
 interface IProductsState {
   products: IProduct[];
   product: IProduct;
-  categories: IProductsCategories;
+  categoriesNames: IProductsCategories;
+  categories: IProductsCategory[];
   category: IProductsCategory | null;
   search: string;
   loading: boolean;
@@ -19,13 +20,14 @@ interface IProductsState {
 const initialState: IProductsState = {
   products: [] as IProduct[],
   product: {} as IProduct,
-  categories: {
+  categoriesNames: {
     smartphones: 'smartphones',
     tablets: 'tablets',
     laptops: 'laptops',
     headphones: 'headphones',
     televisions: 'televisions',
   },
+  categories: [] as IProductsCategory[],
   category: null,
   search: '',
   loading: false,
@@ -43,7 +45,6 @@ export const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(productsApi.getCategoryInfo.pending, (state) => {
-        state.product = {} as IProduct;
         state.category = null;
         state.loading = true;
         state.error = null;
@@ -53,9 +54,19 @@ export const productsSlice = createSlice({
         state.loading = false;
       })
 
+      .addCase(productsApi.getCategories.pending, (state) => {
+        state.categories = [] as IProductsCategory[];
+        state.category = null;
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(productsApi.getCategories.fulfilled, (state, action) => {
+        state.categories = action.payload;
+        state.loading = false;
+      })
+
       .addCase(productsApi.getProductsByBrand.pending, (state) => {
         state.products = [] as IProduct[];
-        state.product = {} as IProduct;
         state.loading = true;
         state.error = null;
       })
@@ -66,7 +77,6 @@ export const productsSlice = createSlice({
 
       .addCase(productsApi.getSearchProducts.pending, (state) => {
         state.products = [] as IProduct[];
-        state.product = {} as IProduct;
         state.loading = true;
         state.error = null;
       })
@@ -77,7 +87,6 @@ export const productsSlice = createSlice({
 
       .addCase(productsApi.getSelectedProducts.pending, (state) => {
         state.products = [] as IProduct[];
-        state.product = {} as IProduct;
         state.loading = true;
         state.error = null;
       })
@@ -88,7 +97,6 @@ export const productsSlice = createSlice({
 
       .addCase(productsApi.getProductsInCart.pending, (state) => {
         state.products = [] as IProduct[];
-        state.product = {} as IProduct;
         state.loading = true;
         state.error = null;
       })

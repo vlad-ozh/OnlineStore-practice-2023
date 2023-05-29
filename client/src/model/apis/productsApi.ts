@@ -11,6 +11,8 @@ import axiosInstance from '../../http';
 interface IProductsApi {
   getCategoryInfo:
     AsyncThunk<IProductsCategory, string, {rejectValue: string}>;
+  getCategories:
+    AsyncThunk<IProductsCategory[], undefined, {rejectValue: string}>;
   getProductsByBrand:
     AsyncThunk<IProduct[], IProductsByBrandData, {rejectValue: string}>;
   getSearchProducts: AsyncThunk<IProduct[], string, {rejectValue: string}>;
@@ -27,6 +29,17 @@ const products = (): IProductsApi => {
       async (category, { rejectWithValue }) => {
         return await axiosInstance
           .get<IProductsCategory>(serverNavApi.toGetCategory(category))
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+
+  const categories = () =>
+    createAsyncThunk<IProductsCategory[], undefined, {rejectValue: string}>(
+      'products/getCategories',
+      async (_, { rejectWithValue }) => {
+        return await axiosInstance
+          .get<IProductsCategory[]>(serverNavApi.productsRoutes.getCategories)
           .then((res) => res.data)
           .catch((err) => rejectWithValue(err));
       }
@@ -116,6 +129,7 @@ const products = (): IProductsApi => {
 
   return {
     getCategoryInfo: categoryInfo(),
+    getCategories: categories(),
     getProductsByBrand: productsByBrand(),
     getSearchProducts: searchProducts(),
     getSelectedProducts: selectedProducts(),

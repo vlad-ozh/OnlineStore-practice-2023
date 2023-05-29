@@ -1,4 +1,4 @@
-import { navigationApi } from '../../model/apis';
+import { navigationApi, productsApi } from '../../model/apis';
 import { AppDispatch } from '../../model/store/store';
 
 export const controller = (dispatch: AppDispatch) => {
@@ -11,6 +11,12 @@ export const controller = (dispatch: AppDispatch) => {
       ];
 
       return breadcrumbsPaths;
+    },
+    getCategories: () => {
+      dispatch(productsApi.getCategories());
+    },
+    getProductsLink: (category: string, brand: string) => {
+      return navigationApi.toProducts(category, brand);
     },
   };
 };

@@ -20,6 +20,7 @@ const serverNavigation = () => {
 
   const productsRoutes = {
     getCategoryInfo: '/products/categories/:category/info',
+    getCategories: '/products/categories/info',
     getProductsByBrand: '/products/categories/:category/:brand',
     getSearchProducts: '/products/:search',
     getSelectedProducts: '/products/selected/user/:userId',
