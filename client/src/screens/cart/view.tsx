@@ -108,8 +108,17 @@ const PureCart: React.FC<Props> = (props) => {
               {totalPrice(user.cart, products)} ₴
             </h3>
           </div>
-          <Link to={''} className={style.productsOrderLink}>
-            {t('order')}
+          <Link to={''}>
+            <Button
+              skin='text'
+              size='medium'
+              onClick={
+                () => window.alert('You will be able to preview very soon :)')
+              }
+              className={style.productsOrderLink}
+            >
+              {t('order')}
+            </Button>
           </Link>
         </div>
       </div>
