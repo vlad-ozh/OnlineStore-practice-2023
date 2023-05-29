@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { productsController } = require('../controllers');
 
 router.get('/categories/:category/info', productsController.getCategoryInfo);
+router.get('/categories/info', productsController.getCategories);
 router.get(
   '/categories/:category/:brand',
   productsController.getProductsByBrand

@@ -1,6 +1,6 @@
 const { CategoryModel, ProductModel, UserModel } = require('../models');
 const ApiError = require('../exceptions/apiError');
-const { ProductDto } = require('../dtos');
+const { ProductDto, CategoryDto } = require('../dtos');
 const uuid = require('uuid');
 
 const productsService = () => {
@@ -11,30 +11,14 @@ const productsService = () => {
       throw ApiError.NotFound();
     }
 
-    const products = await ProductModel.find({
-      category,
-    }).populate({
-      path: 'category',
-      select: 'name',
-      model: 'Category',
-    });
+    return CategoryDto(category);
+  };
 
-    let categoryBrands = [];
+  const getCategories = async () => {
+    const categories = await CategoryModel.find();
+    const categoriesDto = categories.map(category => CategoryDto(category));
 
-    products.forEach(product => {
-      const brand = product.brand;
-
-      if (!categoryBrands.includes(brand)) {
-        categoryBrands.push(brand);
-      }
-    });
-
-    categoryBrands.sort((a, b) => a.localeCompare(b));
-
-    return {
-      name: category.name,
-      brands: categoryBrands,
-    };
+    return categoriesDto;
   };
 
   const getProductsByBrand = async (categoryName, brand) => {
@@ -190,6 +174,7 @@ const productsService = () => {
 
   return {
     getCategoryInfo,
+    getCategories,
     getProductsByBrand,
     getSearchProducts,
     getSelectedProducts,

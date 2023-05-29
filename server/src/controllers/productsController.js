@@ -12,6 +12,15 @@ module.exports = {
       next(error);
     }
   },
+  getCategories: async (req, res, next) => {
+    try {
+      const categories = await productsService.getCategories();
+
+      return res.json(categories);
+    } catch (error) {
+      next(error);
+    }
+  },
   getProductsByBrand: async (req, res, next) => {
     try {
       const { category, brand } = req.params;
