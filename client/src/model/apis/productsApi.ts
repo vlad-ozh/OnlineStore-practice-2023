@@ -20,6 +20,9 @@ interface IProductsApi {
   getProductsInCart: AsyncThunk<IProduct[], string, {rejectValue: string}>;
   getProduct: AsyncThunk<IProduct, string, {rejectValue: string}>;
   createReview: AsyncThunk<IProduct, ICreateReview, {rejectValue: string}>;
+  getPopularProducts: AsyncThunk<IProduct[], undefined, {rejectValue: string}>;
+  getPopularByCategory:
+    AsyncThunk<IProduct[], IProductsByBrandData, {rejectValue: string}>;
   error: any;
 }
 const products = (): IProductsApi => {
@@ -123,6 +126,30 @@ const products = (): IProductsApi => {
       }
     );
 
+  const popularProducts = () =>
+    createAsyncThunk<IProduct[], undefined, {rejectValue: string}>(
+      'products/popular',
+      async (_, { rejectWithValue }) => {
+        return await axiosInstance
+          .get<IProduct[]>(serverNavApi.productsRoutes.getPopular)
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+
+  const popularByCategory = () =>
+    createAsyncThunk<IProduct[], IProductsByBrandData, {rejectValue: string}>(
+      'products/popular-by-category',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .get<IProduct[]>(
+            serverNavApi.toGetPopularByCategory(data.category, data.brand)
+          )
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+
   const isError = (action: AnyAction) => {
     return action.type.endsWith('rejected');
   };
@@ -136,6 +163,8 @@ const products = (): IProductsApi => {
     getProductsInCart: productsInCart(),
     getProduct: product(),
     createReview: createReview(),
+    getPopularProducts: popularProducts(),
+    getPopularByCategory: popularByCategory(),
     error: isError,
   };
 };

@@ -6,6 +6,7 @@ import {
   Footer,
   Breadcrumbs,
   ShowProducts,
+  ShowPopularProducts,
 } from '../../components';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { controller } from './controller';
@@ -15,12 +16,14 @@ import style from './style.module.scss';
 const PureOpenProducts: React.FC<Props> = (props) => {
   const {
     getProducts,
+    getPopularProducts,
     getBreadcrumbsPaths,
   } = props;
 
   React.useEffect(() => {
     getProducts();
-  }, [getProducts]);
+    getPopularProducts();
+  }, [getProducts, getPopularProducts]);
 
   return (
     <Layout
@@ -30,6 +33,7 @@ const PureOpenProducts: React.FC<Props> = (props) => {
     >
       <div className={style.screen}>
         <ShowProducts />
+        <ShowPopularProducts />
       </div>
     </Layout>
   );
@@ -46,6 +50,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     getProducts: ctrl.getProducts,
     getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
+    getPopularProducts: ctrl.getPopularProducts,
   };
 };
 

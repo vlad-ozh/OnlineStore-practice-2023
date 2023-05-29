@@ -1,4 +1,4 @@
-import { navigationApi } from '../../model/apis';
+import { navigationApi, productsApi } from '../../model/apis';
 import { AppDispatch } from './../../model/store/store';
 
 export const controller = (dispatch: AppDispatch) => {
@@ -12,6 +12,9 @@ export const controller = (dispatch: AppDispatch) => {
     },
     getCategoryLink: (category: string) => {
       return navigationApi.toProductsCategory(category);
+    },
+    getPopularProducts: () => {
+      dispatch(productsApi.getPopularProducts());
     },
   };
 };

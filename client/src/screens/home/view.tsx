@@ -1,7 +1,13 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Header, Layout, Footer, Breadcrumbs } from '../../components';
+import {
+  Header,
+  Layout,
+  Footer,
+  Breadcrumbs,
+  ShowPopularProducts,
+} from '../../components';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { useTranslation } from 'react-i18next';
 import { controller } from './controller';
@@ -22,7 +28,12 @@ const PureHome: React.FC<Props> = (props) => {
     categories,
     getBreadcrumbsPaths,
     onCategoryLink,
+    getPopularProducts,
   } = props;
+
+  React.useEffect(() => {
+    getPopularProducts();
+  }, [getPopularProducts]);
 
   const renderCategories = () => {
     return (
@@ -86,6 +97,8 @@ const PureHome: React.FC<Props> = (props) => {
     >
       <div className={style.screen}>
         {renderCategories()}
+
+        <ShowPopularProducts />
       </div>
     </Layout>
   );
@@ -101,6 +114,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
     onCategoryLink: ctrl.getCategoryLink,
+    getPopularProducts: ctrl.getPopularProducts,
   };
 };
 

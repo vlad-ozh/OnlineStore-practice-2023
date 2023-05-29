@@ -1,0 +1,15 @@
+.products {
+  margin-top: 50px;
+
+  &Title {
+    margin-bottom: 15px;
+
+    @media screen and (max-width: 600px) {
+      font-size: 18px;
+    }
+  }
+}
+
+.swiper {
+  padding: 15px 15px 30px;
+}

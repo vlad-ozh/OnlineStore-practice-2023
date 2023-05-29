@@ -8,6 +8,7 @@ import { productsApi } from '../../apis';
 
 interface IProductsState {
   products: IProduct[];
+  popularProducts: IProduct[];
   product: IProduct;
   categoriesNames: IProductsCategories;
   categories: IProductsCategory[];
@@ -19,6 +20,7 @@ interface IProductsState {
 
 const initialState: IProductsState = {
   products: [] as IProduct[],
+  popularProducts: [] as IProduct[],
   product: {} as IProduct,
   categoriesNames: {
     smartphones: 'smartphones',
@@ -122,6 +124,26 @@ export const productsSlice = createSlice({
       })
       .addCase(productsApi.createReview.fulfilled, (state, action) => {
         state.product = action.payload;
+        state.loading = false;
+      })
+
+      .addCase(productsApi.getPopularProducts.pending, (state) => {
+        state.popularProducts = [] as IProduct[];
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(productsApi.getPopularProducts.fulfilled, (state, action) => {
+        state.popularProducts = action.payload;
+        state.loading = false;
+      })
+
+      .addCase(productsApi.getPopularByCategory.pending, (state) => {
+        state.popularProducts = [] as IProduct[];
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(productsApi.getPopularByCategory.fulfilled, (state, action) => {
+        state.popularProducts = action.payload;
         state.loading = false;
       })
 

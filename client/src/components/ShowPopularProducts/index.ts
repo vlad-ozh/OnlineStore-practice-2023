@@ -1,0 +1,1 @@
+export { ShowPopularProducts } from './view';

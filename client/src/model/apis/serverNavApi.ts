@@ -27,6 +27,8 @@ const serverNavigation = () => {
     getProductsInCart: '/products/cart/user/:userId',
     getProduct: '/products/product/:productId',
     createReview: '/products/create-review',
+    getPopular: '/products/get/popular',
+    getPopularByCategory: '/products/get/popular-by-category/:category/:brand',
   };
 
   const setRoute = (route: string, params = {}) => {
@@ -75,6 +77,12 @@ const serverNavigation = () => {
     toGetProduct: (productId: string) => {
       return setRoute(productsRoutes.getProduct, {
         productId,
+      });
+    },
+    toGetPopularByCategory: (category: string, brand: string) => {
+      return setRoute(productsRoutes.getPopularByCategory, {
+        category,
+        brand,
       });
     },
   };

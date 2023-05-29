@@ -11,3 +11,4 @@ export { Loader } from './Loader';
 export { Breadcrumbs } from './Breadcrumbs';
 export { ProductCard } from './ProductCard';
 export { ShowProducts } from './ShowProducts';
+export { ShowPopularProducts } from './ShowPopularProducts';

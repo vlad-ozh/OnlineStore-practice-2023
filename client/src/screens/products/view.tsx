@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Header, Layout, Footer, Breadcrumbs } from '../../components';
+import { Header, Layout, Footer, Breadcrumbs, Loader } from '../../components';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { useTranslation } from 'react-i18next';
 import { controller } from './controller';
@@ -13,6 +13,7 @@ const PureProducts: React.FC<Props> = (props) => {
   const {
     categories,
     getCategories,
+    loading,
     getBreadcrumbsPaths,
     getProductsLink,
   } = props;
@@ -69,7 +70,8 @@ const PureProducts: React.FC<Props> = (props) => {
       breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths}/>}
     >
       <div className={style.screen}>
-        {renderCategories()}
+        {loading && <Loader />}
+        {!loading && renderCategories()}
       </div>
     </Layout>
   );
@@ -77,6 +79,7 @@ const PureProducts: React.FC<Props> = (props) => {
 
 const mapState = (state: RootState) => ({
   categories: state.productsApi.categories,
+  loading: state.productsApi.loading,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {

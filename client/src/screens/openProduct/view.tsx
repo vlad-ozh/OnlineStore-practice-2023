@@ -14,7 +14,7 @@ import { AppDispatch, RootState } from '../../model/store/store';
 import { useTranslation } from 'react-i18next';
 import { controller } from './controller';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Pagination, Navigation } from 'swiper';
+import { Pagination, Navigation } from 'swiper';
 import {
   CartIcon,
   DoneIcon,
@@ -23,7 +23,6 @@ import {
 import 'swiper/scss';
 import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
-import 'swiper/scss/free-mode';
 
 import style from './style.module.scss';
 
@@ -59,7 +58,7 @@ const PureOpenProduct: React.FC<Props> = (props) => {
             clickable: true,
           }}
           spaceBetween={10}
-          modules={[FreeMode, Navigation, Pagination]}
+          modules={[Navigation, Pagination]}
           className={style.swiper}
         >
           {product.image.map((image, index) => {

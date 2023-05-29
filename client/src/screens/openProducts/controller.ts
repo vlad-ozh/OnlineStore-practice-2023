@@ -30,5 +30,14 @@ export const controller = (dispatch: AppDispatch) => {
 
       return breadcrumbsPaths;
     },
+    getPopularProducts: () => {
+      const categoryName = getParams().category;
+      const brand = getParams().brand;
+
+      dispatch(productsApi.getPopularByCategory({
+        category: `${categoryName}`,
+        brand: `${brand}`,
+      }));
+    },
   };
 };
