@@ -1,0 +1,28 @@
+version: '3'
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - REACT_APP_SERVER_URL=http://localhost:3100
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 3100:3100
+    environment:
+      - PORT=3100
+      - DATABASE_URL=mongodb+srv://Vladyslav:V4QswKfuFMShE7xq@cluster0.zaeiexd.mongodb.net/OnlineStore?retryWrites=true&w=majority
+      - CLIENT_URL=http://localhost:3000
+      - API_URL=http://localhost:3100
+      - JWT_ACCESS_SECRET=jsonwebtoken-super-secret-key86900
+      - JWT_REFRESH_SECRET=jsonwebtoken-super-refresh-secret-key28412
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_USER=ozhvlad@gmail.com
+      - SMTP_PASSWORD=rnlfmqknkkglzjok
