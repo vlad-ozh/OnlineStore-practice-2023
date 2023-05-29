@@ -12,5 +12,10 @@ router.get('/selected/user/:userId', productsController.getSelectedProducts);
 router.get('/cart/user/:userId', productsController.getProductsInCart);
 router.get('/product/:productId', productsController.getProduct);
 router.put('/create-review', productsController.createReview);
+router.get('/get/popular', productsController.getPopularProducts);
+router.get(
+  '/get/popular-by-category/:category/:brand',
+  productsController.getPopularProductsByCategory
+);
 
 module.exports = router;

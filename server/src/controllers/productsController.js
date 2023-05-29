@@ -93,4 +93,26 @@ module.exports = {
       next(error);
     }
   },
+  getPopularProducts: async (req, res, next) => {
+    try {
+      const products =
+        await productsService.getPopularProducts();
+
+      return res.json(products);
+    } catch (error) {
+      next(error);
+    }
+  },
+  getPopularProductsByCategory: async (req, res, next) => {
+    try {
+      const { category, brand } = req.params;
+
+      const products =
+        await productsService.getPopularProductsByCategory(category, brand);
+
+      return res.json(products);
+    } catch (error) {
+      next(error);
+    }
+  },
 };

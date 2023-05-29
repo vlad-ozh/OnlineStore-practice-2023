@@ -161,7 +161,7 @@ const productsService = () => {
       userName: user.name,
       userId: user.id,
       rating,
-      text,
+      text: text.trim(),
       date: getDate(),
     });
 
@@ -170,6 +170,56 @@ const productsService = () => {
     const productDto = ProductDto(product);
 
     return productDto;
+  };
+
+  const getPopularProducts = async () => {
+    const products = await ProductModel.find().populate({
+      path: 'category',
+      select: 'name',
+      model: 'Category',
+    });
+
+    products.sort((a, b) => b.salesCount - a.salesCount);
+
+    const productsDto = products.slice(0, 50).map(
+      product => ProductDto(product)
+    );
+
+    return productsDto;
+  };
+
+  const getPopularProductsByCategory = async (categoryName, brand) => {
+    const category = await CategoryModel.findOne({ name: categoryName});
+
+    if (!category) {
+      throw ApiError.NotFound();
+    }
+
+    let settingsFindProducts = {};
+
+    if (brand === 'all') {
+      settingsFindProducts = { category };
+    } else {
+      settingsFindProducts = { category, brand };
+    }
+
+    const products = await ProductModel.find(settingsFindProducts).populate({
+      path: 'category',
+      select: 'name',
+      model: 'Category',
+    });
+
+    if (!products) {
+      throw ApiError.NotFound();
+    }
+
+    products.sort((a, b) => b.salesCount - a.salesCount);
+
+    const productsDto = products.slice(0, 50).map(
+      product => ProductDto(product)
+    );
+
+    return productsDto;
   };
 
   return {
@@ -181,6 +231,8 @@ const productsService = () => {
     getProductsInCart,
     getProduct,
     createReview,
+    getPopularProducts,
+    getPopularProductsByCategory,
   };
 };
 
