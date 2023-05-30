@@ -189,21 +189,21 @@ const userService = () => {
     return UserDto(user);
   };
 
-  const changeAmountProductBuy = async (userId, productId, amount) => {
+  const changeAmountProductBuy = async (userId, productId, amount, value) => {
     const user = await UserModel.findOne({ id: userId });
-    let correctAmount = amount;
+    let correctValue = value;
 
-    if (amount < 1) {
-      correctAmount = 1;
-    } else if (amount > 200) {
-      correctAmount = 200;
+    if (value < 1) {
+      correctValue = 1;
+    } else if (value > amount) {
+      correctValue = amount;
     }
 
     const newCart = user.cart.map(product => {
       if (product.id === productId) {
         return {
           ...product,
-          amount: correctAmount,
+          amount: correctValue,
         };
       }
 

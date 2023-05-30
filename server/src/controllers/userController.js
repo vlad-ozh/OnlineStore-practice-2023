@@ -192,10 +192,14 @@ module.exports = {
   },
   changeAmountProductBuy: async (req, res, next) => {
     try {
-      const { userId, productId, amount } = req.body;
+      const { userId, productId, amount, value } = req.body;
 
-      const userData =
-        await userService.changeAmountProductBuy(userId, productId, amount);
+      const userData = await userService.changeAmountProductBuy(
+        userId,
+        productId,
+        amount,
+        value
+      );
 
       return res.json(userData);
     } catch (error) {
