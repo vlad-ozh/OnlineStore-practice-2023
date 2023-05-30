@@ -29,6 +29,7 @@ const PureHeader: React.FC<Props> = (props) => {
   const { t } = useTranslation(['header']);
 
   const {
+    isAuth,
     onSearch,
     onHome,
     onProducts,
@@ -66,7 +67,7 @@ const PureHeader: React.FC<Props> = (props) => {
             </div>
           </header>
           <Link
-            to={onAccount}
+            to={onAccount(isAuth)}
             className={style.asideHeaderProfile}
           >
             <PersonIcon />
@@ -76,7 +77,7 @@ const PureHeader: React.FC<Props> = (props) => {
             <DotsIcon />
             {t('products')}
           </Link>
-          <Link to={onSelected} className={style.asideHeaderSelected}>
+          <Link to={onSelected(isAuth)} className={style.asideHeaderSelected}>
             <span className={classNames(style.counter, {
               [style.noCount]: !totalSelectedProducts(selectedProducts),
             })}>
@@ -147,7 +148,7 @@ const PureHeader: React.FC<Props> = (props) => {
 
         <ul className={style.navList}>
           <li className={style.navListItem}>
-            <Link to={onAccount} className={style.navListItemLink}>
+            <Link to={onAccount(isAuth)} className={style.navListItemLink}>
               <PersonIcon />
             </Link>
           </li>
@@ -158,7 +159,7 @@ const PureHeader: React.FC<Props> = (props) => {
             <SwitchButtonLanguage />
           </li>
           <li className={style.navListItem}>
-            <Link to={onSelected} className={style.navListItemLink}>
+            <Link to={onSelected(isAuth)} className={style.navListItemLink}>
               <span className={classNames(style.counter, {
                 [style.noCount]: !totalSelectedProducts(selectedProducts),
               })}>
@@ -168,7 +169,7 @@ const PureHeader: React.FC<Props> = (props) => {
             </Link>
           </li>
           <li className={style.navListItem}>
-            <Link to={onCart} className={style.navListItemLink}>
+            <Link to={onCart(isAuth)} className={style.navListItemLink}>
               <span className={classNames(style.counter, style.cartCounter, {
                 [style.noCount]: !totalProductsInCart(cart),
               })}>
@@ -186,6 +187,7 @@ const PureHeader: React.FC<Props> = (props) => {
 const mapStateToProps = (state: RootState) => ({
   searchData: state.productsApi.search,
   selectedProducts: state.userApi.user.selectedProducts,
+  isAuth: state.userApi.user.isAuth,
   cart: state.userApi.user.cart,
 });
 
@@ -195,11 +197,11 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     onHome: ctrl.getHomeLink(),
     onProducts: ctrl.getProductsLink(),
-    onAccount: ctrl.getAccountLink(),
+    onAccount: ctrl.getAccountLink,
     onChangeSearch: ctrl.onChangeSearch,
     onSearch: ctrl.getSearchProductsLink,
-    onSelected: ctrl.getSelectedProductsLink(),
-    onCart: ctrl.getAccountCartLink(),
+    onSelected: ctrl.getSelectedProductsLink,
+    onCart: ctrl.getAccountCartLink,
     totalSelectedProducts: ctrl.getTotalSelectedProducts,
     totalProductsInCart: ctrl.getTotalProductsInCart,
   };

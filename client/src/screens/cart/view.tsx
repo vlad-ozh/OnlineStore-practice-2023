@@ -51,6 +51,7 @@ const PureCart: React.FC<Props> = (props) => {
               image,
               name,
               price,
+              amount,
             } = product;
 
             return (
@@ -87,7 +88,10 @@ const PureCart: React.FC<Props> = (props) => {
                   <div className={style.productPrice}>
                     <InputCounter
                       value={getAmountProduct(user.cart, id)}
-                      onBlur={(value) => changeAmount(user.id, id, value)}
+                      onBlur={
+                        (value) => changeAmount(user.id, id, amount, value)
+                      }
+                      maxValue={product.amount}
                     />
                     <h4>
                       {getProductPrice(user.cart, id, price)} ₴

@@ -52,4 +52,5 @@ export interface IChangeAmountProductBuy  {
   userId: string;
   productId: string;
   amount: number;
+  value: number;
 }

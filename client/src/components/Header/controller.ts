@@ -14,7 +14,11 @@ export const controller = (dispatch: AppDispatch) => {
     onChangeSearch: (value: string) => {
       dispatch(productsActions.changeSearch(value));
     },
-    getAccountLink: () => {
+    getAccountLink: (isAuth: undefined | boolean) => {
+      if (!isAuth) {
+        return navigationApi.toAccountLogin();
+      }
+
       return navigationApi.toAccount();
     },
     getSearchProductsLink: (data: string) => {
@@ -24,10 +28,18 @@ export const controller = (dispatch: AppDispatch) => {
         return '';
       }
     },
-    getSelectedProductsLink: () => {
+    getSelectedProductsLink: (isAuth: undefined | boolean) => {
+      if (!isAuth) {
+        return navigationApi.toAccountLogin();
+      }
+
       return navigationApi.toSelectedProducts();
     },
-    getAccountCartLink: () => {
+    getAccountCartLink: (isAuth: undefined | boolean) => {
+      if (!isAuth) {
+        return navigationApi.toAccountLogin();
+      }
+
       return navigationApi.toAccountCart();
     },
     getTotalSelectedProducts: (products: string[]) => {

@@ -33,11 +33,17 @@ export const controller = (dispatch: AppDispatch) => {
 
       return product.amount;
     },
-    changeAmount: (userId: string, productId: string, value: number) => {
+    changeAmount: (
+      userId: string,
+      productId: string,
+      amount: number,
+      value: number
+    ) => {
       dispatch(userApi.changeAmountProductBuy({
         userId,
         productId,
-        amount: value,
+        amount,
+        value,
       }));
     },
     getProductPrice: (
