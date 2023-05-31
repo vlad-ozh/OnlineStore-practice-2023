@@ -102,6 +102,7 @@ const PureHeader: React.FC<Props> = (props) => {
 
   return (
     <div className={style.header}>
+      {renderNavMobile()}
       <nav className={style.navigation}>
         <Button
           skin='icon'
@@ -111,7 +112,6 @@ const PureHeader: React.FC<Props> = (props) => {
         >
           <MenuIcon />
         </Button>
-        {renderNavMobile()}
 
         <Link
           to={onHome}

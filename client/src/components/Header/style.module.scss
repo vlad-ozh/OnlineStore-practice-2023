@@ -3,15 +3,17 @@
 
 .header {
   font-family: fonts.$roboto;
-  background-color: #303030;
+  background-color: rgba(48, 48, 48, 0.6);
 }
 
 .navigation {
+  backdrop-filter: blur(16px);
   @extend %container;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 70px;
+  z-index: 40;
 }
 
 .navBurgerButton {
@@ -63,6 +65,7 @@
       right: 0;
       bottom: 0;
       left: 0;
+      z-index: 45;
       background: rgba(0,0,0,.2);
       backdrop-filter: blur(1px);
     }
