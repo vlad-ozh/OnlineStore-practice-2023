@@ -206,4 +206,17 @@ module.exports = {
       next(error);
     }
   },
+  validateCheckoutInfo: async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return next(
+          ApiError.BadRequest('checkoutInfoInvalid', errors.array())
+        );
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
 };
