@@ -14,3 +14,5 @@ export { AccountResetPassword } from './accountResetPassword';
 export { OpenCategory } from './openCategory';
 export { OpenProducts } from './openProducts';
 export { OpenProduct } from './openProduct';
+export { Checkout } from './checkout';
+export { Confirmation } from './confirmation';

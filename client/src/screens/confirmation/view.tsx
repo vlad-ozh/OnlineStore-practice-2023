@@ -3,7 +3,6 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { RemoveIcon } from '../../assets/images/svg-images';
 import {
   Header,
   Layout,
@@ -11,14 +10,13 @@ import {
   Breadcrumbs,
   Loader,
   Button,
-  InputCounter,
 } from '../../components';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { controller } from './controller';
 
 import style from './style.module.scss';
 
-const PureCart: React.FC<Props> = (props) => {
+const PureConfirmation: React.FC<Props> = (props) => {
   const { t } = useTranslation(['products']);
   const {
     user,
@@ -27,13 +25,9 @@ const PureCart: React.FC<Props> = (props) => {
     getProducts,
     getBreadcrumbsPaths,
     getLoginLink,
-    removeProduct,
-    getAmountProduct,
-    changeAmount,
     getProductPrice,
     totalPrice,
     productLink,
-    getCheckoutLink,
   } = props;
 
   React.useEffect(() => {
@@ -52,19 +46,10 @@ const PureCart: React.FC<Props> = (props) => {
               image,
               name,
               price,
-              amount,
             } = product;
 
             return (
               <li key={id} className={style.product}>
-                <Button
-                  size='large'
-                  skin='icon'
-                  onClick={() => removeProduct(user.id, id)}
-                  className={style.productRemoveButton}
-                >
-                  <RemoveIcon />
-                </Button>
                 <Link
                   to={productLink(category, brand, id)}
                   className={style.productLink}
@@ -87,13 +72,7 @@ const PureCart: React.FC<Props> = (props) => {
                     </Link>
                   </h4>
                   <div className={style.productPrice}>
-                    <InputCounter
-                      value={getAmountProduct(user.cart, id)}
-                      onBlur={
-                        (value) => changeAmount(user.id, id, amount, value)
-                      }
-                      maxValue={product.amount}
-                    />
+                    <p>amount: 1</p>
                     <h4>
                       {getProductPrice(user.cart, id, price)} ₴
                     </h4>
@@ -113,19 +92,20 @@ const PureCart: React.FC<Props> = (props) => {
               {totalPrice(user.cart, products)} ₴
             </h3>
           </div>
-          <Link to={getCheckoutLink} className={style.productsOrderLink}>
-            {t('order')}
+          <Link to={''}>
+            <Button
+              skin='text'
+              size='medium'
+              onClick={
+                () => window.alert('You will be able to preview very soon :)')
+              }
+              className={style.productsOrderLink}
+            >
+              {t('order')}
+            </Button>
           </Link>
         </div>
       </div>
-    );
-  };
-
-  const renderNoData = () => {
-    return (
-      <h3 className={style.noProducts}>
-        {t('emptyCart')}
-      </h3>
     );
   };
 
@@ -140,7 +120,6 @@ const PureCart: React.FC<Props> = (props) => {
       <div className={style.screen}>
         {loading && <Loader />}
         {!loading && isProducts && renderProducts()}
-        {!loading && !isProducts && renderNoData()}
         {!user.isAuth && <Navigate to={getLoginLink} replace={true} />}
       </div>
     </Layout>
@@ -166,7 +145,6 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     getProductPrice: ctrl.getProductPrice,
     totalPrice: ctrl.getTotalPrice,
     productLink: ctrl.getProductLink,
-    getCheckoutLink: ctrl.getCheckoutLink(),
   };
 };
 
@@ -174,4 +152,4 @@ const connector = connect(mapState, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>;
 
-export const Cart = connector(PureCart);
+export const Confirmation = connector(PureConfirmation);

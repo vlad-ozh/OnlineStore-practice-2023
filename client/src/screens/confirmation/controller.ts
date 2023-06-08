@@ -76,8 +76,5 @@ export const controller = (dispatch: AppDispatch) => {
     getProductLink: (category: string, brand: string, productId: string) => {
       return navigationApi.toProduct(category, brand, productId);
     },
-    getCheckoutLink: () => {
-      return navigationApi.toCheckout();
-    },
   };
 };

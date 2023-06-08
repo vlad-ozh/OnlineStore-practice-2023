@@ -1,0 +1,14 @@
+{
+	"checkoutTitle": "Checkout",
+	"next": "Next",
+	"deliveryMsg": "Delivery only cash on delivery by Nova Poshta",
+	"name": "Name and surname",
+	"phone": "Phone number",
+	"city": "City",
+	"postNum": "Branch number of Nova Poshta",
+	"namePlaceholder": "Enter your name and surname",
+	"phonePlaceholder": "Enter your phone number",
+	"cityPlaceholder": "Enter your city",
+	"postNumPlaceholder": "Enter your branch number",
+	"checkoutInfoInvalid": "Enter the correct data"
+}

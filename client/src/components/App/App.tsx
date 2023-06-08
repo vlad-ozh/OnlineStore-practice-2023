@@ -20,6 +20,8 @@ import {
   OpenCategory,
   OpenProducts,
   OpenProduct,
+  Checkout,
+  Confirmation,
 } from '../../screens';
 
 import style from './style.module.scss';
@@ -95,6 +97,14 @@ export const App: React.FC = () => {
         <Route
           path={navigationApi.routes.openProduct}
           element={<OpenProduct />}
+        />
+        <Route
+          path={navigationApi.routes.checkout}
+          element={<Checkout />}
+        />
+        <Route
+          path={navigationApi.routes.confirmation}
+          element={<Confirmation />}
         />
         <Route
           path='*' element={<NotFound />}

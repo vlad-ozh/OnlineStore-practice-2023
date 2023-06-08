@@ -17,6 +17,7 @@ i18n
       'breadcrumbs',
       'home',
       'products',
+      'checkout',
     ],
     interpolation: {
       escapeValue: false,

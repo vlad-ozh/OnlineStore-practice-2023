@@ -18,7 +18,7 @@ const navigation = () => {
     searchProducts: '/products/search/:data',
     selected: '/products/selected',
     checkout: '/checkout',
-    checkoutConfirmation: '/checkout/confirmation',
+    confirmation: '/checkout/confirmation',
   };
 
   const getPathName = () => window.location.pathname || routes.home;
@@ -81,6 +81,12 @@ const navigation = () => {
         brand,
         productId,
       });
+    },
+    toCheckout: () => {
+      return setRoute(routes.checkout);
+    },
+    toCheckoutConfirm: () => {
+      return setRoute(routes.confirmation);
     },
     getPathParams: (route: string) => {
       const match = matchPath(route, getPathName());

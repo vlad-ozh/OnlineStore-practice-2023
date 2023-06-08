@@ -1,4 +1,4 @@
-import { IUser } from '../../types/IUser';
+import { ICheckout, IUser } from '../../types/IUser';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { userApi } from '../../apis';
 
@@ -7,6 +7,7 @@ interface IUserState {
   isResetPasswordEmailSent: boolean;
   email: string;
   isToken: boolean;
+  checkoutInfo: ICheckout;
   loading: boolean;
   error: string | null;
 };
@@ -16,11 +17,11 @@ const initialState: IUserState = {
   isResetPasswordEmailSent: false,
   email: '',
   isToken: true,
+  checkoutInfo: {} as ICheckout,
   loading: false,
   error: null,
 };
-// в кожному товарі в функцію кидати айді та перевіряти чи є воно в масиві
-// вибраних товарів, повертати булеан
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -30,6 +31,9 @@ export const userSlice = createSlice({
     },
     changeEmail: (state, action: PayloadAction<string>) => {
       state.email = action.payload;
+    },
+    changeCheckoutInfo: (state, action: PayloadAction<ICheckout>) => {
+      state.checkoutInfo = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -149,6 +153,14 @@ export const userSlice = createSlice({
       .addCase(userApi.changeAmountProductBuy.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+      })
+
+      .addCase(userApi.validateCheckoutInfo.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userApi.validateCheckoutInfo.fulfilled, (state) => {
+        state.loading = false;
       })
 
       .addMatcher(userApi.error, (

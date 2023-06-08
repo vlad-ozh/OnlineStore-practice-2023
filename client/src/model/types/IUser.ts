@@ -54,3 +54,9 @@ export interface IChangeAmountProductBuy  {
   amount: number;
   value: number;
 }
+export interface ICheckout  {
+  name: string,
+  phone: string,
+  city: string,
+  postNum: number,
+}

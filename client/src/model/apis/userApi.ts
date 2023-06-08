@@ -10,6 +10,7 @@ import {
   IUserResetPassword,
   IUserCartSelectedOperations,
   IChangeAmountProductBuy,
+  ICheckout,
 } from '../types/IUser';
 import axios from 'axios';
 
@@ -33,6 +34,7 @@ interface IUserApi {
     AsyncThunk<IUser, IUserCartSelectedOperations, {rejectValue: string}>;
   changeAmountProductBuy:
     AsyncThunk<IUser, IChangeAmountProductBuy, {rejectValue: string}>;
+  validateCheckoutInfo: AsyncThunk<undefined, ICheckout, {rejectValue: string}>;
   error: any;
 }
 const user = (): IUserApi => {
@@ -168,6 +170,16 @@ const user = (): IUserApi => {
           .catch((err) => rejectWithValue(err));
       }
     );
+  const validateCheckoutInfo = () =>
+    createAsyncThunk<undefined, ICheckout, {rejectValue: string}>(
+      'user/validate/checkout/info',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .post<undefined>(serverNavApi.userRoutes.validateCheckoutInfo, data)
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
 
   const isError = (action: AnyAction) => {
     return action.type.endsWith('rejected');
@@ -186,6 +198,7 @@ const user = (): IUserApi => {
     addProductToCart: addProductToCart(),
     removeProductFromCart: removeProductFromCart(),
     changeAmountProductBuy: changeAmountProductBuy(),
+    validateCheckoutInfo: validateCheckoutInfo(),
     error: isError,
   };
 };

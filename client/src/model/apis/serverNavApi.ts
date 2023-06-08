@@ -16,6 +16,7 @@ const serverNavigation = () => {
     addProductToCart: '/user/add/product-to-cart',
     removeProductFromCart: '/user/remove/product-from-cart',
     changeAmountProductBuy: '/user/change/amount-product-buy',
+    validateCheckoutInfo: '/user/validate/checkout/info',
   };
 
   const productsRoutes = {
