@@ -19,12 +19,6 @@ const addCookieRefreshToken = (res, refreshToken) => {
 module.exports = {
   register: async (req, res, next) => {
     try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return next(ApiError.BadRequest('validationError', errors.array()));
-      }
-
       const { email, name, password } = req.body;
 
       const userData = await userService.register(email, name, password);
@@ -38,14 +32,6 @@ module.exports = {
   },
   login: async (req, res, next) => {
     try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return next(
-          ApiError.BadRequest('validationLoginError', errors.array())
-        );
-      }
-
       const { email, password } = req.body;
 
       const userData = await userService.login(email, password);
@@ -70,14 +56,6 @@ module.exports = {
   },
   forgotPassword: async (req, res, next) => {
     try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return next(
-          ApiError.BadRequest('validationResetError', errors.array())
-        );
-      }
-
       const { email } = req.body;
 
       const token = await userService.forgotPassword(email);
