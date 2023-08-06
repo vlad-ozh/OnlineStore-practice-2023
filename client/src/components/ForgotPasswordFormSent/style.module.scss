@@ -1,0 +1,64 @@
+@use "./../../assets/common/fonts";
+
+.container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  background-color: var(--form-background-color);
+  max-width: 500px;
+  width: 100%;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: var(--box-shadow);
+  
+  @media screen and (max-width: 600px) {
+    padding: 30px 20px;
+  }
+
+  &Title {
+    text-align: center;
+    margin-bottom: 20px;
+
+    @media screen and (max-width: 600px) {
+      font-size: 18px;
+    }
+  }
+  
+  &Button {
+    background-color: #e00027;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    color: #fff;
+    transition: all .2s;
+    margin-top: 30px;
+
+    &:hover {
+      background-color: #f97988;
+    }
+  }
+
+  &Email {
+    text-align: center;
+    font-weight: bold;
+    padding: 20px 0;
+    border-top: 1px solid #ccc;
+
+    @media screen and (max-width: 600px) {
+      font-size: 16px;
+    }
+  }
+
+  &Paragraph {
+    text-align: center;
+
+    @media screen and (max-width: 600px) {
+      font-size: 14px;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+@use "./../../assets/common/fonts";
+
+.container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  background-color: var(--form-background-color);
+  max-width: 500px;
+  width: 100%;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: var(--box-shadow);
+
+  @media screen and (max-width: 600px) {
+    padding: 30px 20px;
+  }
+
+  &Title {
+    text-align: center;
+    margin-bottom: 20px;
+
+    @media screen and (max-width: 600px) {
+      font-size: 18px;
+    }
+  }
+
+  &Submit {
+    margin: 30px 0 0;
+  }
+  
+  &Error {
+    margin-top: 15px;
+  }
+}

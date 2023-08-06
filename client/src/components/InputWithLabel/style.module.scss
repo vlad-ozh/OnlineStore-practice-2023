@@ -1,0 +1,51 @@
+.fieldset {
+  border: none;
+
+  & + & {
+    margin-top: 15px;
+  }
+
+  &Label {
+    font-size: 14px;
+    
+    @media screen and (max-width: 600px) {
+      font-size: 12px;
+    }
+  }
+  
+  &Input {
+    width: 100%;
+    color: var(--input-text-color);
+    font-size: 16px;
+    padding: 10px;
+    height: 40px;
+    background-color: var(--input-background-color);
+    
+    @media screen and (max-width: 600px) {
+      font-size: 14px;
+    }
+    
+    &::placeholder {
+      color: var(--input-placeholder-text-color);
+    }
+
+    border-radius: 6px;
+    transition: all .3s;
+    outline: none;
+    margin-top: 10px;
+    border: 2px solid #cccccc;
+
+    &:focus {
+      border-color: #e00027;
+    } 
+
+    &:hover {
+      border-color: #e00027;
+    }
+  }
+
+  &InputError {
+    margin-top: 10px;
+  }
+}
+

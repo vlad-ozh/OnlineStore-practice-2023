@@ -1,0 +1,1 @@
+export { FormError } from './view';

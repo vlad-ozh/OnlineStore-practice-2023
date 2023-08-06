@@ -1,0 +1,1 @@
+export { ForgotPasswordFormSent } from './view';

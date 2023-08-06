@@ -1,0 +1,11 @@
+@use "./../../assets/common/fonts";
+
+.error {
+  font-family: fonts.$roboto;
+  text-align: center;
+  color: #e00027;
+
+  @media screen and (max-width: 600px) {
+    font-size: 14px;
+  }
+}

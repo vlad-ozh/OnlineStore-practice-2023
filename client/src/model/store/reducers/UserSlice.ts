@@ -4,8 +4,7 @@ import { userApi } from '../../apis';
 
 interface IUserState {
   user: IUser;
-  isResetPasswordEmailSent: boolean;
-  email: string;
+  isEmailSent: boolean;
   isToken: boolean;
   checkoutInfo: ICheckout;
   loading: boolean;
@@ -14,8 +13,7 @@ interface IUserState {
 
 const initialState: IUserState = {
   user: {} as IUser,
-  isResetPasswordEmailSent: false,
-  email: '',
+  isEmailSent: false,
   isToken: true,
   checkoutInfo: {} as ICheckout,
   loading: false,
@@ -26,11 +24,8 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    toResetPassword: (state) => {
-      state.isResetPasswordEmailSent = false;
-    },
-    changeEmail: (state, action: PayloadAction<string>) => {
-      state.email = action.payload;
+    emailSentDisable: (state) => {
+      state.isEmailSent = false;
     },
     changeCheckoutInfo: (state, action: PayloadAction<ICheckout>) => {
       state.checkoutInfo = action.payload;
@@ -88,7 +83,7 @@ export const userSlice = createSlice({
       })
       .addCase(userApi.forgotPassword.fulfilled, (state) => {
         state.loading = false;
-        state.isResetPasswordEmailSent = true;
+        state.isEmailSent = true;
       })
 
       .addCase(userApi.checkToken.pending, (state) => {

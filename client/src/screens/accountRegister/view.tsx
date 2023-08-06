@@ -1,174 +1,85 @@
-import React, { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { connect, ConnectedProps } from 'react-redux';
-import { AppDispatch, RootState } from '../../model/store/store';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { IUserRegisterConfirm } from '../../model/types/IUser';
+import { navigationApi, userApi } from '../../model/apis';
 import {
   Header,
   Layout,
   Footer,
-  Input,
-  Button,
   Loader,
   Breadcrumbs,
+  RegisterForm,
 } from '../../components';
-import { controller } from './controller';
 
 import style from './style.module.scss';
 
-const PureAccountRegister: React.FC<Props> = (props) => {
+export const AccountRegister: React.FC = () => {
   const {
     user,
     error,
     loading,
-    getBreadcrumbsPaths,
-    onLogin,
-    onCreate,
-    getAccountLink,
-  } = props;
+  } = useAppSelector((state) => state.userApi);
+  const dispatch = useAppDispatch();
 
-  const [formData, setFormData] = useState({
-    email: '',
-    name: '',
-    password: '',
-    confirmPassword: '',
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm<IUserRegisterConfirm>({
+    mode: 'onChange',
   });
-  const { t } = useTranslation(['authorization']);
+  const passwordValue = watch('password');
 
-  const renderError = () => {
-    return (
-      <h4 className={style.formError}>
-        {t(`${error}`)}
-      </h4>
-    );
+  const onSubmit: SubmitHandler<IUserRegisterConfirm> = data => {
+    const user = {
+      name: data.name.trim(),
+      email: data.email.trim(),
+      password: data.password.trim(),
+    };
+
+    dispatch(userApi.register(user));
+    reset();
   };
 
-  const renderRegisterForm = () => {
-    return (
-      <div className={style.screenContainer}>
-        <form className={style.form}>
-          <h2 className={style.formTitle}>
-            {t('registerTitle')}
-          </h2>
-          <fieldset className={style.formFieldset}>
-            <label className={style.formLabel} htmlFor={'email'}>
-              {t('email')}
-            </label>
-            <Input
-              value={formData.email}
-              type='email'
-              name='email'
-              onBlur={(value) => setFormData({ ...formData, email: value })}
-              placeholder={t('emailPlaceholder')}
-              required
-              className={style.formInput}
-            />
-          </fieldset>
-          <fieldset className={style.formFieldset}>
-            <label className={style.formLabel} htmlFor={'name'}>
-              {t('name')}
-            </label>
-            <Input
-              value={formData.name}
-              type='text'
-              name='name'
-              onBlur={(value) => setFormData({ ...formData, name: value })}
-              placeholder={t('namePlaceholder')}
-              required
-              className={style.formInput}
-            />
-          </fieldset>
-          <fieldset className={style.formFieldset}>
-            <label className={style.formLabel} htmlFor={'password'}>
-              {t('password')}
-              {t('totalCharacters')}
-            </label>
-            <Input
-              value={formData.password}
-              type='password'
-              name='password'
-              onBlur={(value) => setFormData({...formData, password: value})}
-              placeholder={t('passwordPlaceholder')}
-              required
-              className={style.formInput}
-            />
-          </fieldset>
-          <fieldset className={style.formFieldset}>
-            <label className={style.formLabel} htmlFor={'confirmPassword'}>
-              {t('confirmPassword')}
-            </label>
-            <Input
-              value={formData.confirmPassword}
-              type='password'
-              name='confirmPassword'
-              onBlur={(value) =>
-                setFormData({ ...formData, confirmPassword: value })
-              }
-              placeholder={t('passwordPlaceholder')}
-              required
-              className={style.formInput}
-            />
-          </fieldset>
+  const getBreadcrumbsPaths = () => {
+    const breadcrumbsPaths = [
+      {path: navigationApi.toHome(), name: {title: 'home'}},
+      {path: '', name: {title: 'register'}},
+    ];
 
-          {error && renderError()}
-
-          <Button
-            skin='text'
-            size='medium'
-            onClick={() => onCreate(formData)}
-            className={style.formButton}
-          >
-            {t('create')}
-          </Button>
-
-          <p className={style.formParagraph}>
-            {t('haveAcc')}
-            <Link
-              to={onLogin}
-              className={style.formLink}
-            >
-              {t('login')}
-            </Link>
-          </p>
-        </form>
-      </div>
-    );
+    return breadcrumbsPaths;
   };
 
   return (
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths}/>}
+      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths()}/>}
     >
       <div className={style.screen}>
         {loading && <Loader />}
-        {user.isAuth && <Navigate to={getAccountLink} replace={true} />}
-        {!user.isAuth && !loading && renderRegisterForm()}
+        {user.isAuth ? (
+          <Navigate to={navigationApi.toAccount()} replace={true} />
+        ) : (
+          <>
+            {!loading && (
+              <RegisterForm
+                register={register}
+                errors={errors}
+                formError={error}
+                loginLink={navigationApi.toAccountLogin()}
+                handleSubmit={handleSubmit}
+                onSubmit={onSubmit}
+                passwordValue={passwordValue}
+              />
+            )}
+          </>
+        )}
       </div>
     </Layout>
   );
 };
-
-const mapState = (state: RootState) => ({
-  user: state.userApi.user,
-  error: state.userApi.error,
-  loading: state.userApi.loading,
-});
-
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-  const ctrl = controller(dispatch);
-
-  return {
-    getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
-    getAccountLink: ctrl.getAccountLink(),
-    onLogin: ctrl.getLoginLink(),
-    onCreate: ctrl.onCreate,
-  };
-};
-
-const connector = connect(mapState, mapDispatchToProps);
-
-type Props = ConnectedProps<typeof connector>;
-
-export const AccountRegister = connector(PureAccountRegister);
