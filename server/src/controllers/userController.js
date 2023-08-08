@@ -99,14 +99,6 @@ module.exports = {
   },
   resetPassword: async (req, res, next) => {
     try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return next(
-          ApiError.BadRequest('passwordInvalid', errors.array())
-        );
-      }
-
       const { password, isToken } = req.body;
       const token = req.params.token;
 

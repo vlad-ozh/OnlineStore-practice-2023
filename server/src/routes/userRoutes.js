@@ -9,11 +9,7 @@ router.post('/forgot/password', userController.forgotPassword);
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
 router.get('/check/token/:token', userController.checkToken);
-router.post(
-  '/reset/password/:token',
-  body('password').trim().notEmpty().isLength({min: 4, max: 20}),
-  userController.resetPassword
-);
+router.post('/reset/password/:token', userController.resetPassword);
 router.put('/add/product-to-selected', userController.addProductToSelected);
 router.put(
   '/remove/product-from-selected',
