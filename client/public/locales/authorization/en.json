@@ -2,17 +2,18 @@
 	"loginTitle": "Log in to your account",
 	"registerTitle": "Create your account",
 	"resetTitle": "Password reset",
-
+	
 	"emailLabel": "Email Address",
 	"nameLabel": "Name",
 	"passwordLabel": "Password",
 	"passwordRegisterLabel": "Password (From 4 to 20 characters)",
 	"newPasswordLabel": "New password",
 	"passwordConfirmLabel": "Confirm Password",
-
+	
 	"createSubmit": "Create",
 	"loginSubmit": "Log in",
 	"sendEmailSubmit": "Send an email",
+	"resetSubmit": "Password reset",
 	
 	"login": "Log in",
 	"next": "Next",

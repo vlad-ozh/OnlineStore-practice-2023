@@ -20,3 +20,4 @@ export { LoginForm } from './LoginForm';
 export { ForgotPasswordForm } from './ForgotPasswordForm';
 export { ForgotPasswordFormSent } from './ForgotPasswordFormSent';
 export { ForgotPasswordContent } from './ForgotPasswordContent';
+export { ResetPasswordForm } from './ResetPasswordForm';

@@ -1,148 +1,105 @@
-import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import { connect, ConnectedProps } from 'react-redux';
-import { AppDispatch, RootState } from '../../model/store/store';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
+import { navigationApi, userApi } from '../../model/apis';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import {
+  IUserResetPasswordData,
+  IUserResetPasswordToken,
+} from '../../model/types/IUser';
 import {
   Header,
   Layout,
   Footer,
-  Input,
-  Button,
   Loader,
   Breadcrumbs,
+  ResetPasswordForm,
 } from '../../components';
-import { controller } from './controller';
 
 import style from './style.module.scss';
 
-const PureAccountResetPassword: React.FC<Props> = (props) => {
+export const AccountResetPassword: React.FC = () => {
   const {
     user,
     error,
     loading,
     isToken,
-    getBreadcrumbsPaths,
-    getLoginLink,
-    checkToken,
-    onReset,
-    getAccountLink,
-  } = props;
+  } = useAppSelector((state) => state.userApi);
+  const dispatch = useAppDispatch();
 
-  const [formData, setFormData] = useState({
-    password: '',
-    confirmPassword: '',
-  });
-
-  const { t } = useTranslation(['authorization']);
+  const tokenParam = useParams().token;
 
   useEffect(() => {
-    checkToken();
+    if (typeof tokenParam === 'string') {
+      dispatch(userApi.checkToken(tokenParam));
+    }
+  }, [tokenParam, dispatch]);
 
-  }, [checkToken]);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm<IUserResetPasswordData>({
+    mode: 'onChange',
+  });
+  const passwordValue = watch('password');
 
+  const onSubmitWithParams = (additionalParams: IUserResetPasswordToken):
+    SubmitHandler<IUserResetPasswordData> => {
+    return (data) => {
+      const {isToken, token} = additionalParams;
 
-  const renderError = () => {
-    return (
-      <h4 className={style.formError}>
-        {t(`${error}`)}
-      </h4>
-    );
+      if (typeof token === 'string') {
+        const user = {
+          password: data.password.trim(),
+          isToken,
+          token,
+        };
+
+        dispatch(userApi.resetPassword(user));
+        reset();
+      }
+    };
   };
 
-  const renderRegisterForm = () => {
-    return (
-      <div className={style.screenContainer}>
-        <form className={style.form}>
-          <h2 className={style.formTitle}>
-            {t('resetTitle')}
-          </h2>
-          <fieldset className={style.formFieldset}>
-            <label className={style.formLabel} htmlFor={'password'}>
-              {t('newPassword')}
-              {t('totalCharacters')}
-            </label>
-            <Input
-              value={formData.password}
-              type='password'
-              name='password'
-              onBlur={(value) => setFormData({...formData, password: value})}
-              placeholder={t('newPasswordPlaceholder')}
-              required
-              className={style.formInput}
-            />
-          </fieldset>
-          <fieldset className={style.formFieldset}>
-            <label className={style.formLabel} htmlFor={'confirmPassword'}>
-              {t('confirmPassword')}
-            </label>
-            <Input
-              value={formData.confirmPassword}
-              type='password'
-              name='confirmPassword'
-              onBlur={(value) =>
-                setFormData({ ...formData, confirmPassword: value })
-              }
-              placeholder={t('passwordPlaceholder')}
-              required
-              className={style.formInput}
-            />
-          </fieldset>
+  const getBreadcrumbsPaths = () => {
+    const breadcrumbsPaths = [
+      {path: navigationApi.toHome(), name: {title: 'home'}},
+      {path: '', name: {title: 'resetPassword'}},
+    ];
 
-          {error && renderError()}
-
-          <Button
-            skin='text'
-            size='medium'
-            onClick={() => onReset({...formData, isToken})}
-            className={style.formButton}
-          >
-            {t('reset')}
-          </Button>
-        </form>
-      </div>
-    );
+    return breadcrumbsPaths;
   };
 
   return (
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths}/>}
+      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths()}/>}
     >
       <div className={style.screen}>
         {loading && <Loader />}
-        {user.isAuth && <Navigate to={getAccountLink} replace={true} />}
-        {!isToken && !user.isAuth
-          && <Navigate to={getLoginLink} replace={true} />
-        }
-        {!user.isAuth && !loading && renderRegisterForm()}
+        {user.isAuth ?(
+          <Navigate to={navigationApi.toAccount()} replace={true} />
+        ) : !isToken ? (
+          <Navigate to={navigationApi.toAccountLogin()} replace={true} />
+        ) : (
+          <>
+            {!loading && (
+              <ResetPasswordForm
+                register={register}
+                errors={errors}
+                formError={error}
+                handleSubmit={handleSubmit}
+                onSubmit={onSubmitWithParams({isToken, token: tokenParam})}
+                passwordValue={passwordValue}
+              />
+            )}
+          </>
+        )}
       </div>
     </Layout>
   );
 };
-
-const mapState = (state: RootState) => ({
-  user: state.userApi.user,
-  error: state.userApi.error,
-  loading: state.userApi.loading,
-  isToken: state.userApi.isToken,
-});
-
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-  const ctrl = controller(dispatch);
-
-  return {
-    getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
-    getAccountLink: ctrl.getAccountLink(),
-    getLoginLink: ctrl.getLoginLink(),
-    checkToken: ctrl.checkToken,
-    onReset: ctrl.onReset,
-  };
-};
-
-const connector = connect(mapState, mapDispatchToProps);
-
-type Props = ConnectedProps<typeof connector>;
-
-export const AccountResetPassword = connector(PureAccountResetPassword);

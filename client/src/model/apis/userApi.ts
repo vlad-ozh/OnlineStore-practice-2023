@@ -7,7 +7,7 @@ import {
   IUserLogin,
   IUserResponse,
   IUserForgotPassword,
-  IUserResetPassword,
+  IUserResetPasswordRequest,
   IUserCartSelectedOperations,
   IChangeAmountProductBuy,
   ICheckout,
@@ -23,7 +23,7 @@ interface IUserApi {
     AsyncThunk<undefined, IUserForgotPassword, {rejectValue: string}>;
   checkToken: AsyncThunk<{isToken: boolean}, string, {rejectValue: string}>;
   resetPassword:
-    AsyncThunk<IUserResponse, IUserResetPassword, {rejectValue: string}>;
+    AsyncThunk<IUserResponse, IUserResetPasswordRequest, {rejectValue: string}>;
   addProductToSelected:
     AsyncThunk<IUser, IUserCartSelectedOperations, {rejectValue: string}>;
   removeProductFromSelected:
@@ -108,7 +108,9 @@ const user = (): IUserApi => {
       }
     );
   const resetPassword = () =>
-    createAsyncThunk<IUserResponse, IUserResetPassword, {rejectValue: string}>(
+    createAsyncThunk<IUserResponse, IUserResetPasswordRequest, {
+      rejectValue: string
+    }>(
       'user/reset/password',
       async ({password, isToken, token}, { rejectWithValue }) => {
         return await axiosInstance

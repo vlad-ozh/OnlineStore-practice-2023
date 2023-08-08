@@ -34,15 +34,18 @@ export interface IUserResponse {
 export interface IUserForgotPassword {
   email: string;
 }
-export interface IUserResetPassword {
+export interface IUserResetPasswordRequest {
   password: string;
   isToken: boolean;
   token: string;
 }
+export interface IUserResetPasswordToken {
+  isToken: boolean;
+  token: string | undefined;
+}
 export interface IUserResetPasswordData {
   password: string;
   confirmPassword: string;
-  isToken: boolean;
 }
 export interface IUserCartSelectedOperations  {
   userId: string;

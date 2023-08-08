@@ -2,17 +2,18 @@
 	"loginTitle": "Вхід",
 	"registerTitle": "Створити новий акаунт",
 	"resetTitle": "Відновлення паролю",
-
+	
 	"emailLabel": "Адреса електронної пошти",
 	"nameLabel": "Ім'я",
 	"passwordLabel": "Пароль",
 	"passwordRegisterLabel": "Пароль (Від 4 до 20 символів)",
 	"newPasswordLabel": "Новий пароль",
 	"passwordConfirmLabel": "Підтвердьте пароль",
-
+	
 	"createSubmit": "Створити",
 	"loginSubmit": "Увійти",
 	"sendEmailSubmit": "Надіслати лист",
+	"resetSubmit": "Відновити пароль",
 	
 	"login": "Вхід",
 	"next": "Далі",
