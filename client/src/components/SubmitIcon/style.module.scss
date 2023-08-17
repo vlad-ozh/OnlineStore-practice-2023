@@ -1,0 +1,15 @@
+@use "./../../assets/common/fonts";
+
+.submit {
+  font-family: fonts.$roboto;
+  cursor: pointer;
+  background-color: #e00027;
+  border: none;
+  max-width: 100%;
+  color: #fff;
+  transition: all .2s;
+
+  &:hover {
+    background-color: #f97988;
+  }
+}

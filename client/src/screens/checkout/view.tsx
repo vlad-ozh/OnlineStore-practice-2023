@@ -36,7 +36,7 @@ const PureCheckout: React.FC<Props> = (props) => {
   });
 
   React.useEffect(() => {
-    validate(formData);
+    // validate(formData);
   }, [validate, formData, user]);
 
   const renderError = () => {
@@ -47,89 +47,89 @@ const PureCheckout: React.FC<Props> = (props) => {
     );
   };
 
-  const renderRegisterForm = () => {
-    return (
-      <div className={style.screenContainer}>
-        <form className={style.form}>
-          <h2 className={style.formTitle}>
-            {t('checkoutTitle')}
-          </h2>
-          <h4 className={style.formDeliveryMsg}>
-            {t('deliveryMsg')}
-          </h4>
-          <fieldset className={style.formFieldset}>
-            <label className={style.formLabel} htmlFor={'name'}>
-              {t('name')}
-            </label>
-            <Input
-              value={formData.name}
-              type='text'
-              name='name'
-              id='name'
-              onBlur={(value) => setFormData({ ...formData, name: value })}
-              placeholder={t('namePlaceholder')}
-              required
-              className={style.formInput}
-            />
-          </fieldset>
-          <fieldset className={style.formFieldset}>
-            <label className={style.formLabel} htmlFor={'phone'}>
-              {t('phone')}
-            </label>
-            <Input
-              value={formData.phone}
-              type='tel'
-              name='phone'
-              id='phone'
-              onBlur={(value) => setFormData({ ...formData, phone: value })}
-              placeholder={t('phonePlaceholder')}
-              required
-              className={style.formInput}
-            />
-          </fieldset>
-          <fieldset className={style.formFieldset}>
-            <label className={style.formLabel} htmlFor={'city'}>
-              {t('city')}
-            </label>
-            <Input
-              value={formData.city}
-              type='text'
-              name='city'
-              id='city'
-              onBlur={(value) => setFormData({...formData, city: value})}
-              placeholder={t('cityPlaceholder')}
-              required
-              className={style.formInput}
-            />
-          </fieldset>
-          <fieldset className={style.formFieldset}>
-            <label className={style.formLabel} htmlFor={'postNum'}>
-              {t('postNum')}
-            </label>
-            <Input
-              value={formData.postNum === 0 ? '' : formData.postNum.toString()}
-              type='number'
-              name='postNum'
-              id='postNum'
-              onBlur={(value) =>
-                setFormData({ ...formData, postNum: +value })
-              }
-              placeholder={t('postNumPlaceholder')}
-              required
-              className={style.formInput}
-            />
-          </fieldset>
+  // const renderRegisterForm = () => {
+  //   return (
+  //     <div className={style.screenContainer}>
+  //       <form className={style.form}>
+  //         <h2 className={style.formTitle}>
+  //           {t('checkoutTitle')}
+  //         </h2>
+  //         <h4 className={style.formDeliveryMsg}>
+  //           {t('deliveryMsg')}
+  //         </h4>
+  //         <fieldset className={style.formFieldset}>
+  //           <label className={style.formLabel} htmlFor={'name'}>
+  //             {t('name')}
+  //           </label>
+  //           <Input
+  //             value={formData.name}
+  //             type='text'
+  //             name='name'
+  //             id='name'
+  //             onBlur={(value) => setFormData({ ...formData, name: value })}
+  //             placeholder={t('namePlaceholder')}
+  //             required
+  //             className={style.formInput}
+  //           />
+  //         </fieldset>
+  //         <fieldset className={style.formFieldset}>
+  //           <label className={style.formLabel} htmlFor={'phone'}>
+  //             {t('phone')}
+  //           </label>
+  //           <Input
+  //             value={formData.phone}
+  //             type='tel'
+  //             name='phone'
+  //             id='phone'
+  //             onBlur={(value) => setFormData({ ...formData, phone: value })}
+  //             placeholder={t('phonePlaceholder')}
+  //             required
+  //             className={style.formInput}
+  //           />
+  //         </fieldset>
+  //         <fieldset className={style.formFieldset}>
+  //           <label className={style.formLabel} htmlFor={'city'}>
+  //             {t('city')}
+  //           </label>
+  //           <Input
+  //             value={formData.city}
+  //             type='text'
+  //             name='city'
+  //             id='city'
+  //             onBlur={(value) => setFormData({...formData, city: value})}
+  //             placeholder={t('cityPlaceholder')}
+  //             required
+  //             className={style.formInput}
+  //           />
+  //         </fieldset>
+  //         <fieldset className={style.formFieldset}>
+  //           <label className={style.formLabel} htmlFor={'postNum'}>
+  //             {t('postNum')}
+  //           </label>
+  //           <Input
+  //             value={formData.postNum === 0 ? '' : formData.postNum.toString()}
+  //             type='number'
+  //             name='postNum'
+  //             id='postNum'
+  //             onBlur={(value) =>
+  //               setFormData({ ...formData, postNum: +value })
+  //             }
+  //             placeholder={t('postNumPlaceholder')}
+  //             required
+  //             className={style.formInput}
+  //           />
+  //         </fieldset>
 
-          {error && renderError()}
+  //         {error && renderError()}
 
-          <Link to={onNext(formData, error)} className={style.formLink}>
-            {t('next')}
-          </Link>
+  //         <Link to={onNext(formData, error)} className={style.formLink}>
+  //           {t('next')}
+  //         </Link>
 
-        </form>
-      </div>
-    );
-  };
+  //       </form>
+  //     </div>
+  //   );
+  // };
 
   const isProducts = Boolean(user.cart?.length);
 
@@ -141,7 +141,7 @@ const PureCheckout: React.FC<Props> = (props) => {
     >
       <div className={style.screen}>
         {loading && <Loader />}
-        {!loading && renderRegisterForm()}
+        {/* {!loading && renderRegisterForm()} */}
         {!loading && !isProducts && <Navigate to={getCartLink} replace={true}/>}
       </div>
     </Layout>

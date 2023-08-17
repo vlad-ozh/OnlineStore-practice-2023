@@ -104,3 +104,6 @@ export interface ICreateReview {
   rating: number;
   text: string;
 };
+export interface ISearch {
+  search: string;
+};

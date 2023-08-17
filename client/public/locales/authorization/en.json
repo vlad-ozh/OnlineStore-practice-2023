@@ -22,6 +22,8 @@
 	"dontHaveAcc": "Don't have an account? ",
 	"haveAcc": "Have an account? ",
 
+
+	"searchPlaceholder": "Search",
 	"emailPlaceholder": "Enter email",
 	"namePlaceholder": "Enter name",
 	"passwordPlaceholder": "Enter password",

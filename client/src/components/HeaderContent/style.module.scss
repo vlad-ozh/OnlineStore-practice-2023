@@ -206,36 +206,6 @@
   }
 }
 
-.searchForm {
-  display: flex;
-  max-width: 700px;
-  width: 100%;
-  
-  &Input {
-    height: 40px;
-    padding: 7px 20px;
-    border-radius: 6px 0 0 6px;
-    border: none;
-    outline: none;
-    transition: all .3s;
-    appearance: none;
-  }
-  
-  &Link {
-    display: flex;
-    background-color: #e00027;
-    fill: #fff;
-    border-radius: 0 6px 6px 0;
-    transition: .2s;
-    text-decoration: none;
-    padding: 8px 13px;
-
-    &:hover {
-      background-color: #f97988;
-    }
-  }
-}
-
 .navList {
   display: flex;
   list-style: none;

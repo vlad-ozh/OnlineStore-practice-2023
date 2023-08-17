@@ -13,7 +13,6 @@ interface IProductsState {
   categoriesNames: IProductsCategories;
   categories: IProductsCategory[];
   category: IProductsCategory | null;
-  search: string;
   loading: boolean;
   error: string | null;
 };
@@ -31,7 +30,6 @@ const initialState: IProductsState = {
   },
   categories: [] as IProductsCategory[],
   category: null,
-  search: '',
   loading: false,
   error: null,
 };
@@ -39,11 +37,7 @@ const initialState: IProductsState = {
 export const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {
-    changeSearch: (state, action: PayloadAction<string>) => {
-      state.search = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(productsApi.getCategoryInfo.pending, (state) => {
@@ -157,7 +151,5 @@ export const productsSlice = createSlice({
       });
   },
 });
-
-export const productsActions = productsSlice.actions;
 
 export const productsReducer = productsSlice.reducer;

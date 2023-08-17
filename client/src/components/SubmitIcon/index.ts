@@ -1,0 +1,1 @@
+export { SubmitIcon } from './view';

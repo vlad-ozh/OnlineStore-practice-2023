@@ -6,7 +6,7 @@
   padding: 10px;
   height: 40px;
   background-color: var(--input-background-color);
-
+  
   @media screen and (max-width: 600px) {
     font-size: 14px;
   }
@@ -14,4 +14,10 @@
   &::placeholder {
     color: var(--input-placeholder-text-color);
   }
+  &:hover {
+    border-color: #e00027;
+  } 
+  &:focus {
+    border-color: #e00027;
+  } 
 }

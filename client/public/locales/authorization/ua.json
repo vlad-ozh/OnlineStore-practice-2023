@@ -22,6 +22,7 @@
 	"dontHaveAcc": "Немає облікового запису? ",
 	"haveAcc": "Є обліковий запис? ",
 
+	"searchPlaceholder": "Пошук",
 	"emailPlaceholder": "Введіть ел. пошту",
 	"namePlaceholder": "Введіть ім'я",
 	"passwordPlaceholder": "Введіть пароль",

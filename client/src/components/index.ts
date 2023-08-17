@@ -1,4 +1,5 @@
 export { App } from './App';
+export { HeaderContent } from './HeaderContent';
 export { Header } from './Header';
 export { Footer } from './Footer';
 export { Layout } from './Layout';
@@ -14,6 +15,7 @@ export { ProductCard } from './ProductCard';
 export { ShowProducts } from './ShowProducts';
 export { ShowPopularProducts } from './ShowPopularProducts';
 export { Submit } from './Submit';
+export { SubmitIcon } from './SubmitIcon';
 export { FormError } from './FormError';
 export { RegisterForm } from './RegisterForm';
 export { LoginForm } from './LoginForm';
@@ -21,3 +23,4 @@ export { ForgotPasswordForm } from './ForgotPasswordForm';
 export { ForgotPasswordFormSent } from './ForgotPasswordFormSent';
 export { ForgotPasswordContent } from './ForgotPasswordContent';
 export { ResetPasswordForm } from './ResetPasswordForm';
+export { SearchForm } from './SearchForm';
