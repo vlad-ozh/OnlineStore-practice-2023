@@ -1,1 +1,1 @@
-export { InputCounter } from './view';
+export { QuantityInput } from './view';

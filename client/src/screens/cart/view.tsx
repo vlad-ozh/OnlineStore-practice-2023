@@ -1,132 +1,109 @@
 import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { RemoveIcon } from '../../assets/images/svg-images';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { navigationApi, productsApi, userApi } from '../../model/apis';
+import { IUserCart } from '../../model/types/IUser';
+import { IProduct } from '../../model/types/IProducts';
 import {
   Header,
   Layout,
   Footer,
   Breadcrumbs,
   Loader,
-  Button,
-  InputCounter,
+  CartContent,
+  NoData,
 } from '../../components';
-import { AppDispatch, RootState } from '../../model/store/store';
-import { controller } from './controller';
 
 import style from './style.module.scss';
 
-const PureCart: React.FC<Props> = (props) => {
-  const { t } = useTranslation(['products']);
+export const Cart: React.FC = () => {
   const {
     user,
+    userDataLoaded,
+  } = useAppSelector((state) => state.userApi);
+  const {
     products,
     loading,
-    getProducts,
-    getBreadcrumbsPaths,
-    getLoginLink,
-    removeProduct,
-    getAmountProduct,
-    changeAmount,
-    getProductPrice,
-    totalPrice,
-    productLink,
-    getCheckoutLink,
-  } = props;
+  } = useAppSelector((state) => state.productsApi);
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  const { t } = useTranslation(['products']);
+
+  const {
+    toProduct,
+    toCheckout,
+    toAccountLogin,
+    toAccount,
+    toHome,
+  } = navigationApi;
 
   React.useEffect(() => {
-    getProducts(user.id);
-  }, [getProducts, user]);
+    if (userDataLoaded && !user.isAuth)
+      navigate(toAccountLogin(), {replace: true});
+    userDataLoaded && dispatch(productsApi.getProductsInCart(user.id));
+  }, [dispatch, user, userDataLoaded, navigate, toAccountLogin]);
 
-  const renderProducts = () => {
-    return (
-      <div className={style.products}>
-        <ul className={style.productsList}>
-          {products.map((product) => {
-            const {
-              id,
-              brand,
-              category,
-              image,
-              name,
-              price,
-              amount,
-            } = product;
 
-            return (
-              <li key={id} className={style.product}>
-                <Button
-                  size='large'
-                  skin='icon'
-                  onClick={() => removeProduct(user.id, id)}
-                  className={style.productRemoveButton}
-                >
-                  <RemoveIcon />
-                </Button>
-                <Link
-                  to={productLink(category, brand, id)}
-                  className={style.productLink}
-                >
-                  <div className={style.productImageContainer}>
-                    <img
-                      className={style.productImage}
-                      src={image[0]}
-                      alt={name}
-                    />
-                  </div>
-                </Link>
-                <div className={style.productInfo}>
-                  <h4 className={style.productTitle}>
-                    <Link
-                      to={productLink(category, brand, id)}
-                      className={style.productLink}
-                    >
-                      {name}
-                    </Link>
-                  </h4>
-                  <div className={style.productPrice}>
-                    <InputCounter
-                      value={getAmountProduct(user.cart, id)}
-                      onBlur={
-                        (value) => changeAmount(user.id, id, amount, value)
-                      }
-                      maxValue={product.amount}
-                    />
-                    <h4>
-                      {getProductPrice(user.cart, id, price)} ₴
-                    </h4>
-                  </div>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+  const getBreadcrumbsPaths = () => {
+    const breadcrumbsPaths = [
+      {path: toHome(), name: {title: 'home'}},
+      {path: toAccount(), name: {title: 'profile'}},
+      {path: '', name: {title: 'cart'}},
+    ];
 
-        <div className={style.productsOrder}>
-          <div className={style.productsTotalPrice}>
-            <h3 className={style.productsText}>
-              {t('totalPrice')}
-            </h3>
-            <h3 className={style.productsPrice}>
-              {totalPrice(user.cart, products)} ₴
-            </h3>
-          </div>
-          <Link to={getCheckoutLink} className={style.productsOrderLink}>
-            {t('order')}
-          </Link>
-        </div>
-      </div>
-    );
+    return breadcrumbsPaths;
   };
 
-  const renderNoData = () => {
-    return (
-      <h3 className={style.noProducts}>
-        {t('emptyCart')}
-      </h3>
-    );
+  const removeProduct = (userId: string, productId: string) => {
+    dispatch(userApi.removeProductFromCart({ userId, productId }));
+  };
+  const amountProductInCart = (cart: IUserCart[], productId: string) => {
+    const product = cart.find(product => product.id === productId);
+
+    return product ? product.amount : 1;
+  };
+  const changeAmount = (
+    userId: string,
+    productId: string,
+    amount: number,
+    value: number
+  ) => {
+    dispatch(userApi.changeAmountProductBuy({
+      userId,
+      productId,
+      amount,
+      value,
+    }));
+  };
+  const productPrice = (
+    cart: IUserCart[],
+    productId: string,
+    productPrice: number
+  ) => {
+    const product = cart.find(product => product.id === productId);
+
+    if (product === undefined) {
+      return productPrice.toLocaleString();
+    }
+
+    return (productPrice * product.amount).toLocaleString();
+  };
+  const totalPrice = (cart: IUserCart[], products: IProduct[]) => {
+    let totalPrice = 0;
+    products.forEach(product => {
+      const prod = cart.find(prod => prod.id === product.id);
+
+      if (prod === undefined) {
+        return totalPrice += product.price;
+      }
+
+      return totalPrice += product.price * prod.amount;
+    });
+
+    return totalPrice.toLocaleString();
   };
 
   const isProducts = Boolean(products.length);
@@ -135,43 +112,28 @@ const PureCart: React.FC<Props> = (props) => {
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths}/>}
+      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths()}/>}
     >
       <div className={style.screen}>
         {loading && <Loader />}
-        {!loading && isProducts && renderProducts()}
-        {!loading && !isProducts && renderNoData()}
-        {!user.isAuth && <Navigate to={getLoginLink} replace={true} />}
+        {userDataLoaded && user.isAuth && !loading &&
+          (isProducts ?
+            <CartContent
+              user={user}
+              products={products}
+              removeProduct={removeProduct}
+              toCheckout={toCheckout()}
+              changeAmount={changeAmount}
+              amountProductInCart={amountProductInCart}
+              productPrice={productPrice}
+              toProduct={toProduct}
+              totalPrice={totalPrice}
+            />
+            :
+            <NoData text={t('emptyCart')} />
+          )
+        }
       </div>
     </Layout>
   );
 };
-
-const mapState = (state: RootState) => ({
-  user: state.userApi.user,
-  loading: state.productsApi.loading,
-  products: state.productsApi.products,
-});
-
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-  const ctrl = controller(dispatch);
-
-  return {
-    getProducts: ctrl.getProducts,
-    getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
-    getLoginLink: ctrl.getAccountLoginLink(),
-    removeProduct: ctrl.removeProduct,
-    getAmountProduct: ctrl.getAmountProduct,
-    changeAmount: ctrl.changeAmount,
-    getProductPrice: ctrl.getProductPrice,
-    totalPrice: ctrl.getTotalPrice,
-    productLink: ctrl.getProductLink,
-    getCheckoutLink: ctrl.getCheckoutLink(),
-  };
-};
-
-const connector = connect(mapState, mapDispatchToProps);
-
-type Props = ConnectedProps<typeof connector>;
-
-export const Cart = connector(PureCart);

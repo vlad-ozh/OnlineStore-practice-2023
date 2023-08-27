@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { navigationApi, userApi } from '../../model/apis';
-import { AppDispatch } from '../../model/store/store';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../hooks';
 import {
   NotFound,
   Home,
@@ -27,12 +26,10 @@ import {
 import style from './style.module.scss';
 
 export const App: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      dispatch(userApi.refresh());
-    }
+    dispatch(userApi.refresh());
   });
 
   return (

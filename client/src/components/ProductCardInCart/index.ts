@@ -1,0 +1,1 @@
+export { ProductCardInCart } from './view';
