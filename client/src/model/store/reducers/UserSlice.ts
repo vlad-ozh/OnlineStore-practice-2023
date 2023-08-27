@@ -4,6 +4,7 @@ import { userApi } from '../../apis';
 
 interface IUserState {
   user: IUser;
+  userDataLoaded: boolean;
   isEmailSent: boolean;
   isToken: boolean;
   checkoutInfo: ICheckout;
@@ -13,6 +14,7 @@ interface IUserState {
 
 const initialState: IUserState = {
   user: {} as IUser,
+  userDataLoaded: false,
   isEmailSent: false,
   isToken: true,
   checkoutInfo: {} as ICheckout,
@@ -66,14 +68,17 @@ export const userSlice = createSlice({
       .addCase(userApi.refresh.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.userDataLoaded = false;
       })
       .addCase(userApi.refresh.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.loading = false;
+        state.userDataLoaded = true;
         localStorage.setItem('token', action.payload.accessToken);
       })
       .addCase(userApi.refresh.rejected, (state) => {
         state.loading = false;
+        state.userDataLoaded = true;
         localStorage.removeItem('token');
       })
 
