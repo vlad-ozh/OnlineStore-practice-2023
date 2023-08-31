@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { navigationApi, userApi } from '../../model/apis';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IUserLogin } from '../../model/types/IUser';
@@ -20,8 +20,16 @@ export const AccountLogin: React.FC = () => {
     user,
     error,
     loading,
+    userDataLoaded,
   } = useAppSelector((state) => state.userApi);
   const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (userDataLoaded && user.isAuth)
+      navigate(navigationApi.toAccount(), { replace: true });
+  }, [user, userDataLoaded, navigate]);
 
   const {
     register,
@@ -42,40 +50,32 @@ export const AccountLogin: React.FC = () => {
     resetField('password');
   };
 
-  const getBreadcrumbsPaths = () => {
-    const breadcrumbsPaths = [
+  const breadcrumbsPaths = () => {
+    return [
       {path: navigationApi.toHome(), name: {title: 'home'}},
       {path: '', name: {title: 'login'}},
     ];
-
-    return breadcrumbsPaths;
   };
 
   return (
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths()}/>}
+      breadcrumbs={<Breadcrumbs paths={breadcrumbsPaths()}/>}
     >
       <div className={style.screen}>
         {loading && <Loader />}
-        {user.isAuth ? (
-          <Navigate to={navigationApi.toAccount()} replace={true} />
-        ) : (
-          <>
-            {!loading && (
-              <LoginForm
-                register={register}
-                errors={errors}
-                formError={error}
-                registerLink={navigationApi.toAccountRegister()}
-                forgotPasswordLink={navigationApi.toAccountForgotPassword()}
-                handleSubmit={handleSubmit}
-                onSubmit={onSubmit}
-              />
-            )}
-          </>
-        )}
+        {userDataLoaded && !user.isAuth && !loading &&
+          <LoginForm
+            register={register}
+            errors={errors}
+            formError={error}
+            registerLink={navigationApi.toAccountRegister()}
+            forgotPasswordLink={navigationApi.toAccountForgotPassword()}
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+          />
+        }
       </div>
     </Layout>
   );

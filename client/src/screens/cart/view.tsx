@@ -42,19 +42,18 @@ export const Cart: React.FC = () => {
 
   React.useEffect(() => {
     if (userDataLoaded && !user.isAuth)
-      navigate(toAccountLogin(), {replace: true});
+      navigate(toAccountLogin(), { replace: true });
+
     userDataLoaded && dispatch(productsApi.getProductsInCart(user.id));
   }, [dispatch, user, userDataLoaded, navigate, toAccountLogin]);
 
 
-  const getBreadcrumbsPaths = () => {
-    const breadcrumbsPaths = [
+  const breadcrumbsPaths = () => {
+    return [
       {path: toHome(), name: {title: 'home'}},
       {path: toAccount(), name: {title: 'profile'}},
       {path: '', name: {title: 'cart'}},
     ];
-
-    return breadcrumbsPaths;
   };
 
   const removeProduct = (userId: string, productId: string) => {
@@ -93,14 +92,15 @@ export const Cart: React.FC = () => {
   };
   const totalPrice = (cart: IUserCart[], products: IProduct[]) => {
     let totalPrice = 0;
-    products.forEach(product => {
-      const prod = cart.find(prod => prod.id === product.id);
 
-      if (prod === undefined) {
+    products.forEach(product => {
+      const productInCart = cart.find(prod => prod.id === product.id);
+
+      if (productInCart === undefined) {
         return totalPrice += product.price;
       }
 
-      return totalPrice += product.price * prod.amount;
+      return totalPrice += product.price * productInCart.amount;
     });
 
     return totalPrice.toLocaleString();
@@ -112,7 +112,7 @@ export const Cart: React.FC = () => {
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths()}/>}
+      breadcrumbs={<Breadcrumbs paths={breadcrumbsPaths()}/>}
     >
       <div className={style.screen}>
         {loading && <Loader />}

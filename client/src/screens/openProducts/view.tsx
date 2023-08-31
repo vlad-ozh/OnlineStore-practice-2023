@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   Header,
   Layout,
@@ -7,6 +8,8 @@ import {
   Breadcrumbs,
   ShowProducts,
   ShowPopularProducts,
+  Loader,
+  NoData,
 } from '../../components';
 import { AppDispatch, RootState } from '../../model/store/store';
 import { controller } from './controller';
@@ -18,12 +21,20 @@ const PureOpenProducts: React.FC<Props> = (props) => {
     getProducts,
     getPopularProducts,
     getBreadcrumbsPaths,
+    products,
+    loading,
+    user,
+    userDataLoaded,
   } = props;
 
   React.useEffect(() => {
     getProducts();
     getPopularProducts();
   }, [getProducts, getPopularProducts]);
+
+  const { t } = useTranslation(['products']);
+
+  const isProducts = Boolean(products.length);
 
   return (
     <Layout
@@ -32,7 +43,17 @@ const PureOpenProducts: React.FC<Props> = (props) => {
       breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths} />}
     >
       <div className={style.screen}>
-        <ShowProducts />
+        {loading && <Loader />}
+        {userDataLoaded && user.isAuth && !loading &&
+          (isProducts ?
+            <ShowProducts
+              products={products}
+              user={user}
+            />
+            :
+            <NoData text={t('noProducts')} />
+          )
+        }
         <ShowPopularProducts />
       </div>
     </Layout>
@@ -42,6 +63,8 @@ const PureOpenProducts: React.FC<Props> = (props) => {
 const mapState = (state: RootState) => ({
   products: state.productsApi.products,
   loading: state.productsApi.loading,
+  user: state.userApi.user,
+  userDataLoaded: state.userApi.userDataLoaded,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {

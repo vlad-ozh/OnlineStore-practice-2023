@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { navigationApi, userApi } from '../../model/apis';
@@ -22,8 +22,16 @@ export const ForgotPassword: React.FC = () => {
     error,
     loading,
     isEmailSent,
+    userDataLoaded,
   } = useAppSelector((state) => state.userApi);
   const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (userDataLoaded && user.isAuth)
+      navigate(navigationApi.toAccount(), { replace: true });
+  }, [user, userDataLoaded, navigate]);
 
   const {
     register,
@@ -42,13 +50,11 @@ export const ForgotPassword: React.FC = () => {
     dispatch(userApi.forgotPassword(user));
   };
 
-  const getBreadcrumbsPaths = () => {
-    const breadcrumbsPaths = [
+  const breadcrumbsPaths = () => {
+    return [
       {path: navigationApi.toHome(), name: {title: 'home'}},
       {path: '', name: {title: 'forgotPassword'}},
     ];
-
-    return breadcrumbsPaths;
   };
 
   const onBack = () => {
@@ -59,28 +65,22 @@ export const ForgotPassword: React.FC = () => {
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths()}/>}
+      breadcrumbs={<Breadcrumbs paths={breadcrumbsPaths()}/>}
     >
       <div className={style.screen}>
         {loading && <Loader />}
-        {user.isAuth ? (
-          <Navigate to={navigationApi.toAccount()} replace={true} />
-        ) : (
-          <>
-            {!loading && (
-              <ForgotPasswordContent
-                email={getValues('email')}
-                onBack={onBack}
-                register={register}
-                errors={errors}
-                formError={error}
-                handleSubmit={handleSubmit}
-                onSubmit={onSubmit}
-                isEmailSent={isEmailSent}
-              />
-            )}
-          </>
-        )}
+        {userDataLoaded && !user.isAuth && !loading &&
+          <ForgotPasswordContent
+            email={getValues('email')}
+            onBack={onBack}
+            register={register}
+            errors={errors}
+            formError={error}
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+            isEmailSent={isEmailSent}
+          />
+        }
       </div>
     </Layout>
   );

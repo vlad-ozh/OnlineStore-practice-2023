@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IUserRegisterConfirm } from '../../model/types/IUser';
@@ -20,8 +20,16 @@ export const AccountRegister: React.FC = () => {
     user,
     error,
     loading,
+    userDataLoaded,
   } = useAppSelector((state) => state.userApi);
   const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (userDataLoaded && user.isAuth)
+      navigate(navigationApi.toAccount(), { replace: true });
+  }, [user, userDataLoaded, navigate]);
 
   const {
     register,
@@ -45,40 +53,32 @@ export const AccountRegister: React.FC = () => {
     reset();
   };
 
-  const getBreadcrumbsPaths = () => {
-    const breadcrumbsPaths = [
+  const breadcrumbsPaths = () => {
+    return [
       {path: navigationApi.toHome(), name: {title: 'home'}},
       {path: '', name: {title: 'register'}},
     ];
-
-    return breadcrumbsPaths;
   };
 
   return (
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths()}/>}
+      breadcrumbs={<Breadcrumbs paths={breadcrumbsPaths()}/>}
     >
       <div className={style.screen}>
         {loading && <Loader />}
-        {user.isAuth ? (
-          <Navigate to={navigationApi.toAccount()} replace={true} />
-        ) : (
-          <>
-            {!loading && (
-              <RegisterForm
-                register={register}
-                errors={errors}
-                formError={error}
-                loginLink={navigationApi.toAccountLogin()}
-                handleSubmit={handleSubmit}
-                onSubmit={onSubmit}
-                passwordValue={passwordValue}
-              />
-            )}
-          </>
-        )}
+        {userDataLoaded && !user.isAuth && !loading &&
+          <RegisterForm
+            register={register}
+            errors={errors}
+            formError={error}
+            loginLink={navigationApi.toAccountLogin()}
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+            passwordValue={passwordValue}
+          />
+        }
       </div>
     </Layout>
   );

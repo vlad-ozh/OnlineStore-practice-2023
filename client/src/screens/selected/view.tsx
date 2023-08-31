@@ -1,59 +1,71 @@
 import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Header,
   Layout,
   Footer,
   Breadcrumbs,
   ShowProducts,
+  Loader,
+  NoData,
 } from '../../components';
-import { AppDispatch, RootState } from '../../model/store/store';
-import { controller } from './controller';
 
 import style from './style.module.scss';
-const PureSelected: React.FC<Props> = (props) => {
+import { navigationApi, productsApi } from '../../model/apis';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useTranslation } from 'react-i18next';
+
+export const Selected: React.FC = () => {
   const {
     user,
-    getBreadcrumbsPaths,
-    getLoginLink,
-    getProducts,
-  } = props;
+    userDataLoaded,
+  } = useAppSelector((state) => state.userApi);
+  const {
+    products,
+    loading,
+  } = useAppSelector((state) => state.productsApi);
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  const { t } = useTranslation(['products']);
 
   React.useEffect(() => {
-    getProducts(user.id);
-  }, [getProducts, user]);
+    if (userDataLoaded && !user.isAuth)
+      navigate(navigationApi.toAccountLogin(), { replace: true });
+
+    userDataLoaded && dispatch(productsApi.getSelectedProducts(user.id));
+  }, [user, userDataLoaded, dispatch, navigate]);
+
+  const breadcrumbsPaths = () => {
+    return [
+      {path: navigationApi.toHome(), name: {title: 'home'}},
+      {path: navigationApi.toAccount(), name: {title: 'profile'}},
+      {path: '', name: {title: 'selected'}},
+    ];
+  };
+
+  const isProducts = Boolean(products.length);
 
   return (
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths}/>}
+      breadcrumbs={<Breadcrumbs paths={breadcrumbsPaths()}/>}
     >
       <div className={style.screen}>
-        {!user.isAuth && <Navigate to={getLoginLink} replace={true} />}
-        <ShowProducts />
+        {loading && <Loader />}
+        {userDataLoaded && user.isAuth && !loading &&
+          (isProducts ?
+            <ShowProducts
+              products={products}
+              user={user}
+            />
+            :
+            <NoData text={t('noProducts')} />
+          )
+        }
       </div>
     </Layout>
   );
 };
-
-const mapState = (state: RootState) => ({
-  user: state.userApi.user,
-});
-
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-  const ctrl = controller(dispatch);
-
-  return {
-    getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
-    getLoginLink: ctrl.getAccountLoginLink(),
-    getProducts: ctrl.getProducts,
-  };
-};
-
-const connector = connect(mapState, mapDispatchToProps);
-
-type Props = ConnectedProps<typeof connector>;
-
-export const Selected = connector(PureSelected);

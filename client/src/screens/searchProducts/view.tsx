@@ -1,17 +1,20 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Header,
   Layout,
   Footer,
   Breadcrumbs,
   ShowProducts,
+  Loader,
+  NoData,
 } from '../../components';
-import { AppDispatch } from '../../model/store/store';
+import { AppDispatch, RootState } from '../../model/store/store';
 import { controller } from './controller';
 
 import style from './style.module.scss';
-import { useParams } from 'react-router-dom';
 
 const PureSearchProducts: React.FC<Props> = (props) => {
   const { data } = useParams();
@@ -19,11 +22,19 @@ const PureSearchProducts: React.FC<Props> = (props) => {
   const {
     getProducts,
     getBreadcrumbsPaths,
+    loading,
+    products,
+    user,
+    userDataLoaded,
   } = props;
 
   React.useEffect(() => {
     getProducts();
   }, [data, getProducts]);
+
+  const { t } = useTranslation(['products']);
+
+  const isProducts = Boolean(products.length);
 
   return (
     <Layout
@@ -32,11 +43,28 @@ const PureSearchProducts: React.FC<Props> = (props) => {
       breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths()}/>}
     >
       <div className={style.screen}>
-        <ShowProducts />
+        {loading && <Loader />}
+        {userDataLoaded && user.isAuth && !loading &&
+          (isProducts ?
+            <ShowProducts
+              products={products}
+              user={user}
+            />
+            :
+            <NoData text={t('noProducts')} />
+          )
+        }
       </div>
     </Layout>
   );
 };
+
+const mapState = (state: RootState) => ({
+  products: state.productsApi.products,
+  loading: state.productsApi.loading,
+  user: state.userApi.user,
+  userDataLoaded: state.userApi.userDataLoaded,
+});
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   const ctrl = controller(dispatch);
@@ -47,7 +75,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   };
 };
 
-const connector = connect(() => ({}), mapDispatchToProps);
+const connector = connect(() => mapState, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>;
 
