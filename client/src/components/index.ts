@@ -6,7 +6,7 @@ export { Layout } from './Layout';
 export { Button } from './Button';
 export { Input } from './Input';
 export { InputWithLabel } from './InputWithLabel';
-export { QuantityInput } from './InputCounter';
+export { QuantityInput } from './QuantityInput';
 export { SwitchButtonTheme } from './SwitchThemeButton';
 export { SwitchButtonLanguage } from './SwitchLanguageButton';
 export { Loader } from './Loader';
