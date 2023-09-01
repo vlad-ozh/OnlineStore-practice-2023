@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { navigationApi, userApi } from '../../model/apis';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -24,16 +24,25 @@ export const AccountResetPassword: React.FC = () => {
     error,
     loading,
     isToken,
+    userDataLoaded,
   } = useAppSelector((state) => state.userApi);
   const dispatch = useAppDispatch();
 
   const tokenParam = useParams().token;
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (userDataLoaded && user.isAuth)
+      return navigate(navigationApi.toAccount(), { replace: true });
+
+    if (userDataLoaded && !isToken)
+      return navigate(navigationApi.toAccountLogin(), { replace: true });
+
     if (typeof tokenParam === 'string') {
       dispatch(userApi.checkToken(tokenParam));
     }
-  }, [tokenParam, dispatch]);
+  }, [tokenParam, dispatch, navigate, isToken, user, userDataLoaded]);
 
   const {
     register,
@@ -64,41 +73,31 @@ export const AccountResetPassword: React.FC = () => {
     };
   };
 
-  const getBreadcrumbsPaths = () => {
-    const breadcrumbsPaths = [
+  const breadcrumbsPaths = () => {
+    return [
       {path: navigationApi.toHome(), name: {title: 'home'}},
       {path: '', name: {title: 'resetPassword'}},
     ];
-
-    return breadcrumbsPaths;
   };
 
   return (
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths()}/>}
+      breadcrumbs={<Breadcrumbs paths={breadcrumbsPaths()}/>}
     >
       <div className={style.screen}>
         {loading && <Loader />}
-        {user.isAuth ?(
-          <Navigate to={navigationApi.toAccount()} replace={true} />
-        ) : !isToken ? (
-          <Navigate to={navigationApi.toAccountLogin()} replace={true} />
-        ) : (
-          <>
-            {!loading && (
-              <ResetPasswordForm
-                register={register}
-                errors={errors}
-                formError={error}
-                handleSubmit={handleSubmit}
-                onSubmit={onSubmitWithParams({isToken, token: tokenParam})}
-                passwordValue={passwordValue}
-              />
-            )}
-          </>
-        )}
+        {userDataLoaded && !user.isAuth && isToken && !loading &&
+          <ResetPasswordForm
+            register={register}
+            errors={errors}
+            formError={error}
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmitWithParams({isToken, token: tokenParam})}
+            passwordValue={passwordValue}
+          />
+        }
       </div>
     </Layout>
   );
