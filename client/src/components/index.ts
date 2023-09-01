@@ -1,4 +1,5 @@
 export { App } from './App';
+export { AccountContent } from './AccountContent';
 export { HeaderContent } from './HeaderContent';
 export { Header } from './Header';
 export { Footer } from './Footer';

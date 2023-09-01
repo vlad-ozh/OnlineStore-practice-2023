@@ -1,48 +1,46 @@
 import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import { AppDispatch, RootState } from '../../model/store/store';
-import { Header, Layout, Footer, Breadcrumbs } from '../../components';
-import { controller } from './controller';
+import { useNavigate } from 'react-router-dom';
+import { Header, Layout, Footer, Breadcrumbs, Loader } from '../../components';
+import { navigationApi } from '../../model/apis';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import style from './style.module.scss';
 
-const PureAccountInfo: React.FC<Props> = (props) => {
+export const AccountInfo: React.FC = () => {
   const {
     user,
-    getBreadcrumbsPaths,
-    getLoginLink,
-  } = props;
+    userDataLoaded,
+    loading,
+  } = useAppSelector((state) => state.userApi);
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (userDataLoaded && !user.isAuth)
+      navigate(navigationApi.toAccountLogin(), { replace: true });
+  }, [user, userDataLoaded, dispatch, navigate]);
+
+  const breadcrumbsPaths = () => {
+    return [
+      {path: navigationApi.toHome(), name: {title: 'home'}},
+      {path: navigationApi.toAccount(), name: {title: 'profile'}},
+      {path: '', name: {title: 'profileInfo'}},
+    ];
+  };
 
   return (
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths}/>}
+      breadcrumbs={<Breadcrumbs paths={breadcrumbsPaths()}/>}
     >
       <div className={style.screen}>
-        {!user.isAuth && <Navigate to={getLoginLink} replace={true} />}
-        Account Info
+        {loading && <Loader />}
+        {userDataLoaded && user.isAuth && !loading &&
+          <>Account Info</>
+        }
       </div>
     </Layout>
   );
 };
-
-const mapState = (state: RootState) => ({
-  user: state.userApi.user,
-});
-
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-  const ctrl = controller(dispatch);
-
-  return {
-    getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
-    getLoginLink: ctrl.getAccountLoginLink(),
-  };
-};
-
-const connector = connect(mapState, mapDispatchToProps);
-
-type Props = ConnectedProps<typeof connector>;
-
-export const AccountInfo = connector(PureAccountInfo);

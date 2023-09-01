@@ -1,104 +1,68 @@
 import React from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { connect, ConnectedProps } from 'react-redux';
-import { AppDispatch, RootState } from '../../model/store/store';
-import { useTranslation } from 'react-i18next';
-import { Header, Layout, Footer, Button, Breadcrumbs } from '../../components';
-import { controller } from './controller';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { navigationApi, userApi } from '../../model/apis';
+import { useNavigate } from 'react-router-dom';
 import {
-  PersonIcon,
-  ListIcon,
-  LogoutIcon,
-} from '../../assets/images/svg-images';
+  Header,
+  Layout,
+  Footer,
+  Breadcrumbs,
+  AccountContent,
+  Loader,
+} from '../../components';
 
 import style from './style.module.scss';
-import classNames from 'classnames';
 
-const PureAccount: React.FC<Props> = (props) => {
-  const { t } = useTranslation(['account']);
+export const Account: React.FC = () => {
   const {
     user,
-    getBreadcrumbsPaths,
-    onLogout,
-    onAccountInfo,
-    onAccountOrders,
-    getLoginLink,
-  } = props;
+    userDataLoaded,
+    loading,
+  } = useAppSelector((state) => state.userApi);
+  const dispatch = useAppDispatch();
 
-  const renderUserAccActions = () => {
-    return (
-      <div className={style.content}>
-        <h2 className={style.contentTitle}>
-          {t('hello', { name: user.name })}
-        </h2>
-        <p className={classNames(style.contentActivationMsg, {
-          [style.contentNoActivationMsg]: user.isActivated,
-        })}>
-          {t('needActivateAcc')}
-        </p>
-        <div className={style.contentBox}>
-          <ul className={style.contentList}>
-            <li className={style.contentListItem}>
-              <Link to={onAccountInfo} className={style.contentListItemLink}>
-                <PersonIcon />
-                {t('personalInfo')}
-              </Link>
-            </li>
-            <li className={style.contentListItem}>
-              <Link to={onAccountOrders} className={style.contentListItemLink}>
-                <ListIcon />
-                {t('myOrders')}
-              </Link>
-            </li>
-            <li className={style.contentListItem}>
-              <Button
-                skin='text'
-                size='medium'
-                onClick={onLogout}
-                className={style.contentListItemButton}
-              >
-                <LogoutIcon />
-                {t('logout')}
-              </Button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    );
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (userDataLoaded && !user.isAuth)
+      navigate(navigationApi.toAccountLogin(), { replace: true });
+  }, [user, userDataLoaded, dispatch, navigate]);
+
+
+  const breadcrumbsPaths = () => {
+    return [
+      {path: navigationApi.toHome(), name: {title: 'home'}},
+      {path: '', name: {title: 'profile'}},
+    ];
+  };
+
+  const toAccountInfo = () => {
+    return navigationApi.toAccountInfo();
+  };
+  const toAccountOrders = () => {
+    return navigationApi.toAccountOrders();
+  };
+  const onLogout = () => {
+    dispatch(userApi.logout());
   };
 
   return (
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths}/>}
+      breadcrumbs={<Breadcrumbs paths={breadcrumbsPaths()}/>}
     >
       <div className={style.screen}>
-        {!user.isAuth && <Navigate to={getLoginLink} replace={true} />}
-        {user.isAuth && renderUserAccActions()}
+        {loading && <Loader />}
+        {userDataLoaded && user.isAuth && !loading &&
+          <AccountContent
+            user={user}
+            toAccountInfo={toAccountInfo()}
+            toAccountOrders={toAccountOrders()}
+            onLogout={onLogout}
+          />
+        }
       </div>
     </Layout>
   );
 };
-
-const mapState = (state: RootState) => ({
-  user: state.userApi.user,
-});
-
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-  const ctrl = controller(dispatch);
-
-  return {
-    getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
-    onLogout: ctrl.onLogout,
-    getLoginLink: ctrl.getAccountLoginLink(),
-    onAccountInfo: ctrl.getAccountInfoLink(),
-    onAccountOrders: ctrl.getAccountOrdersLink(),
-  };
-};
-
-const connector = connect(mapState, mapDispatchToProps);
-
-type Props = ConnectedProps<typeof connector>;
-
-export const Account = connector(PureAccount);
