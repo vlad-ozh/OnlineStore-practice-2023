@@ -1,7 +1,7 @@
 import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   Header,
   Layout,
@@ -11,28 +11,36 @@ import {
   Loader,
   NoData,
 } from '../../components';
-import { AppDispatch, RootState } from '../../model/store/store';
-import { controller } from './controller';
 
 import style from './style.module.scss';
+import { navigationApi, productsApi } from '../../model/apis';
 
-const PureSearchProducts: React.FC<Props> = (props) => {
+export const SearchProducts: React.FC = () => {
+  const {
+    user,
+  } = useAppSelector((state) => state.userApi);
+  const {
+    products,
+    loading,
+  } = useAppSelector((state) => state.productsApi);
+  const dispatch = useAppDispatch();
+
   const { data } = useParams();
 
-  const {
-    getProducts,
-    getBreadcrumbsPaths,
-    loading,
-    products,
-    user,
-    userDataLoaded,
-  } = props;
+  const { t } = useTranslation(['products']);
 
   React.useEffect(() => {
-    getProducts();
-  }, [data, getProducts]);
+    if (data !== undefined)
+      dispatch(productsApi.getSearchProducts(data));
+  }, [data, dispatch]);
 
-  const { t } = useTranslation(['products']);
+  const breadcrumbsPaths = (data: string | undefined) => {
+    return [
+      {path: navigationApi.toHome(), name: {title: 'home'}},
+      {path: navigationApi.toProductsCategories(), name: {title: 'products'}},
+      {path: '', name: {title: 'search', settings: { search: data }}},
+    ];
+  };
 
   const isProducts = Boolean(products.length);
 
@@ -40,43 +48,19 @@ const PureSearchProducts: React.FC<Props> = (props) => {
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths()}/>}
+      breadcrumbs={<Breadcrumbs paths={breadcrumbsPaths(data)}/>}
     >
       <div className={style.screen}>
         {loading && <Loader />}
-        {userDataLoaded && user.isAuth && !loading &&
-          (isProducts ?
-            <ShowProducts
-              products={products}
-              user={user}
-            />
-            :
-            <NoData text={t('noProducts')} />
-          )
-        }
+        {!loading && (isProducts ?
+          <ShowProducts
+            products={products}
+            user={user}
+          />
+          :
+          <NoData text={t('noProducts')} />
+        )}
       </div>
     </Layout>
   );
 };
-
-const mapState = (state: RootState) => ({
-  products: state.productsApi.products,
-  loading: state.productsApi.loading,
-  user: state.userApi.user,
-  userDataLoaded: state.userApi.userDataLoaded,
-});
-
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-  const ctrl = controller(dispatch);
-
-  return {
-    getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths,
-    getProducts: ctrl.getProducts,
-  };
-};
-
-const connector = connect(() => mapState, mapDispatchToProps);
-
-type Props = ConnectedProps<typeof connector>;
-
-export const SearchProducts = connector(PureSearchProducts);
