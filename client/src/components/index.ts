@@ -14,6 +14,7 @@ export { Loader } from './Loader';
 export { Breadcrumbs } from './Breadcrumbs';
 export { ProductCard } from './ProductCard';
 export { ProductCardInCart } from './ProductCardInCart';
+export { ShowCategories } from './ShowCategories';
 export { ShowProducts } from './ShowProducts';
 export { ShowPopularProducts } from './ShowPopularProducts';
 export { Submit } from './Submit';

@@ -21,19 +21,28 @@ export const ShowProducts: React.FC<IProps> = (props) => {
     return Boolean(amount);
   };
   const onSelect = (userId: string, productId: string) => {
-    dispatch(userApi.addProductToSelected({userId, productId}));
+    if (userId !== undefined)
+      dispatch(userApi.addProductToSelected({userId, productId}));
   };
   const onRemoveSelected = (userId: string, productId: string) => {
-    dispatch(userApi.removeProductFromSelected({userId, productId}));
+    if (userId !== undefined)
+      dispatch(userApi.removeProductFromSelected({userId, productId}));
   };
   const isSelect = (productId: string, selectedProducts: string[]) => {
-    return selectedProducts.some(product => product === productId);
+    if (selectedProducts !== undefined)
+      return selectedProducts.some(product => product === productId);
+
+    return false;
   };
   const onCart = (userId: string, productId: string) => {
-    dispatch(userApi.addProductToCart({userId, productId}));
+    if (userId !== undefined)
+      dispatch(userApi.addProductToCart({userId, productId}));
   };
   const isCart = (productId: string, cart: IUserCart[]) => {
-    return cart.some(product => product.id === productId);
+    if (cart !== undefined)
+      return cart.some(product => product.id === productId);
+
+    return false;
   };
   const totalRating = (reviews: IReview[]) => {
     if (reviews.length > 0) {

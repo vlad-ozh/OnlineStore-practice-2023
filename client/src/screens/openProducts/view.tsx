@@ -44,16 +44,14 @@ const PureOpenProducts: React.FC<Props> = (props) => {
     >
       <div className={style.screen}>
         {loading && <Loader />}
-        {userDataLoaded && user.isAuth && !loading &&
-          (isProducts ?
-            <ShowProducts
-              products={products}
-              user={user}
-            />
-            :
-            <NoData text={t('noProducts')} />
-          )
-        }
+        {userDataLoaded && !loading && (isProducts ?
+          <ShowProducts
+            products={products}
+            user={user}
+          />
+          :
+          <NoData text={t('noProducts')} />
+        )}
         <ShowPopularProducts />
       </div>
     </Layout>
