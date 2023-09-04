@@ -1,0 +1,1 @@
+export { ShowAllCategories } from './view';

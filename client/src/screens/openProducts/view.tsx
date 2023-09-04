@@ -1,6 +1,8 @@
 import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { navigationApi, productsApi } from '../../model/apis';
 import {
   Header,
   Layout,
@@ -11,28 +13,50 @@ import {
   Loader,
   NoData,
 } from '../../components';
-import { AppDispatch, RootState } from '../../model/store/store';
-import { controller } from './controller';
 
 import style from './style.module.scss';
 
-const PureOpenProducts: React.FC<Props> = (props) => {
+export const OpenProducts: React.FC = () => {
   const {
-    getProducts,
-    getPopularProducts,
-    getBreadcrumbsPaths,
-    products,
-    loading,
     user,
     userDataLoaded,
-  } = props;
+  } = useAppSelector((state) => state.userApi);
+  const {
+    products,
+    popularProducts,
+    loading,
+  } = useAppSelector((state) => state.productsApi);
+  const dispatch = useAppDispatch();
+
+  const { category: categoryParam } = useParams();
+  const { brand: brandParam } = useParams();
 
   React.useEffect(() => {
-    getProducts();
-    getPopularProducts();
-  }, [getProducts, getPopularProducts]);
+    dispatch(productsApi.getProductsByBrand({
+      category: `${categoryParam}`, brand: `${brandParam}`,
+    }));
+    dispatch(productsApi.getPopularByCategory({
+      category: `${categoryParam}`,
+      brand: `${brandParam}`,
+    }));
+  }, [dispatch, categoryParam, brandParam]);
 
   const { t } = useTranslation(['products']);
+
+  const breadcrumbsPaths = (
+    category: string | undefined,
+    brand: string | undefined
+  ) => {
+    return [
+      {path: navigationApi.toHome(), name: {title: 'home'}},
+      {path: navigationApi.toProductsCategories(), name: {title: 'products'}},
+      {
+        path: navigationApi.toProductsCategory(`${category}`),
+        name: {title: `${category}`},
+      },
+      {path: '', name: {title: `${brand}`}},
+    ];
+  };
 
   const isProducts = Boolean(products.length);
 
@@ -40,43 +64,27 @@ const PureOpenProducts: React.FC<Props> = (props) => {
     <Layout
       topBar={<Header />}
       bottomBar={<Footer />}
-      breadcrumbs={<Breadcrumbs paths={getBreadcrumbsPaths} />}
+      breadcrumbs={
+        <Breadcrumbs paths={breadcrumbsPaths(categoryParam, brandParam)} />
+      }
     >
       <div className={style.screen}>
         {loading && <Loader />}
         {userDataLoaded && !loading && (isProducts ?
-          <ShowProducts
-            products={products}
-            user={user}
-          />
+          <>
+            <ShowProducts
+              products={products}
+              user={user}
+            />
+            <ShowPopularProducts
+              popularProducts={popularProducts}
+              user={user}
+            />
+          </>
           :
           <NoData text={t('noProducts')} />
         )}
-        <ShowPopularProducts />
       </div>
     </Layout>
   );
 };
-
-const mapState = (state: RootState) => ({
-  products: state.productsApi.products,
-  loading: state.productsApi.loading,
-  user: state.userApi.user,
-  userDataLoaded: state.userApi.userDataLoaded,
-});
-
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-  const ctrl = controller(dispatch);
-
-  return {
-    getProducts: ctrl.getProducts,
-    getBreadcrumbsPaths: ctrl.getBreadcrumbsPaths(),
-    getPopularProducts: ctrl.getPopularProducts,
-  };
-};
-
-const connector = connect(mapState, mapDispatchToProps);
-
-type Props = ConnectedProps<typeof connector>;
-
-export const OpenProducts = connector(PureOpenProducts);

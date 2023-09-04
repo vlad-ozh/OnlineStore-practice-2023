@@ -13,8 +13,11 @@ import {
 import style from './style.module.scss';
 
 export const Home: React.FC = () => {
+  const { user } = useAppSelector((state) => state.userApi);
   const {
     categoriesNames: categories,
+    popularProducts,
+    loading,
   } = useAppSelector((state) => state.productsApi);
   const dispatch = useAppDispatch();
 
@@ -41,7 +44,12 @@ export const Home: React.FC = () => {
           toProductsCategory={navigationApi.toProductsCategory}
         />
 
-        <ShowPopularProducts />
+        {!loading &&
+          <ShowPopularProducts
+            popularProducts={popularProducts}
+            user={user}
+          />
+        }
       </div>
     </Layout>
   );

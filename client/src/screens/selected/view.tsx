@@ -1,5 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { navigationApi, productsApi } from '../../model/apis';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useTranslation } from 'react-i18next';
 import {
   Header,
   Layout,
@@ -11,9 +14,6 @@ import {
 } from '../../components';
 
 import style from './style.module.scss';
-import { navigationApi, productsApi } from '../../model/apis';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { useTranslation } from 'react-i18next';
 
 export const Selected: React.FC = () => {
   const {

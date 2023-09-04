@@ -1,3 +1,5 @@
+import { IUserCart } from './IUser';
+
 interface IConnection {
   numOfSimCards?: string;
   simCardsFormat?: string[];
@@ -106,4 +108,16 @@ export interface ICreateReview {
 };
 export interface ISearch {
   search: string;
+};
+export interface ICommonProductsLogic {
+  amountOfProduct: (amount: number) => boolean;
+  onSelect: (userId: string, productId: string) => void;
+  onRemoveSelected: (userId: string, productId: string) => void;
+  isSelect: (productId: string, selectedProducts: string[]) => boolean;
+  onCart: (userId: string, productId: string) => void;
+  toCart: () => string;
+  isCart: (productId: string, cart: IUserCart[]) => boolean;
+  toProduct: (category: string, brand: string, productId: string) => string;
+  toLogin: () => string;
+  totalRating: (reviews: IReview[]) => number;
 };
