@@ -6,10 +6,11 @@ interface IProps {
   text: string;
 }
 
-export const NoData: React.FC<IProps> = ({ text }) => {
+export const NoData: React.FC<IProps> = React.memo(({ text }) => {
+
   return (
     <h3 className={style.noData}>
       {text}
     </h3>
   );
-};
+});

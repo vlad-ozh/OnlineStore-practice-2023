@@ -15,14 +15,14 @@ interface IProps {
   name: string;
   image: string;
   price: string;
-  productLink: string;
+  toProduct: string;
   onSelect: () => void;
   onRemoveSelected: () => void;
   isSelect: boolean;
   onCart: () => void;
-  linkToCart: string;
+  toCart: string;
   isCart: boolean;
-  loginLink: string;
+  toLogin: string;
   isUser: boolean;
   amount: boolean;
   rating: number;
@@ -34,14 +34,14 @@ export const ProductCard: React.FC<IProps> = (props) => {
     name,
     image,
     price,
-    productLink,
+    toProduct,
     onSelect,
     onRemoveSelected,
     isSelect,
     onCart,
-    linkToCart,
+    toCart,
     isCart,
-    loginLink,
+    toLogin,
     isUser,
     amount,
     rating,
@@ -49,14 +49,14 @@ export const ProductCard: React.FC<IProps> = (props) => {
 
   return (
     <div className={style.card}>
-      <Link to={productLink} className={style.cardLink}>
+      <Link to={toProduct} className={style.cardLink}>
         <div className={style.cardImageContainer}>
           <img className={style.cardImage} src={image} alt={name}/>
         </div>
       </Link>
       <div className={style.cardInfo}>
         <h4 className={style.cardTitle}>
-          <Link to={productLink} className={style.cardLink}>
+          <Link to={toProduct} className={style.cardLink}>
             {name}
           </Link>
         </h4>
@@ -84,7 +84,7 @@ export const ProductCard: React.FC<IProps> = (props) => {
             <FavoriteIcon />
           </Button>
           <Link
-            to={loginLink}
+            to={toLogin}
             className={classNames(style.cardSelectLink, {
               [style.cardNoShow]: isUser,
             })}
@@ -107,7 +107,7 @@ export const ProductCard: React.FC<IProps> = (props) => {
             <CartIcon />
           </Button>
           <Link
-            to={linkToCart}
+            to={toCart}
             className={classNames(style.cardCartLink, {
               [style.cardNoShow]: !isCart,
             })}
@@ -115,7 +115,7 @@ export const ProductCard: React.FC<IProps> = (props) => {
             <DoneIcon />
           </Link>
           <Link
-            to={loginLink}
+            to={toLogin}
             className={classNames(style.cardCartLink, {
               [style.cardNoShow]: isUser,
             })}

@@ -1,0 +1,1 @@
+export { CommonProducts } from './view';
