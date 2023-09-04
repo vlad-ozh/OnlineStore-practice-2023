@@ -8,6 +8,7 @@ import {
   Breadcrumbs,
   ShowPopularProducts,
   ShowCategories,
+  Loader,
 } from '../../components';
 
 import style from './style.module.scss';
@@ -44,11 +45,13 @@ export const Home: React.FC = () => {
           toProductsCategory={navigationApi.toProductsCategory}
         />
 
-        {!loading &&
+        {!loading ?
           <ShowPopularProducts
             popularProducts={popularProducts}
             user={user}
           />
+          :
+          <Loader />
         }
       </div>
     </Layout>
