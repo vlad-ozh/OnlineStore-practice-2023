@@ -1,0 +1,28 @@
+.fieldset {
+  border: none;
+  display: flex;
+  align-items: center;
+
+  &Label {
+    margin-right: 10px;
+    
+    @media screen and (max-width: 500px) {
+      font-size: 14px;
+    }
+  }
+
+  &Select {
+    width: 230px;
+    font-size: 16px;
+      
+    @media screen and (max-width: 500px) {
+      min-width: 100px;
+      width: 100%;
+      font-size: 14px;
+    }
+  }
+
+  &Error {
+    margin-top: 10px;
+  }
+}

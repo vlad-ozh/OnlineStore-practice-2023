@@ -1,0 +1,46 @@
+.reviews {
+  border-radius: 6px;
+  margin-top: 20px;
+  box-shadow: var(--box-shadow);
+  background-color: var(--form-background-color);
+  padding: 15px;
+
+  &Title {
+    font-size: 18px;
+    margin-bottom: 25px;
+
+    @media screen and (max-width: 500px) {
+      font-size: 16px;
+    }
+  }
+
+  &NoUser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #5c5c5c;
+
+    @media screen and (max-width: 500px) {
+      font-size: 14px;
+    }
+  }
+
+  &NoUserLink {
+    padding: 8px 20px;
+    background-color: #e00027;
+    border-radius: 6px;
+    color: #fff;
+    transition: all .3s;
+    text-decoration: none;
+    margin-left: 15px;
+
+    &:hover {
+      background-color: #f97988;
+    }
+
+    @media screen and (max-width: 500px) {
+      font-size: 14px;
+    }
+  }
+}

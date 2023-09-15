@@ -49,7 +49,7 @@ interface IDimensions {
   dimensions?: string;
   weight?: number;
 };
-interface ICharacteristics {
+export interface ICharacteristics {
   connection?: IConnection;
   screen?: IScreen;
   cpu?: IProcessor;
@@ -108,6 +108,10 @@ export interface ICreateReview {
 };
 export interface ISearch {
   search: string;
+};
+export interface IReviewForm {
+  text: string;
+  rating: number;
 };
 export interface ICommonProductsLogic {
   amountOfProduct: (amount: number) => boolean;
