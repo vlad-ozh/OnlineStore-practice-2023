@@ -1,0 +1,42 @@
+.reviews {
+  &Show {
+    margin-top: 30px;
+  }
+
+  &List {
+    list-style: none;
+  }
+
+  &Item {
+    border: 1px dashed #e00027;
+    border-radius: 5px;
+    padding: 10px;
+
+
+    & + & {
+      margin-top: 15px;
+    }
+
+    @media screen and (max-width: 500px) {
+      font-size: 14px;
+    }
+  }
+
+  &ItemInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #5c5c5c;
+    padding-bottom: 8px;
+  }
+
+  &ItemInfoName {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  &ItemText {
+    width: 100%;
+  }
+}

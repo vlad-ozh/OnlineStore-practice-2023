@@ -1,0 +1,172 @@
+.productTitle {
+  margin-bottom: 20px;
+
+  @media screen and (max-width: 600px) {
+    font-size: 18px;
+  }
+}
+
+.productMain {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: var(--box-shadow);
+  background-color: var(--form-background-color);
+
+  @media screen and (max-width: 950px) {
+    display: block;
+  }
+  @media screen and (max-width: 600px) {
+    padding: 15px 10px;
+  }
+  
+  &Info {
+    width: 100%;
+    padding: 30px;
+
+    @media screen and (max-width: 600px) {
+      padding: 15px 0;
+    }
+  }
+
+  &InfoInner {
+    position: sticky;
+    top: 70px;
+
+    @media screen and (max-width: 950px) {
+      position: none;
+    }
+  }
+
+  &InfoRating {
+    @media screen and (max-width: 500px) {
+      font-size: 14px;
+    }
+  }
+
+  &InfoAvailable {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  &InfoBuy {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  &InfoDescription {
+    margin-top: 30px;
+    line-height: 26px;
+
+    @media screen and (max-width: 600px) {
+      font-size: 14px;
+    }
+  }
+
+  &InfoDescTitle {
+    margin-bottom: 10px;
+  }
+}
+
+.swiper {
+  max-height: 520px;
+  height: 100%;
+  max-width: 650px;
+  width: 100%;
+  padding-bottom: 20px;
+
+  @media screen and (max-width: 1200px) {
+    max-width: 550px;
+  }
+  @media screen and (max-width: 1100px) {
+    max-width: 450px;
+  }
+  @media screen and (max-width: 950px) {
+    max-width: 700px;
+  }
+
+  &Slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  &Image {
+    max-width: 500px;
+    width: 100%;
+  }
+}
+
+.select {
+  background-color: transparent;
+  border: none;
+  fill: var(--fill-color);
+  transition: all .3s;
+
+  &:hover {
+    fill: #e00027;
+  }
+
+  &Link {
+    display: flex;
+    padding: 8px;
+    fill: var(--fill-color);
+    transition: all .3s;
+
+    &:hover {
+      fill: #e00027;
+    }
+  }
+
+  &On {
+    fill: #e00027;
+  }
+}
+
+.cart {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 15px;
+  color: #fff;
+  background-color: #e00027;
+  border: none;
+  border-radius: 3px;
+  fill: #fff;
+  transition: all .3s;
+
+  &:hover {
+    background-color: #f97988;
+  }
+  
+  &Link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 15px;
+    background-color: #e00027;
+    border-radius: 3px;
+    fill: #fff;
+    color: #fff;
+    text-decoration: none;
+    transition: all .3s;
+  
+    &:hover {
+      background-color: #f97988;
+    }
+  }
+  
+  &NoActive {
+    background-color: #5c5c5c;
+  }
+}
+
+.noShow {
+  display: none;
+}

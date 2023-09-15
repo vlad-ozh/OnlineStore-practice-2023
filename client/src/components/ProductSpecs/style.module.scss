@@ -1,0 +1,36 @@
+.productSpecs {
+  border-radius: 6px;
+  box-shadow: var(--box-shadow);
+  background-color: var(--form-background-color);
+  margin-top: 20px;
+  padding: 30px 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @media screen and (max-width: 700px) {
+    padding: 25px 15px;
+  }
+
+  &Title {
+    @media screen and (max-width: 500px) {
+      font-size: 16px;
+    }
+  }
+
+  &Head {
+    font-weight: bold;
+    padding-top: 15px;
+
+    @media screen and (max-width: 500px) {
+      font-size: 15px;
+    }
+  }
+
+  &Cell {
+    padding: 15px 0;
+    border-bottom: 1px solid #5c5c5c;
+    font-size: 14px;
+    width: 50%;
+  }
+}

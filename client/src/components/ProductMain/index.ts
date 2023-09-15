@@ -1,0 +1,1 @@
+export { ProductMain } from './view';
