@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { navigationApi, userApi } from '../../model/apis';
+import { userActions } from '../../model/store/reducers/UserSlice';
 import { useAppDispatch } from '../../hooks';
 import {
   NotFound,
@@ -29,7 +30,11 @@ export const App: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(userApi.refresh());
+    dispatch(localStorage.getItem('token') ?
+      userApi.refresh()
+      :
+      userActions.confirmUserDataLoaded()
+    );
   });
 
   return (

@@ -32,6 +32,9 @@ export const userSlice = createSlice({
     changeCheckoutInfo: (state, action: PayloadAction<ICheckout>) => {
       state.checkoutInfo = action.payload;
     },
+    confirmUserDataLoaded: (state) => {
+      state.userDataLoaded = true;
+    },
   },
   extraReducers: (builder) => {
     builder
