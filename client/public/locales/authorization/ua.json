@@ -6,16 +6,15 @@
 	"emailLabel": "Адреса електронної пошти",
 	"nameLabel": "Ім'я",
 	"passwordLabel": "Пароль",
+	"currentPasswordLabel": "Поточний пароль",
 	"passwordRegisterLabel": "Пароль (Від 4 до 20 символів)",
-	"newPasswordLabel": "Новий пароль",
+	"newPasswordLabel": "Новий пароль (Від 4 до 20 символів)",
 	"passwordConfirmLabel": "Підтвердьте пароль",
 	
 	"createSubmit": "Створити",
 	"loginSubmit": "Увійти",
 	"sendEmailSubmit": "Надіслати лист",
 	"resetSubmit": "Відновити пароль",
-	"saveSubmit": "Зберегти",
-	"cancelSubmit": "Скасувати",
 	
 	"login": "Вхід",
 	"next": "Далі",

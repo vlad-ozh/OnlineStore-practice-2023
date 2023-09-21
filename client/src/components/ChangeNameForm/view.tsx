@@ -20,7 +20,7 @@ interface IProps {
 export const ChangeNameForm: React.FC<IProps> = ({ userId, userName }) => {
   const dispatch = useAppDispatch();
 
-  const { t } = useTranslation(['authorization']);
+  const { t } = useTranslation(['account']);
 
   const {
     register,

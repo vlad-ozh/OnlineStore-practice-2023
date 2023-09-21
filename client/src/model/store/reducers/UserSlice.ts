@@ -35,6 +35,9 @@ export const userSlice = createSlice({
     confirmUserDataLoaded: (state) => {
       state.userDataLoaded = true;
     },
+    clearError: (state) => {
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -172,7 +175,18 @@ export const userSlice = createSlice({
       })
       .addCase(userApi.changeUserName.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.user = action.payload.user;
+        localStorage.setItem('token', action.payload.accessToken);
+      })
+
+      .addCase(userApi.changeUserPassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userApi.changeUserPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        localStorage.setItem('token', action.payload.accessToken);
       })
 
       .addCase(userApi.deleteAcc.pending, (state) => {

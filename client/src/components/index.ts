@@ -33,6 +33,7 @@ export { ForgotPasswordFormSent } from './ForgotPasswordFormSent';
 export { ForgotPasswordContent } from './ForgotPasswordContent';
 export { ResetPasswordForm } from './ResetPasswordForm';
 export { ChangeNameForm } from './ChangeNameForm';
+export { ChangePasswordForm } from './ChangePasswordForm';
 export { SearchForm } from './SearchForm';
 export { ReviewForm } from './ReviewForm';
 export { CartContent } from './CartContent';

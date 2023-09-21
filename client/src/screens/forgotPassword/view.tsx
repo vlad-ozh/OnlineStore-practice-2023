@@ -31,7 +31,11 @@ export const ForgotPassword: React.FC = () => {
   React.useEffect(() => {
     if (userDataLoaded && user.isAuth)
       navigate(navigationApi.toAccount(), { replace: true });
-  }, [user, userDataLoaded, navigate]);
+
+    return () => {
+      dispatch(userActions.clearError());
+    };
+  }, [user, userDataLoaded, navigate, dispatch]);
 
   const {
     register,

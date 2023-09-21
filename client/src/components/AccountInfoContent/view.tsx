@@ -1,17 +1,16 @@
 import React from 'react';
-import { Button, ChangeNameForm } from '..';
+import { Button, ChangeNameForm, ChangePasswordForm } from '..';
 import { useTranslation } from 'react-i18next';
 
 import style from './style.module.scss';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { userApi } from '../../model/apis';
 
-interface IProps {
-  userId: string;
-  userName: string;
-}
-
-export const AccountInfoContent: React.FC<IProps> = ({ userId, userName }) => {
+export const AccountInfoContent: React.FC = () => {
+  const {
+    user,
+    error,
+  } = useAppSelector((state) => state.userApi);
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation(['account']);
@@ -27,28 +26,15 @@ export const AccountInfoContent: React.FC<IProps> = ({ userId, userName }) => {
       <h2 className={style.containerTitle}>
         {t('personalInfo')}
       </h2>
-      <ChangeNameForm userId={userId} userName={userName} />
+      <ChangeNameForm userId={user.id} userName={user.name} />
       <hr />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      <ChangePasswordForm userId={user.id} formError={error}/>
       <hr />
+
       <Button
         size='medium'
         skin='text'
-        onClick={() => deleteAcc(userId)}
+        onClick={() => deleteAcc(user.id)}
         className={style.containerDelete}
       >
         {t('deleteAcc')}

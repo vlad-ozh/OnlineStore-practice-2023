@@ -12,6 +12,7 @@ import {
   IChangeAmountProductBuy,
   ICheckout,
   IChangeUserName,
+  IUserChangePasswordData,
 } from '../types/IUser';
 import axios from 'axios';
 
@@ -36,7 +37,10 @@ interface IUserApi {
   changeAmountProductBuy:
     AsyncThunk<IUser, IChangeAmountProductBuy, {rejectValue: string}>;
   validateCheckoutInfo: AsyncThunk<undefined, ICheckout, {rejectValue: string}>;
-  changeUserName: AsyncThunk<IUser, IChangeUserName, {rejectValue: string}>;
+  changeUserName:
+    AsyncThunk<IUserResponse, IChangeUserName, {rejectValue: string}>;
+  changeUserPassword:
+    AsyncThunk<IUserResponse, IUserChangePasswordData, {rejectValue: string}>;
   deleteAcc: AsyncThunk<undefined, {userId: string}, {rejectValue: string}>;
   error: any;
 }
@@ -186,11 +190,23 @@ const user = (): IUserApi => {
       }
     );
   const changeUserName = () =>
-    createAsyncThunk<IUser, IChangeUserName, {rejectValue: string}>(
+    createAsyncThunk<IUserResponse, IChangeUserName, {rejectValue: string}>(
       'user/change/name',
       async (data, { rejectWithValue }) => {
         return await axiosInstance
-          .patch<IUser>(serverNavApi.userRoutes.changeName, data)
+          .patch<IUserResponse>(serverNavApi.userRoutes.changeName, data)
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+  const changeUserPassword = () =>
+    createAsyncThunk<IUserResponse, IUserChangePasswordData, {
+      rejectValue: string
+    }>(
+      'user/change/password',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .patch<IUserResponse>(serverNavApi.userRoutes.changePassword, data)
           .then((res) => res.data)
           .catch((err) => rejectWithValue(err));
       }
@@ -225,6 +241,7 @@ const user = (): IUserApi => {
     changeAmountProductBuy: changeAmountProductBuy(),
     validateCheckoutInfo: validateCheckoutInfo(),
     changeUserName: changeUserName(),
+    changeUserPassword: changeUserPassword(),
     deleteAcc: deleteAcc(),
     error: isError,
   };

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { navigationApi, userApi } from '../../model/apis';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { userActions } from '../../model/store/reducers/UserSlice';
 import {
   IUserResetPasswordData,
   IUserResetPasswordToken,
@@ -42,6 +43,10 @@ export const AccountResetPassword: React.FC = () => {
     if (typeof tokenParam === 'string') {
       dispatch(userApi.checkToken(tokenParam));
     }
+
+    return () => {
+      dispatch(userActions.clearError());
+    };
   }, [tokenParam, dispatch, navigate, isToken, user, userDataLoaded]);
 
   const {

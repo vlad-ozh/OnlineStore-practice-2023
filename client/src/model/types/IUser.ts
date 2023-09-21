@@ -6,6 +6,16 @@ export interface IUserRegister {
 export interface IUserName {
   name: string;
 };
+export interface IUserChangePasswordForm {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};
+export interface IUserChangePasswordData {
+  userId: string;
+  currentPassword: string;
+  newPassword: string;
+};
 export interface IUserRegisterConfirm {
   email: string;
   name: string;

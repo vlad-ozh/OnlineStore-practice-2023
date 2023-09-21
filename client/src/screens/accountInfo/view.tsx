@@ -1,5 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { navigationApi } from '../../model/apis';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { userActions } from '../../model/store/reducers/UserSlice';
 import {
   Header,
   Layout,
@@ -8,8 +11,6 @@ import {
   Loader,
   AccountInfoContent,
 } from '../../components';
-import { navigationApi } from '../../model/apis';
-import { useAppSelector } from '../../hooks';
 
 import style from './style.module.scss';
 
@@ -19,13 +20,18 @@ export const AccountInfo: React.FC = () => {
     userDataLoaded,
     loading,
   } = useAppSelector((state) => state.userApi);
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
   React.useEffect(() => {
     if (userDataLoaded && !user.isAuth)
       navigate(navigationApi.toAccountLogin(), { replace: true });
-  }, [user, userDataLoaded, navigate]);
+
+    return () => {
+      dispatch(userActions.clearError());
+    };
+  }, [user, userDataLoaded, navigate, dispatch]);
 
   const breadcrumbsPaths = () => {
     return [
@@ -44,7 +50,7 @@ export const AccountInfo: React.FC = () => {
       <div className={style.screen}>
         {loading && <Loader />}
         {userDataLoaded && user.isAuth && !loading &&
-          <AccountInfoContent userId={user.id} userName={user.name} />
+          <AccountInfoContent />
         }
       </div>
     </Layout>

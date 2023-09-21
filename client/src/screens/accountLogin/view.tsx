@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { navigationApi, userApi } from '../../model/apis';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { userActions } from '../../model/store/reducers/UserSlice';
 import { IUserLogin } from '../../model/types/IUser';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
@@ -29,7 +30,11 @@ export const AccountLogin: React.FC = () => {
   React.useEffect(() => {
     if (userDataLoaded && user.isAuth)
       navigate(navigationApi.toAccount(), { replace: true });
-  }, [user, userDataLoaded, navigate]);
+
+    return () => {
+      dispatch(userActions.clearError());
+    };
+  }, [user, userDataLoaded, navigate, dispatch]);
 
   const {
     register,

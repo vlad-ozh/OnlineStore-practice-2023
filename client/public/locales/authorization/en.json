@@ -6,16 +6,15 @@
 	"emailLabel": "Email Address",
 	"nameLabel": "Name",
 	"passwordLabel": "Password",
+	"currentPasswordLabel": "Current password",
 	"passwordRegisterLabel": "Password (From 4 to 20 characters)",
-	"newPasswordLabel": "New password",
+	"newPasswordLabel": "New password (From 4 to 20 characters)",
 	"passwordConfirmLabel": "Confirm Password",
 	
 	"createSubmit": "Create",
 	"loginSubmit": "Log in",
 	"sendEmailSubmit": "Send an email",
 	"resetSubmit": "Password reset",
-	"saveSubmit": "Save",
-	"cancelSubmit": "Cancel",
 	
 	"login": "Log in",
 	"next": "Next",

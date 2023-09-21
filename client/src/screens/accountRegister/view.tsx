@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IUserRegisterConfirm } from '../../model/types/IUser';
 import { navigationApi, userApi } from '../../model/apis';
+import { userActions } from '../../model/store/reducers/UserSlice';
 import {
   Header,
   Layout,
@@ -29,7 +30,11 @@ export const AccountRegister: React.FC = () => {
   React.useEffect(() => {
     if (userDataLoaded && user.isAuth)
       navigate(navigationApi.toAccount(), { replace: true });
-  }, [user, userDataLoaded, navigate]);
+
+    return () => {
+      dispatch(userActions.clearError());
+    };
+  }, [user, userDataLoaded, navigate, dispatch]);
 
   const {
     register,
