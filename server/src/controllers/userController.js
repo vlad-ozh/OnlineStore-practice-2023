@@ -176,6 +176,40 @@ module.exports = {
       next(error);
     }
   },
+  changeName: async (req, res, next) => {
+    try {
+      const { userId, userName } = req.body;
+
+      const userData = await userService.changeName( userId, userName );
+
+      return res.json(userData);
+    } catch (error) {
+      next(error);
+    }
+  },
+  // changePassword: async (req, res, next) => {
+  //   try {
+  // const { userId, userName } = req.body;
+
+  // const userData = await userService.changePassword( userId, userName );
+
+  // return res.json(userData);
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // },
+  deleteAcc: async (req, res, next) => {
+    try {
+      const userId = req.params.userId;
+
+      const userData = await userService.deleteAcc( userId );
+      res.clearCookie('refreshToken');
+
+      return res.json(userData);
+    } catch (error) {
+      next(error);
+    }
+  },
   validateCheckoutInfo: async (req, res, next) => {
     try {
       const errors = validationResult(req);

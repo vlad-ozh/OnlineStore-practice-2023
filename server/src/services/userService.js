@@ -217,6 +217,32 @@ const userService = () => {
     return UserDto(user);
   };
 
+  const changeName = async (userId, userName) => {
+    const user = await UserModel.findOne({ id: userId });
+
+    user.name = userName.trim();
+
+    await user.save();
+
+    return UserDto(user);
+  };
+
+  // const changePassword = async (userId, userName) => {
+  // const user = await UserModel.findOne({ id: userId });
+
+  // user.name = userName.trim();
+
+  // await user.save();
+
+  // return UserDto(user);
+  // };
+
+  const deleteAcc = async (userId) => {
+    const user = await UserModel.deleteOne({ id: userId });
+
+    return user;
+  };
+
 
   return {
     register,
@@ -232,6 +258,9 @@ const userService = () => {
     addProductToCart,
     removeProductFromCart,
     changeAmountProductBuy,
+    changeName,
+    deleteAcc,
+    // changePassword,
   };
 };
 
