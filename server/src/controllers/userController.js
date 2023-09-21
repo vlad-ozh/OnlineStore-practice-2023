@@ -84,6 +84,7 @@ module.exports = {
 
       return res.json(userData);
     } catch (error) {
+      res.clearCookie('refreshToken');
       next(error);
     }
   },
@@ -182,22 +183,30 @@ module.exports = {
 
       const userData = await userService.changeName( userId, userName );
 
+      addCookieRefreshToken(res, userData.refreshToken);
+
       return res.json(userData);
     } catch (error) {
       next(error);
     }
   },
-  // changePassword: async (req, res, next) => {
-  //   try {
-  // const { userId, userName } = req.body;
+  changePassword: async (req, res, next) => {
+    try {
+      const { userId, currentPassword, newPassword } = req.body;
 
-  // const userData = await userService.changePassword( userId, userName );
+      const userData = await userService.changePassword(
+        userId,
+        currentPassword,
+        newPassword
+      );
 
-  // return res.json(userData);
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // },
+      addCookieRefreshToken(res, userData.refreshToken);
+
+      return res.json(userData);
+    } catch (error) {
+      next(error);
+    }
+  },
   deleteAcc: async (req, res, next) => {
     try {
       const userId = req.params.userId;

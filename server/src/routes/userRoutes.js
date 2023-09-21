@@ -19,7 +19,7 @@ router.put('/add/product-to-cart', userController.addProductToCart);
 router.put('/remove/product-from-cart', userController.removeProductFromCart);
 router.put('/change/amount-product-buy', userController.changeAmountProductBuy);
 router.patch('/change/name', userController.changeName);
-// router.patch('/change/password', userController.changePassword);
+router.patch('/change/password', userController.changePassword);
 router.delete('/delete/:userId', userController.deleteAcc);
 router.post(
   '/validate/checkout/info',

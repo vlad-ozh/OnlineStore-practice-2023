@@ -220,22 +220,38 @@ const userService = () => {
   const changeName = async (userId, userName) => {
     const user = await UserModel.findOne({ id: userId });
 
+    if (!user) {
+      throw ApiError.BadRequest('noUserFound');
+    }
+
     user.name = userName.trim();
 
     await user.save();
 
-    return UserDto(user);
+    return userAndTokens(user);
   };
 
-  // const changePassword = async (userId, userName) => {
-  // const user = await UserModel.findOne({ id: userId });
+  const changePassword = async (userId, currentPassword, newPassword) => {
+    const user = await UserModel.findOne({ id: userId });
 
-  // user.name = userName.trim();
+    if (!user) {
+      throw ApiError.BadRequest('noUserFound');
+    }
 
-  // await user.save();
+    const isPassEquals = await bcrypt.compare(currentPassword, user.password);
 
-  // return UserDto(user);
-  // };
+    if (!isPassEquals) {
+      throw ApiError.BadRequest('passwordInvalid');
+    }
+
+    const hashNewPassword = await bcrypt.hash(newPassword, 3);
+
+    user.password = hashNewPassword;
+
+    await user.save();
+
+    return userAndTokens(user);
+  };
 
   const deleteAcc = async (userId) => {
     const user = await UserModel.deleteOne({ id: userId });
@@ -260,7 +276,7 @@ const userService = () => {
     changeAmountProductBuy,
     changeName,
     deleteAcc,
-    // changePassword,
+    changePassword,
   };
 };
 
