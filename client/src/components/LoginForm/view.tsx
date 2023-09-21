@@ -49,6 +49,7 @@ export const LoginForm: React.FC<IProps> = ({
           name='email'
           placeholder='emailPlaceholder'
           type='email'
+          autoComplete='on'
           register={register('email', {
             required: 'requiredError',
             pattern: {
@@ -63,6 +64,7 @@ export const LoginForm: React.FC<IProps> = ({
           name='password'
           placeholder={t('passwordPlaceholder')}
           type='password'
+          autoComplete='off'
           register={register('password', {
             required: 'requiredError',
           })}

@@ -9,6 +9,7 @@ interface IInputProps {
   name: string;
   type: 'text';
   placeholder: string;
+  autoComplete: 'on' | 'off';
   register: UseFormRegisterReturn;
   className?: string;
 }
@@ -16,6 +17,7 @@ interface IInputProps {
 export const Input: React.FC<IInputProps> = ({
   type,
   name,
+  autoComplete,
   register,
   placeholder,
   className,
@@ -26,9 +28,10 @@ export const Input: React.FC<IInputProps> = ({
     <input
       {...register}
       type={type}
-      name={name}
       id={name}
+      name={name}
       placeholder={`${t(placeholder)}`}
+      autoComplete={autoComplete}
       className={classnames(style.input, className)}
     />
   );

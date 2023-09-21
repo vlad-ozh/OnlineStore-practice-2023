@@ -1,5 +1,6 @@
 export { App } from './App';
 export { AccountContent } from './AccountContent';
+export { AccountInfoContent } from './AccountInfoContent';
 export { HeaderContent } from './HeaderContent';
 export { Header } from './Header';
 export { Footer } from './Footer';
@@ -31,6 +32,7 @@ export { ForgotPasswordForm } from './ForgotPasswordForm';
 export { ForgotPasswordFormSent } from './ForgotPasswordFormSent';
 export { ForgotPasswordContent } from './ForgotPasswordContent';
 export { ResetPasswordForm } from './ResetPasswordForm';
+export { ChangeNameForm } from './ChangeNameForm';
 export { SearchForm } from './SearchForm';
 export { ReviewForm } from './ReviewForm';
 export { CartContent } from './CartContent';

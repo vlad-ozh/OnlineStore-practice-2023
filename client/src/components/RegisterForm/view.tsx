@@ -49,6 +49,7 @@ export const RegisterForm: React.FC<IProps> = ({
           name='email'
           placeholder='emailPlaceholder'
           type='email'
+          autoComplete='on'
           register={register('email', {
             required: 'requiredError',
             pattern: {
@@ -63,6 +64,7 @@ export const RegisterForm: React.FC<IProps> = ({
           name='name'
           placeholder='namePlaceholder'
           type='text'
+          autoComplete='on'
           register={register('name', {
             required: 'requiredError',
           })}
@@ -73,6 +75,7 @@ export const RegisterForm: React.FC<IProps> = ({
           name='password'
           placeholder={t('passwordPlaceholder')}
           type='password'
+          autoComplete='off'
           register={register('password', {
             required: 'requiredError',
             minLength: {
@@ -91,6 +94,7 @@ export const RegisterForm: React.FC<IProps> = ({
           name='confirmPassword'
           placeholder='passwordPlaceholder'
           type='password'
+          autoComplete='off'
           register={register('confirmPassword', {
             required: 'requiredError',
             validate: (value: string) =>

@@ -10,6 +10,7 @@ interface IProps {
   name: string;
   placeholder: string;
   type: 'email' | 'text' | 'tel' | 'password';
+  autoComplete: 'on' | 'off';
   register: UseFormRegisterReturn;
   error?: string;
 }
@@ -19,6 +20,7 @@ export const InputWithLabel: React.FC<IProps> = ({
   name,
   placeholder,
   type,
+  autoComplete,
   register,
   error,
 }) => {
@@ -33,6 +35,7 @@ export const InputWithLabel: React.FC<IProps> = ({
         id={name}
         name={name}
         placeholder={`${t(placeholder)}`}
+        autoComplete={autoComplete}
         className={style.fieldsetInput}
       />
       {error && <FormError error={error} className={style.fieldsetInputError}/>}

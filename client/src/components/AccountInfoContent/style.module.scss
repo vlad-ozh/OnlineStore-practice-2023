@@ -1,0 +1,42 @@
+.container {
+  width: 100%;
+  background-color: var(--form-background-color);
+  padding: 20px;
+  box-shadow: var(--box-shadow);
+  border-radius: 12px;
+
+  @media screen and (max-width: 600px) {
+    padding: 10px;
+  }
+  
+  &Title {
+    margin-bottom: 25px;
+    
+    @media screen and (max-width: 600px) {
+      font-size: 20px;
+      text-align: center;
+    }
+  }
+
+  &Delete {
+    color: var(--text-color);
+    background-color: transparent;
+    border: 2px solid #e00027;
+    border-radius: 6px;
+    padding: 10px 30px;
+    margin-top: 25px;
+    transition: all .2s;
+    font-weight: bolder;
+    font-size: 16px;
+    
+    &:hover {
+      background-color: #e00027;
+      color: #fff;
+    }
+
+    @media screen and (max-width: 600px) {
+      font-size: 14px;
+    }
+  }
+}
+

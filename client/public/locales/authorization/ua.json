@@ -14,6 +14,8 @@
 	"loginSubmit": "Увійти",
 	"sendEmailSubmit": "Надіслати лист",
 	"resetSubmit": "Відновити пароль",
+	"saveSubmit": "Зберегти",
+	"cancelSubmit": "Скасувати",
 	
 	"login": "Вхід",
 	"next": "Далі",

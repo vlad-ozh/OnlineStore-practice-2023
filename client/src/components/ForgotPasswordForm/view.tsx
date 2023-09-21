@@ -44,6 +44,7 @@ export const ForgotPasswordForm: React.FC<IProps> = ({
           name='email'
           placeholder='emailPlaceholder'
           type='email'
+          autoComplete='on'
           register={register('email', {
             required: 'requiredError',
             pattern: {

@@ -1,0 +1,1 @@
+export { AccountInfoContent } from './view';

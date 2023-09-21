@@ -3,5 +3,7 @@
 	"personalInfo": "Personal information",
 	"myOrders": "My orders",
 	"logout": "Log out of the account",
+	"deleteAcc": "Delete account",
+	"deleteAccConfirm": "Are you sure you want to delete your account?",
 	"needActivateAcc": "An account activation message has been sent to your email."
 }

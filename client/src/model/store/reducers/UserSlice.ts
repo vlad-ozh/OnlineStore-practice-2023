@@ -166,6 +166,25 @@ export const userSlice = createSlice({
         state.loading = false;
       })
 
+      .addCase(userApi.changeUserName.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userApi.changeUserName.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+
+      .addCase(userApi.deleteAcc.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userApi.deleteAcc.fulfilled, (state) => {
+        state.loading = false;
+        state.user = {} as IUser;
+        localStorage.removeItem('token');
+      })
+
       .addMatcher(userApi.error, (
         state, action: PayloadAction<any>
       ) => {

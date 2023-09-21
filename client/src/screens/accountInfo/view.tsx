@@ -1,8 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header, Layout, Footer, Breadcrumbs, Loader } from '../../components';
+import {
+  Header,
+  Layout,
+  Footer,
+  Breadcrumbs,
+  Loader,
+  AccountInfoContent,
+} from '../../components';
 import { navigationApi } from '../../model/apis';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 
 import style from './style.module.scss';
 
@@ -12,14 +19,13 @@ export const AccountInfo: React.FC = () => {
     userDataLoaded,
     loading,
   } = useAppSelector((state) => state.userApi);
-  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
   React.useEffect(() => {
     if (userDataLoaded && !user.isAuth)
       navigate(navigationApi.toAccountLogin(), { replace: true });
-  }, [user, userDataLoaded, dispatch, navigate]);
+  }, [user, userDataLoaded, navigate]);
 
   const breadcrumbsPaths = () => {
     return [
@@ -38,7 +44,7 @@ export const AccountInfo: React.FC = () => {
       <div className={style.screen}>
         {loading && <Loader />}
         {userDataLoaded && user.isAuth && !loading &&
-          <>Account Info</>
+          <AccountInfoContent userId={user.id} userName={user.name} />
         }
       </div>
     </Layout>

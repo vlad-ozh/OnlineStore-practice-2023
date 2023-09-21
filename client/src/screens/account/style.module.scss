@@ -1,7 +1,9 @@
 @use './../../assets/common/container';
+@use './../../assets/common/fonts';
 
 .screen{
   @extend %container;
+  font-family: fonts.$roboto;
   height: 100%;
   display: flex;
   flex-direction: column;

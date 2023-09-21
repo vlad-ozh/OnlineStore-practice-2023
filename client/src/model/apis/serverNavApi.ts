@@ -17,6 +17,9 @@ const serverNavigation = () => {
     removeProductFromCart: '/user/remove/product-from-cart',
     changeAmountProductBuy: '/user/change/amount-product-buy',
     validateCheckoutInfo: '/user/validate/checkout/info',
+    changeName: '/user/change/name',
+    changePassword: '/user/change/password',
+    deleteAcc: '/user/delete/:userId',
   };
 
   const productsRoutes = {
@@ -84,6 +87,11 @@ const serverNavigation = () => {
       return setRoute(productsRoutes.getPopularByCategory, {
         category,
         brand,
+      });
+    },
+    toDeleteAcc: (userId: string) => {
+      return setRoute(userRoutes.deleteAcc, {
+        userId,
       });
     },
   };

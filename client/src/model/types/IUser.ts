@@ -3,6 +3,9 @@ export interface IUserRegister {
   name: string;
   password: string;
 };
+export interface IUserName {
+  name: string;
+};
 export interface IUserRegisterConfirm {
   email: string;
   name: string;
@@ -62,4 +65,8 @@ export interface ICheckout  {
   phone: string,
   city: string,
   postNum: number,
+}
+export interface IChangeUserName  {
+  userId: string;
+  userName: string;
 }

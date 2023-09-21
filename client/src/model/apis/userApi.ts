@@ -11,6 +11,7 @@ import {
   IUserCartSelectedOperations,
   IChangeAmountProductBuy,
   ICheckout,
+  IChangeUserName,
 } from '../types/IUser';
 import axios from 'axios';
 
@@ -35,6 +36,8 @@ interface IUserApi {
   changeAmountProductBuy:
     AsyncThunk<IUser, IChangeAmountProductBuy, {rejectValue: string}>;
   validateCheckoutInfo: AsyncThunk<undefined, ICheckout, {rejectValue: string}>;
+  changeUserName: AsyncThunk<IUser, IChangeUserName, {rejectValue: string}>;
+  deleteAcc: AsyncThunk<undefined, {userId: string}, {rejectValue: string}>;
   error: any;
 }
 const user = (): IUserApi => {
@@ -182,6 +185,26 @@ const user = (): IUserApi => {
           .catch((err) => rejectWithValue(err));
       }
     );
+  const changeUserName = () =>
+    createAsyncThunk<IUser, IChangeUserName, {rejectValue: string}>(
+      'user/change/name',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .patch<IUser>(serverNavApi.userRoutes.changeName, data)
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
+  const deleteAcc = () =>
+    createAsyncThunk<undefined, {userId: string}, {rejectValue: string}>(
+      'user/delete/account',
+      async (data, { rejectWithValue }) => {
+        return await axiosInstance
+          .delete<undefined>(serverNavApi.toDeleteAcc(data.userId))
+          .then((res) => res.data)
+          .catch((err) => rejectWithValue(err));
+      }
+    );
 
   const isError = (action: AnyAction) => {
     return action.type.endsWith('rejected');
@@ -201,6 +224,8 @@ const user = (): IUserApi => {
     removeProductFromCart: removeProductFromCart(),
     changeAmountProductBuy: changeAmountProductBuy(),
     validateCheckoutInfo: validateCheckoutInfo(),
+    changeUserName: changeUserName(),
+    deleteAcc: deleteAcc(),
     error: isError,
   };
 };

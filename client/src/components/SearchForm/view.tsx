@@ -29,6 +29,7 @@ export const SearchForm: React.FC<IProps> = ({
           name='search'
           placeholder='searchPlaceholder'
           type='text'
+          autoComplete='on'
           register={register('search', {
             required: true,
           })}

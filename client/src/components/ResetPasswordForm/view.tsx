@@ -46,6 +46,7 @@ export const ResetPasswordForm: React.FC<IProps> = ({
           name='password'
           placeholder={t('passwordPlaceholder')}
           type='password'
+          autoComplete='off'
           register={register('password', {
             required: 'requiredError',
             minLength: {
@@ -64,6 +65,7 @@ export const ResetPasswordForm: React.FC<IProps> = ({
           name='confirmPassword'
           placeholder='passwordPlaceholder'
           type='password'
+          autoComplete='off'
           register={register('confirmPassword', {
             required: 'requiredError',
             validate: (value: string) =>

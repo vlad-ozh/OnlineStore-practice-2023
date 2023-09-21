@@ -1,5 +1,7 @@
 @use './../../assets/common/container';
+@use './../../assets/common/fonts';
 
 .screen{
   @extend %container;
+  font-family: fonts.$roboto;
 }
