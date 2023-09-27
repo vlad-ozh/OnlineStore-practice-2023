@@ -7,10 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { userApi } from '../../model/apis';
 
 export const AccountInfoContent: React.FC = () => {
-  const {
-    user,
-    error,
-  } = useAppSelector((state) => state.userApi);
+  const { user } = useAppSelector((state) => state.userApi);
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation(['account']);
@@ -26,9 +23,9 @@ export const AccountInfoContent: React.FC = () => {
       <h2 className={style.containerTitle}>
         {t('personalInfo')}
       </h2>
-      <ChangeNameForm userId={user.id} userName={user.name} />
+      <ChangeNameForm />
       <hr />
-      <ChangePasswordForm userId={user.id} formError={error}/>
+      <ChangePasswordForm />
       <hr />
 
       <Button

@@ -1,10 +1,7 @@
 import React from 'react';
 import { HeaderContent } from '..';
 import { useAppSelector } from '../../hooks';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { ISearch } from '../../model/types/IProducts';
 import { navigationApi } from '../../model/apis';
-import { useNavigate } from 'react-router-dom';
 
 export const Header: React.FC = () => {
   const {
@@ -12,19 +9,6 @@ export const Header: React.FC = () => {
     isAuth,
     selectedProducts,
   } = useAppSelector((state) => state.userApi.user);
-
-  const navigate = useNavigate();
-
-  const {
-    register,
-    handleSubmit,
-  } = useForm<ISearch>();
-
-  const onSubmit: SubmitHandler<ISearch> = data => {
-    const searchData: string = data.search.trim();
-
-    navigate(navigationApi.toSearchProducts(searchData));
-  };
 
   const onAccount = (isAuth: boolean) => {
     return isAuth ? navigationApi.toAccount()
@@ -60,9 +44,6 @@ export const Header: React.FC = () => {
         isCartProducts={isCartProducts}
         totalSelectedProducts={totalSelectedProducts}
         totalProductsInCart={totalProductsInCart}
-        register={register}
-        handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
       />
     </>
   );

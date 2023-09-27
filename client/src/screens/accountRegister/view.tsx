@@ -1,9 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { IUserRegisterConfirm } from '../../model/types/IUser';
-import { navigationApi, userApi } from '../../model/apis';
+import { navigationApi } from '../../model/apis';
 import { userActions } from '../../model/store/reducers/UserSlice';
 import {
   Header,
@@ -19,7 +17,6 @@ import style from './style.module.scss';
 export const AccountRegister: React.FC = () => {
   const {
     user,
-    error,
     loading,
     userDataLoaded,
   } = useAppSelector((state) => state.userApi);
@@ -35,28 +32,6 @@ export const AccountRegister: React.FC = () => {
       dispatch(userActions.clearError());
     };
   }, [user, userDataLoaded, navigate, dispatch]);
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm<IUserRegisterConfirm>({
-    mode: 'onChange',
-  });
-  const passwordValue = watch('password');
-
-  const onSubmit: SubmitHandler<IUserRegisterConfirm> = data => {
-    const user = {
-      name: data.name.trim(),
-      email: data.email.trim(),
-      password: data.password.trim(),
-    };
-
-    dispatch(userApi.register(user));
-    reset();
-  };
 
   const breadcrumbsPaths = () => {
     return [
@@ -74,15 +49,7 @@ export const AccountRegister: React.FC = () => {
       <div className={style.screen}>
         {loading && <Loader />}
         {userDataLoaded && !user.isAuth && !loading &&
-          <RegisterForm
-            register={register}
-            errors={errors}
-            formError={error}
-            loginLink={navigationApi.toAccountLogin()}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            passwordValue={passwordValue}
-          />
+          <RegisterForm />
         }
       </div>
     </Layout>

@@ -1,11 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  FieldErrors,
-  SubmitHandler,
-  UseFormHandleSubmit,
-  UseFormRegister,
-} from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { navigationApi, userApi } from '../../model/apis';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useTranslation } from 'react-i18next';
 import { IUserLogin } from '../../model/types/IUser';
 import {
@@ -16,26 +13,31 @@ import {
 
 import style from './style.module.scss';
 
-interface IProps {
-  register: UseFormRegister<IUserLogin>;
-  errors: FieldErrors<IUserLogin>;
-  formError: string | null;
-  registerLink: string;
-  forgotPasswordLink: string;
-  handleSubmit: UseFormHandleSubmit<IUserLogin, undefined>;
-  onSubmit: SubmitHandler<IUserLogin>;
-}
+export const LoginForm: React.FC = () => {
+  const { error: formError } = useAppSelector((state) => state.userApi);
+  const dispatch = useAppDispatch();
 
-export const LoginForm: React.FC<IProps> = ({
-  register,
-  errors,
-  registerLink,
-  forgotPasswordLink,
-  formError,
-  handleSubmit,
-  onSubmit,
-}) => {
   const { t } = useTranslation(['authorization']);
+
+  const {
+    register,
+    handleSubmit,
+    resetField,
+    formState: { errors },
+  } = useForm<IUserLogin>({
+    mode: 'onChange',
+  });
+
+  const onSubmit: SubmitHandler<IUserLogin> = data => {
+    const user = {
+      email: data.email.trim(),
+      password: data.password.trim(),
+    };
+
+    dispatch(userApi.login(user));
+    resetField('password');
+  };
+
 
   return (
     <div className={style.container}>
@@ -83,7 +85,7 @@ export const LoginForm: React.FC<IProps> = ({
         <p className={style.formParagraph}>
           {t('dontHaveAcc')}
           <Link
-            to={registerLink}
+            to={navigationApi.toAccountRegister()}
             className={style.formLink}
           >
             {t('register')}
@@ -91,7 +93,7 @@ export const LoginForm: React.FC<IProps> = ({
         </p>
         <p className={style.formParagraph}>
           <Link
-            to={forgotPasswordLink}
+            to={navigationApi.toAccountForgotPassword()}
             className={style.formLink}
           >
             {t('forgotPassword')}

@@ -1,26 +1,26 @@
 import React from 'react';
-import {
-  SubmitHandler,
-  UseFormHandleSubmit,
-  UseFormRegister,
-} from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { navigationApi } from '../../model/apis';
 import { Input, SubmitIcon } from '..';
 import { ISearch } from '../../model/types/IProducts';
 import { SearchIcon } from '../../assets/images/svg-images';
 
 import style from './style.module.scss';
 
-interface IProps {
-  register: UseFormRegister<ISearch>;
-  handleSubmit: UseFormHandleSubmit<ISearch, undefined>;
-  onSubmit: SubmitHandler<ISearch>;
-}
+export const SearchForm: React.FC = () => {
+  const navigate = useNavigate();
 
-export const SearchForm: React.FC<IProps> = ({
-  register,
-  handleSubmit,
-  onSubmit,
-}) => {
+  const {
+    register,
+    handleSubmit,
+  } = useForm<ISearch>();
+
+  const onSubmit: SubmitHandler<ISearch> = data => {
+    const searchData: string = data.search.trim();
+
+    navigate(navigationApi.toSearchProducts(searchData));
+  };
 
   return (
     <div className={style.container}>

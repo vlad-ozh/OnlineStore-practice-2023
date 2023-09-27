@@ -2,7 +2,7 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { userApi } from '../../model/apis';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { IUserName } from '../../model/types/IUser';
 import {
   Button,
@@ -12,12 +12,10 @@ import {
 
 import style from './style.module.scss';
 
-interface IProps {
-  userId: string;
-  userName: string;
-}
-
-export const ChangeNameForm: React.FC<IProps> = ({ userId, userName }) => {
+export const ChangeNameForm: React.FC = () => {
+  const {
+    user: { id: userId, name: userName },
+  } = useAppSelector((state) => state.userApi);
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation(['account']);

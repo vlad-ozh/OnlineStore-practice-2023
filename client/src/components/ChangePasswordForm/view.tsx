@@ -2,8 +2,9 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { userApi } from '../../model/apis';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { IUserChangePasswordForm } from '../../model/types/IUser';
+import { userActions } from '../../model/store/reducers/UserSlice';
 import {
   Button,
   FormError,
@@ -12,14 +13,12 @@ import {
 } from '..';
 
 import style from './style.module.scss';
-import { userActions } from '../../model/store/reducers/UserSlice';
 
-interface IProps {
-  userId: string;
-  formError: string | null;
-}
-
-export const ChangePasswordForm: React.FC<IProps> = ({ userId, formError }) => {
+export const ChangePasswordForm: React.FC = () => {
+  const {
+    user: { id: userId },
+    error: formError,
+  } = useAppSelector((state) => state.userApi);
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation(['account']);

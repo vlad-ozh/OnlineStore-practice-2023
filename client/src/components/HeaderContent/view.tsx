@@ -2,15 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Button, SearchForm } from '..';
-import { ISearch } from '../../model/types/IProducts';
 import { SwitchButtonLanguage } from '../SwitchLanguageButton';
 import { SwitchButtonTheme } from '../SwitchThemeButton';
 import { useTranslation } from 'react-i18next';
-import {
-  SubmitHandler,
-  UseFormHandleSubmit,
-  UseFormRegister,
-} from 'react-hook-form';
 
 import {
   CartIcon,
@@ -34,9 +28,6 @@ interface IProps {
   isCartProducts: boolean;
   totalSelectedProducts: number;
   totalProductsInCart: number;
-  register: UseFormRegister<ISearch>;
-  handleSubmit: UseFormHandleSubmit<ISearch, undefined>;
-  onSubmit: SubmitHandler<ISearch>;
 }
 
 export const HeaderContent: React.FC<IProps> = (props) => {
@@ -54,9 +45,6 @@ export const HeaderContent: React.FC<IProps> = (props) => {
     isCartProducts,
     totalSelectedProducts,
     totalProductsInCart,
-    handleSubmit,
-    onSubmit,
-    register,
   } = props;
 
   return (
@@ -137,11 +125,7 @@ export const HeaderContent: React.FC<IProps> = (props) => {
           {t('products')}
         </Link>
 
-        <SearchForm
-          handleSubmit={handleSubmit}
-          onSubmit={onSubmit}
-          register={register}
-        />
+        <SearchForm />
 
         <ul className={style.navList}>
           <li className={style.navListItem}>

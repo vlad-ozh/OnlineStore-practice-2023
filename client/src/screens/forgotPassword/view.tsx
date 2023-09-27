@@ -1,9 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { navigationApi, userApi } from '../../model/apis';
-import { IUserForgotPassword } from '../../model/types/IUser';
+import { navigationApi } from '../../model/apis';
 import { userActions } from '../../model/store/reducers/UserSlice';
 import {
   Header,
@@ -19,9 +17,7 @@ import style from './style.module.scss';
 export const ForgotPassword: React.FC = () => {
   const {
     user,
-    error,
     loading,
-    isEmailSent,
     userDataLoaded,
   } = useAppSelector((state) => state.userApi);
   const dispatch = useAppDispatch();
@@ -37,32 +33,11 @@ export const ForgotPassword: React.FC = () => {
     };
   }, [user, userDataLoaded, navigate, dispatch]);
 
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors },
-  } = useForm<IUserForgotPassword>({
-    mode: 'onChange',
-  });
-
-  const onSubmit: SubmitHandler<IUserForgotPassword> = data => {
-    const user = {
-      email: data.email.trim(),
-    };
-
-    dispatch(userApi.forgotPassword(user));
-  };
-
   const breadcrumbsPaths = () => {
     return [
       {path: navigationApi.toHome(), name: {title: 'home'}},
       {path: '', name: {title: 'forgotPassword'}},
     ];
-  };
-
-  const onBack = () => {
-    dispatch(userActions.emailSentDisable());
   };
 
   return (
@@ -74,16 +49,7 @@ export const ForgotPassword: React.FC = () => {
       <div className={style.screen}>
         {loading && <Loader />}
         {userDataLoaded && !user.isAuth && !loading &&
-          <ForgotPasswordContent
-            email={getValues('email')}
-            onBack={onBack}
-            register={register}
-            errors={errors}
-            formError={error}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            isEmailSent={isEmailSent}
-          />
+          <ForgotPasswordContent />
         }
       </div>
     </Layout>

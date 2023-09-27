@@ -1,34 +1,41 @@
 import React from 'react';
 import { ForgotPasswordForm, ForgotPasswordFormSent } from '..';
 import { IUserForgotPassword } from '../../model/types/IUser';
-import {
-  FieldErrors,
-  SubmitHandler,
-  UseFormHandleSubmit,
-  UseFormRegister,
-} from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { userApi } from '../../model/apis';
+import { userActions } from '../../model/store/reducers/UserSlice';
 
-interface IProps {
-  isEmailSent: boolean;
-  register: UseFormRegister<IUserForgotPassword>;
-  errors: FieldErrors<IUserForgotPassword>;
-  formError: string | null;
-  handleSubmit: UseFormHandleSubmit<IUserForgotPassword, undefined>;
-  onSubmit: SubmitHandler<IUserForgotPassword>;
-  email: string;
-  onBack: () => void;
-}
+export const ForgotPasswordContent: React.FC = () => {
 
-export const ForgotPasswordContent: React.FC<IProps> = ({
-  email,
-  isEmailSent,
-  handleSubmit,
-  onSubmit,
-  onBack,
-  register,
-  errors,
-  formError,
-}) => {
+  const {
+    error: formError,
+    isEmailSent,
+  } = useAppSelector((state) => state.userApi);
+  const dispatch = useAppDispatch();
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<IUserForgotPassword>({
+    mode: 'onChange',
+  });
+
+  const email = getValues('email');
+
+  const onSubmit: SubmitHandler<IUserForgotPassword> = data => {
+    const user = {
+      email: data.email.trim(),
+    };
+
+    dispatch(userApi.forgotPassword(user));
+  };
+
+  const onBack = () => {
+    dispatch(userActions.emailSentDisable());
+  };
 
   if (isEmailSent) {
     return (

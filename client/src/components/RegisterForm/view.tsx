@@ -1,41 +1,46 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  FieldErrors,
-  SubmitHandler,
-  UseFormHandleSubmit,
-  UseFormRegister,
-} from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { navigationApi, userApi } from '../../model/apis';
+import { IUserRegisterConfirm } from '../../model/types/IUser';
 import {
   FormError,
   InputWithLabel,
   Submit,
 } from '..';
-import { IUserRegisterConfirm } from '../../model/types/IUser';
 
 import style from './style.module.scss';
 
-interface IProps {
-  register: UseFormRegister<IUserRegisterConfirm>;
-  errors: FieldErrors<IUserRegisterConfirm>;
-  formError: string | null;
-  passwordValue: string;
-  loginLink: string;
-  handleSubmit: UseFormHandleSubmit<IUserRegisterConfirm, undefined>;
-  onSubmit: SubmitHandler<IUserRegisterConfirm>;
-}
+export const RegisterForm: React.FC = () => {
+  const { error: formError } = useAppSelector((state) => state.userApi);
+  const dispatch = useAppDispatch();
 
-export const RegisterForm: React.FC<IProps> = ({
-  register,
-  errors,
-  passwordValue,
-  loginLink,
-  formError,
-  handleSubmit,
-  onSubmit,
-}) => {
   const { t } = useTranslation(['authorization']);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm<IUserRegisterConfirm>({
+    mode: 'onChange',
+  });
+
+  const passwordValue = watch('password');
+
+  const onSubmit: SubmitHandler<IUserRegisterConfirm> = data => {
+    const user = {
+      name: data.name.trim(),
+      email: data.email.trim(),
+      password: data.password.trim(),
+    };
+
+    dispatch(userApi.register(user));
+    reset();
+  };
 
   return (
     <div className={style.container}>
@@ -115,7 +120,7 @@ export const RegisterForm: React.FC<IProps> = ({
         <p className={style.formParagraph}>
           {t('haveAcc')}
           <Link
-            to={loginLink}
+            to={navigationApi.toAccountLogin()}
             className={style.formLink}
           >
             {t('login')}
