@@ -71,69 +71,10 @@
     margin-bottom: 10px;
   }
 
-  &Select {
-    background-color: transparent;
-    border: none;
-    fill: var(--fill-color);
-    transition: all .3s;
-
-    &:hover {
-      fill: #e00027;
-    }
-  }
-
-  &SelectLink {
-    display: flex;
-    padding: 8px;
-    fill: var(--fill-color);
-    transition: all .3s;
-
-    &:hover {
-      fill: #e00027;
-    }
-  }
-
-  &OnSelect {
-    fill: #e00027;
-  }
-
   &Buy {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-
-  &Cart {
-    background-color: #e00027;
-    border: none;
-    border-radius: 3px;
-    fill: #fff;
-    transition: all .3s;
-
-    &:hover {
-      background-color: #f97988;
-    }
-  }
-
-  &CartLink {
-    display: flex;
-    padding: 8px;
-    background-color: #e00027;
-    border-radius: 3px;
-    fill: #fff;
-    transition: all .3s;
-
-    &:hover {
-      background-color: #f97988;
-    }
-  }
-
-  &CartNoActive {
-    background-color: #5c5c5c;
-  }
-
-  &NoShow {
-    display: none;
   }
 }
 

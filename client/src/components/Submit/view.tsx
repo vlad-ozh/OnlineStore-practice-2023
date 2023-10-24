@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import style from './style.module.scss';
 
@@ -15,7 +15,7 @@ export const Submit: React.FC<IProps> = ({
   return (
     <button
       type='submit'
-      className={classnames(style.submit, className)}
+      className={classNames(style.submit, className)}
     >
       {text}
     </button>

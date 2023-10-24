@@ -1,0 +1,27 @@
+@use "./../../assets/common/fonts";
+
+.select {
+  background-color: transparent;
+  border: none;
+  fill: var(--fill-color);
+  transition: all .3s;
+
+  &:hover {
+    fill: #e00027;
+  }
+  
+  &Link {
+    display: flex;
+    padding: 8px;
+    fill: var(--fill-color);
+    transition: all .3s;
+  
+    &:hover {
+      fill: #e00027;
+    }
+  }
+}
+
+.onSelect {
+  fill: #e00027;
+}

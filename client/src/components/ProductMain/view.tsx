@@ -2,16 +2,9 @@ import React from 'react';
 import { ICommonProductsLogic, IProduct } from '../../model/types/IProducts';
 import { IUser } from '../../model/types/IUser';
 import { useTranslation } from 'react-i18next';
-import { CommonProducts, Button } from '..';
-import classNames from 'classnames';
-import { Link } from 'react-router-dom';
+import { CommonProducts, SelectButton, BuyButton } from '..';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
-import {
-  CartIcon,
-  DoneIcon,
-  FavoriteIcon,
-} from '../../assets/images/svg-images';
 
 import 'swiper/scss';
 import 'swiper/scss/navigation';
@@ -44,8 +37,6 @@ export const ProductMain: React.FC<IProps> = React.memo((props) => {
         {({
           onSelect,
           isSelect,
-          toLogin,
-          toCart,
           isCart,
           onCart,
           totalRating,
@@ -94,70 +85,26 @@ export const ProductMain: React.FC<IProps> = React.memo((props) => {
                       t('notAvailable')
                     }
 
-                    <Button
-                      size='medium'
-                      skin='icon'
-                      onClick={() => onSelect(userId, product.id)}
-                      className={classNames(style.select, {
-                        [style.noShow]:
-                          isSelect(product.id, selectedProducts) || !isAuth,
-                      })}
-                    >
-                      <FavoriteIcon />
-                    </Button>
-                    <Button
-                      size='medium'
-                      skin='icon'
-                      onClick={() => onRemoveSelected(userId, product.id)}
-                      className={classNames(style.select, {
-                        [style.noShow]: !isSelect(product.id, selectedProducts),
-                        [style.selectOn]:
-                          isSelect(product.id, selectedProducts),
-                      })}
-                    >
-                      <FavoriteIcon />
-                    </Button>
-                    <Link
-                      to={toLogin()}
-                      className={classNames(style.selectLink, {
-                        [style.noShow]: isAuth,
-                      })}
-                    >
-                      <FavoriteIcon />
-                    </Link>
+                    <SelectButton
+                      onSelect={() => onSelect(userId, product.id)}
+                      onRemoveSelected={
+                        () => onRemoveSelected(userId, product.id)
+                      }
+                      isSelect={isSelect(product.id, selectedProducts)}
+                      isUser={isAuth}
+                    />
                   </div>
                   <div className={style.productMainInfoBuy}>
                     <h3 className={style.productMainInfoPrice}>
                       {product.price.toLocaleString()} ₴
                     </h3>
-                    <Button
-                      size='medium'
-                      skin='text'
-                      onClick={() => onCart(userId, product.id)}
-                      disabled={!amountOfProduct(product.amount)}
-                      className={classNames(style.cart, {
-                        [style.noShow]: isCart(product.id, cart) || !isAuth,
-                        [style.cartNoActive]: !amountOfProduct(product.amount),
-                      })}
-                    >
-                      <CartIcon /> {t('buy')}
-                    </Button>
-                    <Link
-                      to={toCart()}
-                      className={classNames(style.cartLink, {
-                        [style.noShow]: !isCart(product.id, cart),
-                      })}
-                    >
-                      <DoneIcon /> {t('inCart')}
-                    </Link>
-                    <Link
-                      to={toLogin()}
-                      className={classNames(style.cartLink, {
-                        [style.noShow]: isAuth,
-                      })}
-                    >
-                      <CartIcon /> {t('buy')}
-                    </Link>
+                    <BuyButton
+                      amount={amountOfProduct(product.amount)}
+                      isCart={isCart(product.id, cart)}
+                      isUser={isAuth}
+                      onCart={() => onCart(userId, product.id)}
+                      withText={true}
+                    />
                   </div>
                   <div className={style.productMainInfoDescription}>
                     <h3 className={style.productMainInfoDescTitle}>

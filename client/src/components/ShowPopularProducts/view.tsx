@@ -87,9 +87,7 @@ export const ShowPopularProducts: React.FC<IProps> = React.memo((props) => {
                       commonLogic.isSelect(productId, user.selectedProducts)
                     }
                     onCart={() => commonLogic.onCart(user.id, productId)}
-                    toCart={commonLogic.toCart()}
                     isCart={commonLogic.isCart(productId, user.cart)}
-                    toLogin={commonLogic.toLogin()}
                     isUser={user.isAuth}
                     amount={commonLogic.amountOfProduct(amount)}
                     rating={commonLogic.totalRating(reviews)}

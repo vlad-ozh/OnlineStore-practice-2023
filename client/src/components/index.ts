@@ -42,3 +42,5 @@ export { CommonProducts } from './CommonProducts';
 export { ProductMain } from './ProductMain';
 export { ProductSpecs } from './ProductSpecs';
 export { ProductReviews } from './ProductReviews';
+export { SelectButton } from './SelectButton';
+export { BuyButton } from './BuyButton';

@@ -34,9 +34,6 @@ export const CommonProducts: React.FC<IProps> = ({ children }) => {
       if (userId !== undefined)
         dispatch(userApi.addProductToCart({userId, productId}));
     },
-    toCart: () => {
-      return navigationApi.toAccountCart();
-    },
     isCart: (productId: string, cart: IUserCart[]) => {
       if (cart !== undefined)
         return cart.some(product => product.id === productId);
@@ -45,9 +42,6 @@ export const CommonProducts: React.FC<IProps> = ({ children }) => {
     },
     toProduct: (category: string, brand: string, productId: string) => {
       return navigationApi.toProduct(category, brand, productId);
-    },
-    toLogin: () => {
-      return navigationApi.toAccountLogin();
     },
     totalRating: (reviews: IReview[]) => {
       if (reviews.length > 0) {
