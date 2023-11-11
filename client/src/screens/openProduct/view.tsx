@@ -50,7 +50,7 @@ export const OpenProduct: React.FC = () => {
         name: {title: `${category}`},
       },
       {
-        path: navigationApi.toProducts(`${category}`,`${brand}`),
+        path: navigationApi.toProducts(`${category}`,`${brand}`,'1'),
         name: {title: `${brand}`},
       },
       {path: '', name: {title: productName}},

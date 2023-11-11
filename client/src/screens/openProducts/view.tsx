@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { navigationApi, productsApi } from '../../model/apis';
@@ -13,8 +13,10 @@ import {
   Loader,
   NoData,
 } from '../../components';
+import Pagination from 'rc-pagination';
 
 import style from './style.module.scss';
+import 'rc-pagination/assets/index.css';
 
 export const OpenProducts: React.FC = () => {
   const {
@@ -28,16 +30,20 @@ export const OpenProducts: React.FC = () => {
   } = useAppSelector((state) => state.productsApi);
   const dispatch = useAppDispatch();
 
-  const { category: categoryParam } = useParams();
-  const { brand: brandParam } = useParams();
+  const {
+    category: categoryParam,
+    brand: brandParam,
+    page: pageParam,
+  } = useParams();
+
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     dispatch(productsApi.getProductsByBrand({
       category: `${categoryParam}`, brand: `${brandParam}`,
     }));
     dispatch(productsApi.getPopularByCategory({
-      category: `${categoryParam}`,
-      brand: `${brandParam}`,
+      category: `${categoryParam}`, brand: `${brandParam}`,
     }));
   }, [dispatch, categoryParam, brandParam]);
 
@@ -58,7 +64,30 @@ export const OpenProducts: React.FC = () => {
     ];
   };
 
-  const isProducts = Boolean(products.length);
+  const productsOnOnePage = () => {
+    if (!pageParam || +pageParam < 0) return;
+
+    const pageSize = 10;
+    const skip = (+pageParam - 1) * pageSize;
+    const prods = products.slice(skip, skip + 10);
+
+    return prods;
+  };
+
+  const handlePageChange = (page: number) => {
+    if (categoryParam && brandParam)
+      navigate(
+        navigationApi.toProducts(categoryParam, brandParam, `${page}`),
+        { replace: true }
+      );
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  const isProducts = Boolean(productsOnOnePage()?.length);
 
   return (
     <Layout
@@ -73,9 +102,17 @@ export const OpenProducts: React.FC = () => {
         {userDataLoaded && !loading && (isProducts ?
           <>
             <ShowProducts
-              products={products}
+              products={productsOnOnePage()}
               user={user}
             />
+            <div className={style.pagination}>
+              <Pagination
+                simple
+                total={products.length}
+                onChange={handlePageChange}
+                current={pageParam ? +pageParam : 1}
+              />
+            </div>
             <ShowPopularProducts
               popularProducts={popularProducts}
               user={user}

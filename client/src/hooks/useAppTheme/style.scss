@@ -4,6 +4,10 @@ html[data-theme='light'] {
   --input-background-color: #ffffff;
   --select-bg-color-choice: #d3d3d3;
 
+  --pagination-button-bg-color: #fff;
+  --swiper-pagination-bullet-inactive-color: #000000;
+  --swiper-theme-color: #000;
+
   --form-background-color: #fff;
 
   --box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, .1);
@@ -22,6 +26,10 @@ html[data-theme='dark'] {
   --input-background-color: #1b1b1d;
   --select-bg-color-choice: #474747;
 
+  --pagination-button-bg-color: #303030;
+  --swiper-pagination-bullet-inactive-color: #dddddd;
+  --swiper-theme-color: #fff;
+  
   --form-background-color: #303030;
 
   --box-shadow: 1px 1px 8px 1px rgba(255, 255, 255, .2);

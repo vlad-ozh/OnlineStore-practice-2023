@@ -27,3 +27,26 @@ html {
 }
 
 // reset styles - end
+
+.rc-pagination-simple .rc-pagination-simple-pager input {
+  background-color: var(--input-background-color);
+  color: var(--input-text-color);
+  border-radius: 6px;
+
+  &:hover {
+    border-color: #e00027;
+  }
+}
+.rc-pagination-next, .rc-pagination-prev {
+  border-radius: 6px;
+
+  &:hover {
+    box-shadow: var(--box-shadow-hover);
+  }
+}
+.rc-pagination-item-link::after {
+  color: var(--input-text-color);
+  background-color: var(--pagination-button-bg-color);
+  border-radius: 6px;
+  box-shadow: var(--box-shadow);
+}

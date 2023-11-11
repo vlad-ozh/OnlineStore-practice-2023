@@ -6,7 +6,7 @@ import { ICommonProductsLogic, IProduct } from '../../model/types/IProducts';
 import style from './style.module.scss';
 
 interface IProps {
-  products: IProduct[];
+  products: IProduct[] | undefined;
   user: IUser;
 }
 
@@ -18,7 +18,7 @@ export const ShowProducts: React.FC<IProps> = React.memo((props) => {
       {(commonLogic: ICommonProductsLogic) => (
         <div className={style.products}>
           <ul className={style.productsList}>
-            {products.map((product) => {
+            {products && products.map((product) => {
               const {
                 id: productId,
                 brand,

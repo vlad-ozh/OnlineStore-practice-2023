@@ -41,7 +41,7 @@ export const OpenCategory: React.FC = () => {
   const toProducts = (category: string | undefined, brand: string) => {
     const validCategory = category !== undefined ? category : '';
 
-    return navigationApi.toProducts(validCategory, brand);
+    return navigationApi.toProducts(validCategory, brand, '1');
   };
 
   return (

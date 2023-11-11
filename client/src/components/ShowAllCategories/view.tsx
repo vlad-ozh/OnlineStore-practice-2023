@@ -7,7 +7,7 @@ import style from './style.module.scss';
 
 interface IProps {
   categories: IProductsCategory[];
-  toProducts: (category: string, brand: string) => string;
+  toProducts: (category: string, brand: string, page: string) => string;
 }
 
 export const ShowAllCategories: React.FC<IProps> = (props) => {
@@ -31,7 +31,7 @@ export const ShowAllCategories: React.FC<IProps> = (props) => {
                 return (
                   <li key={index} className={style.categoryBrandsItem}>
                     <Link
-                      to={toProducts(category.name, brand)}
+                      to={toProducts(category.name, brand, '1')}
                       className={style.categoryBrandsItemLink}
                     >
                       {brand}
@@ -41,7 +41,7 @@ export const ShowAllCategories: React.FC<IProps> = (props) => {
               })}
               <li className={style.categoryBrandsItem}>
                 <Link
-                  to={toProducts(category.name, 'all')}
+                  to={toProducts(category.name, 'all', '1')}
                   className={style.categoryBrandsItemLink}
                 >
                   {t('all')}

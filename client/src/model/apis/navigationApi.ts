@@ -13,7 +13,7 @@ const navigation = () => {
     accountOrders: '/account/orders',
     products: '/products',
     openProductsCategory: '/products/:category',
-    openProducts: '/products/:category/:brand',
+    openProducts: '/products/:category/:brand/page/:page',
     openProduct: '/products/:category/:brand/:productId',
     searchProducts: '/products/search/:data',
     selected: '/products/selected',
@@ -69,10 +69,11 @@ const navigation = () => {
         category,
       });
     },
-    toProducts: (category: string, brand: string) => {
+    toProducts: (category: string, brand: string, page: string) => {
       return setRoute(routes.openProducts, {
         category,
         brand,
+        page,
       });
     },
     toProduct: (category: string, brand: string, productId: string) => {
