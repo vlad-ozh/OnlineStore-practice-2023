@@ -64,15 +64,16 @@ export const OpenProducts: React.FC = () => {
     ];
   };
 
-  const productsOnOnePage = () => {
+  const productsOnOnePage = React.useMemo(() => {
     if (!pageParam || +pageParam < 0) return;
 
     const pageSize = 10;
     const skip = (+pageParam - 1) * pageSize;
     const prods = products.slice(skip, skip + 10);
 
+    console.log('🚀 ~ productsOnOnePage');
     return prods;
-  };
+  }, [pageParam, products]);
 
   const handlePageChange = (page: number) => {
     if (categoryParam && brandParam)
@@ -87,7 +88,7 @@ export const OpenProducts: React.FC = () => {
     });
   };
 
-  const isProducts = Boolean(productsOnOnePage()?.length);
+  const isProducts = Boolean(productsOnOnePage?.length);
 
   return (
     <Layout
@@ -102,7 +103,7 @@ export const OpenProducts: React.FC = () => {
         {userDataLoaded && !loading && (isProducts ?
           <>
             <ShowProducts
-              products={productsOnOnePage()}
+              products={productsOnOnePage}
               user={user}
             />
             <div className={style.pagination}>
