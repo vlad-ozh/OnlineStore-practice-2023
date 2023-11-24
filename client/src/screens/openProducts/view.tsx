@@ -71,7 +71,6 @@ export const OpenProducts: React.FC = () => {
     const skip = (+pageParam - 1) * pageSize;
     const prods = products.slice(skip, skip + 10);
 
-    console.log('🚀 ~ productsOnOnePage');
     return prods;
   }, [pageParam, products]);
 
@@ -102,18 +101,20 @@ export const OpenProducts: React.FC = () => {
         {loading && <Loader />}
         {userDataLoaded && !loading && (isProducts ?
           <>
-            <ShowProducts
-              products={productsOnOnePage}
-              user={user}
-            />
-            <div className={style.pagination}>
-              <Pagination
-                simple
-                total={products.length}
-                onChange={handlePageChange}
-                current={pageParam ? +pageParam : 1}
+            <>
+              <ShowProducts
+                products={productsOnOnePage}
+                user={user}
               />
-            </div>
+              <div className={style.pagination}>
+                <Pagination
+                  simple
+                  total={products.length}
+                  onChange={handlePageChange}
+                  current={pageParam ? +pageParam : 1}
+                />
+              </div>
+            </>
             <ShowPopularProducts
               popularProducts={popularProducts}
               user={user}

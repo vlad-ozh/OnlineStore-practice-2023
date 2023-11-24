@@ -7,4 +7,15 @@
 .pagination {
   margin-top: 40px;
   text-align: center;
+
+  @media screen and (max-width: 1180px) {
+    position: sticky;
+    border-radius: 6px;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    background: var(--form-background-color);
+    box-shadow: var(--box-shadow);
+  }
 }
