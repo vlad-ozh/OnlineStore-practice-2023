@@ -12,7 +12,7 @@ const tokenService = () => {
     const refreshToken = jwt.sign(
       payload,
       process.env.JWT_REFRESH_SECRET,
-      {expiresIn: '30d'}
+      {expiresIn: '20d'}
     );
 
     return {
@@ -21,14 +21,14 @@ const tokenService = () => {
     };
   };
 
-  const generateToken = (payload) => {
-    const token = jwt.sign(
+  const generateResetToken = (payload) => {
+    const resetToken = jwt.sign(
       payload,
       process.env.JWT_REFRESH_SECRET,
       {expiresIn: '12h'}
     );
 
-    return token;
+    return resetToken;
   };
 
   const validateRefreshtoken = (token) => {
@@ -41,40 +41,81 @@ const tokenService = () => {
     }
   };
 
-  const saveToken = async (userId, token) => {
-    const tokenData = await TokenModel.findOne({user: userId});
+  const saveRefreshToken = async (
+    userId,
+    newRefreshToken,
+    prevRefreshToken
+  ) => {
+    const tokensData = await TokenModel.findOne({ userId });
 
-    if (tokenData) {
-      tokenData.token = token;
+    if (tokensData) {
 
-      return await tokenData.save();
+      if (tokensData.resetToken) tokensData.resetToken = null;
+
+      tokensData.refreshTokens = tokensData.refreshTokens
+        .map(token => validateRefreshtoken(token) ? token : null)
+        .filter(token => token !== null);
+
+      if (prevRefreshToken !== undefined) {
+        tokensData.refreshTokens = tokensData.refreshTokens.map(refreshToken =>
+          refreshToken === prevRefreshToken ? newRefreshToken : refreshToken
+        );
+      } else {
+        tokensData.refreshTokens =
+          tokensData.refreshTokens.concat(newRefreshToken);
+      }
+
+      return await tokensData.save();
     }
 
-    const newToken = await TokenModel.create({user: userId, token});
-
-    return newToken;
+    return await TokenModel.create({
+      userId,
+      refreshTokens: [ newRefreshToken ],
+      resetToken: null,
+    });
   };
 
-  const removeToken = async (refreshToken) => {
-    const tokenData = await TokenModel.deleteOne({ token: refreshToken });
+  const saveResetToken = async (userId, resetToken) => {
+    const tokensData = await TokenModel.findOne({ userId });
 
-    return tokenData;
+    tokensData.resetToken = resetToken;
+
+    await tokensData.save();
   };
 
-  const findToken = async (token) => {
-    const tokenData = await TokenModel.findOne({ token });
+  const removeOneRefreshToken = async (refreshToken) => {
+    const userId = validateRefreshtoken(refreshToken).id;
 
-    return tokenData;
+    const tokensData = await TokenModel.findOne({ userId });
+
+    tokensData.refreshTokens = tokensData.refreshTokens.filter(token =>
+      token !== refreshToken
+    );
+
+    await tokensData.save();
   };
 
+  const removeAllRefreshTokens = async (userId) => {
+    const tokensData = await TokenModel.findOne({ userId });
+
+    tokensData.refreshTokens = [];
+
+    await tokensData.save();
+  };
+
+  const deleteUserTokens = async (userId) => {
+    await TokenModel.deleteOne({ userId });
+  };
 
   return {
     generateTokens,
-    generateToken,
+    generateResetToken,
     validateRefreshtoken,
-    saveToken,
-    removeToken,
-    findToken,
+    saveRefreshToken,
+    saveResetToken,
+    removeOneRefreshToken,
+    removeAllRefreshTokens,
+    deleteUserTokens,
   };
 };
 

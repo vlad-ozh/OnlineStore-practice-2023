@@ -49,12 +49,7 @@ export interface IUserForgotPassword {
 }
 export interface IUserResetPasswordRequest {
   password: string;
-  isToken: boolean;
   token: string;
-}
-export interface IUserResetPasswordToken {
-  isToken: boolean;
-  token: string | undefined;
 }
 export interface IUserResetPasswordData {
   password: string;

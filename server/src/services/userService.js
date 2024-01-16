@@ -7,11 +7,16 @@ const { UserDto, TokenDto } = require('../dtos');
 const ApiError = require('../exceptions/apiError');
 
 const userService = () => {
-  const userAndTokens = async (user) => {
+  const generateUserAndTokens = async (user, prevRefreshToken = undefined) => {
     const userDto = UserDto(user);
     const tokenDto = TokenDto(user);
     const tokens = tokenService.generateTokens({...tokenDto});
-    await tokenService.saveToken(tokenDto.id, tokens.refreshToken);
+
+    await tokenService.saveRefreshToken(
+      tokenDto.id,
+      tokens.refreshToken,
+      prevRefreshToken
+    );
 
     return {
       ...tokens,
@@ -44,7 +49,7 @@ const userService = () => {
       name
     );
 
-    return userAndTokens(user);
+    return generateUserAndTokens(user);
   };
 
   const login = async (email, password) => {
@@ -59,37 +64,11 @@ const userService = () => {
       throw ApiError.BadRequest('passwordInvalid');
     }
 
-    return userAndTokens(user);
+    return generateUserAndTokens(user);
   };
 
   const logout = async (refreshToken) => {
-    const token = await tokenService.removeToken(refreshToken);
-
-    return token;
-  };
-
-  const forgotPassword = async (email) => {
-    const user = await UserModel.findOne({ email });
-
-    if (!user) {
-      throw ApiError.BadRequest('noUserFound');
-    }
-
-    if (!user.isActivated) {
-      throw ApiError.BadRequest('accountNotActivated');
-    }
-
-    const tokenDto = TokenDto(user);
-    const token = tokenService.generateToken({...tokenDto});
-    await tokenService.saveToken(tokenDto.id, token);
-
-    await mailService.sendResetPasswordMail(
-      email,
-      `${process.env.CLIENT_URL}/account/reset/password/${token}`,
-      user.name
-    );
-
-    return token;
+    await tokenService.removeOneRefreshToken(refreshToken);
   };
 
   const activate = async (activationLink) => {
@@ -104,45 +83,58 @@ const userService = () => {
   };
 
   const refresh = async (refreshToken) => {
-    if (!refreshToken) {
-      throw ApiError.UnauthorizedError();
-    }
+    if (!refreshToken) throw ApiError.UnauthorizedError();
 
     const userData = tokenService.validateRefreshtoken(refreshToken);
-    const tokenFromDb = await tokenService.findToken(refreshToken);
 
-    if (!userData || !tokenFromDb) {
-      throw ApiError.UnauthorizedError();
-    }
+    if (!userData) throw ApiError.UnauthorizedError();
 
     const user = await UserModel.findById(userData.id);
 
-    return userAndTokens(user);
+    return generateUserAndTokens(user, refreshToken);
   };
 
   const checkToken = async (token) => {
     const userData = tokenService.validateRefreshtoken(token);
-    const tokenFromDb = await tokenService.findToken(token);
 
-    if (!userData || !tokenFromDb) {
-      return false;
-    }
-
-    return true;
+    return userData ? true : false;
   };
 
-  const resetPassword = async (password, isToken, token) => {
-    if (!isToken) {
-      throw ApiError.BadRequest('activationLinkInvalid');
+  const forgotPassword = async (email) => {
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      throw ApiError.BadRequest('noUserFound');
     }
 
+    if (!user.isActivated) {
+      throw ApiError.BadRequest('accountNotActivated');
+    }
+
+    const tokenDto = TokenDto(user);
+    const resetToken = tokenService.generateResetToken({...tokenDto});
+    await tokenService.saveResetToken(tokenDto.id, resetToken);
+
+    await mailService.sendResetPasswordMail(
+      email,
+      `${process.env.CLIENT_URL}/account/reset/password/${resetToken}`,
+      user.name
+    );
+  };
+
+  const resetPassword = async (password, token) => {
     const userData = tokenService.validateRefreshtoken(token);
+
+    if (!userData) throw ApiError.BadRequest('activationLinkInvalid');
+
     const user = await UserModel.findById(userData.id);
     const hashPassword = await bcrypt.hash(password, 3);
     user.password = hashPassword;
     await user.save();
 
-    return userAndTokens(user);
+    await tokenService.removeAllRefreshTokens(userData.id);
+
+    return generateUserAndTokens(user);
   };
 
   const addProductToSelected = async (userId, productId) => {
@@ -189,7 +181,12 @@ const userService = () => {
     return UserDto(user);
   };
 
-  const changeAmountProductBuy = async (userId, productId, amount, value) => {
+  const changeAmountProductBuy = async (
+    userId,
+    productId,
+    amount,
+    value
+  ) => {
     const user = await UserModel.findOne({ id: userId });
     let correctValue = value;
 
@@ -217,7 +214,7 @@ const userService = () => {
     return UserDto(user);
   };
 
-  const changeName = async (userId, userName) => {
+  const changeName = async (userId, userName, refreshToken) => {
     const user = await UserModel.findOne({ id: userId });
 
     if (!user) {
@@ -228,10 +225,15 @@ const userService = () => {
 
     await user.save();
 
-    return userAndTokens(user);
+    return generateUserAndTokens(user, refreshToken);
   };
 
-  const changePassword = async (userId, currentPassword, newPassword) => {
+  const changePassword = async (
+    userId,
+    currentPassword,
+    newPassword,
+    refreshToken
+  ) => {
     const user = await UserModel.findOne({ id: userId });
 
     if (!user) {
@@ -250,15 +252,13 @@ const userService = () => {
 
     await user.save();
 
-    return userAndTokens(user);
+    return generateUserAndTokens(user, refreshToken);
   };
 
   const deleteAcc = async (userId) => {
-    const user = await UserModel.deleteOne({ id: userId });
-
-    return user;
+    const user = await UserModel.findOneAndDelete({ id: userId });
+    await tokenService.deleteUserTokens(user._id);
   };
-
 
   return {
     register,

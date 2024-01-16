@@ -119,11 +119,11 @@ const user = (): IUserApi => {
       rejectValue: string
     }>(
       'user/reset/password',
-      async ({password, isToken, token}, { rejectWithValue }) => {
+      async ({password, token}, { rejectWithValue }) => {
         return await axiosInstance
           .post<IUserResponse>(
             serverNavApi.toResetPassword(token),
-            {password, isToken}
+            {password}
           )
           .then((res) => res.data)
           .catch((err) => rejectWithValue(err));

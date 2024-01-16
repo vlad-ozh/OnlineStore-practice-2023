@@ -7,6 +7,7 @@ interface IUserState {
   userDataLoaded: boolean;
   isEmailSent: boolean;
   isToken: boolean;
+  emailForForgotPassword: string;
   checkoutInfo: ICheckout;
   loading: boolean;
   error: string | null;
@@ -17,6 +18,7 @@ const initialState: IUserState = {
   userDataLoaded: false,
   isEmailSent: false,
   isToken: true,
+  emailForForgotPassword: '',
   checkoutInfo: {} as ICheckout,
   loading: false,
   error: null,
@@ -26,6 +28,9 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    changeEmailForForgotPassword: (state, action: PayloadAction<string>) => {
+      state.emailForForgotPassword = action.payload;
+    },
     emailSentDisable: (state) => {
       state.isEmailSent = false;
     },

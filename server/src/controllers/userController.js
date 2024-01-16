@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 const ApiError = require('../exceptions/apiError');
 
 const addCookieRefreshToken = (res, refreshToken) => {
+  res.clearCookie('refreshToken');
   res.cookie(
     'refreshToken',
     refreshToken,
@@ -46,21 +47,11 @@ module.exports = {
   logout: async (req, res, next) => {
     try {
       const { refreshToken } = req.cookies;
-      const token = await userService.logout(refreshToken);
+
+      await userService.logout(refreshToken);
       res.clearCookie('refreshToken');
 
-      return res.json(token);
-    } catch (error) {
-      next(error);
-    }
-  },
-  forgotPassword: async (req, res, next) => {
-    try {
-      const { email } = req.body;
-
-      const token = await userService.forgotPassword(email);
-
-      return res.json(token);
+      return res.status(204).send();
     } catch (error) {
       next(error);
     }
@@ -98,14 +89,23 @@ module.exports = {
       next(error);
     }
   },
+  forgotPassword: async (req, res, next) => {
+    try {
+      const { email } = req.body;
+
+      await userService.forgotPassword(email);
+
+      return res.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  },
   resetPassword: async (req, res, next) => {
     try {
-      const { password, isToken } = req.body;
+      const { password } = req.body;
       const token = req.params.token;
 
-      const userData =
-        await userService.resetPassword(password, isToken, token);
-
+      const userData = await userService.resetPassword(password, token);
       addCookieRefreshToken(res, userData.refreshToken);
 
       return res.json(userData);
@@ -129,8 +129,10 @@ module.exports = {
     try {
       const { userId, productId } = req.body;
 
-      const userData =
-        await userService.removeProductFromSelected(userId, productId);
+      const userData = await userService.removeProductFromSelected(
+        userId,
+        productId
+      );
 
       return res.json(userData);
     } catch (error) {
@@ -153,8 +155,10 @@ module.exports = {
     try {
       const { userId, productId } = req.body;
 
-      const userData =
-        await userService.removeProductFromCart(userId, productId);
+      const userData = await userService.removeProductFromCart(
+        userId,
+        productId
+      );
 
       return res.json(userData);
     } catch (error) {
@@ -180,8 +184,13 @@ module.exports = {
   changeName: async (req, res, next) => {
     try {
       const { userId, userName } = req.body;
+      const { refreshToken } = req.cookies;
 
-      const userData = await userService.changeName( userId, userName );
+      const userData = await userService.changeName(
+        userId,
+        userName,
+        refreshToken
+      );
 
       addCookieRefreshToken(res, userData.refreshToken);
 
@@ -193,11 +202,13 @@ module.exports = {
   changePassword: async (req, res, next) => {
     try {
       const { userId, currentPassword, newPassword } = req.body;
+      const { refreshToken } = req.cookies;
 
       const userData = await userService.changePassword(
         userId,
         currentPassword,
-        newPassword
+        newPassword,
+        refreshToken
       );
 
       addCookieRefreshToken(res, userData.refreshToken);
@@ -211,10 +222,10 @@ module.exports = {
     try {
       const userId = req.params.userId;
 
-      const userData = await userService.deleteAcc( userId );
+      await userService.deleteAcc( userId );
       res.clearCookie('refreshToken');
 
-      return res.json(userData);
+      return res.status(204).send();
     } catch (error) {
       next(error);
     }

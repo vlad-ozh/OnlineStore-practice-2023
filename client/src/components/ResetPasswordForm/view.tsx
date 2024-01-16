@@ -3,7 +3,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { userApi } from '../../model/apis';
-import { IUserResetPasswordData } from '../../model/types/IUser';
+import {
+  IUserResetPasswordData,
+  IUserResetPasswordRequest,
+} from '../../model/types/IUser';
 import {
   FormError,
   InputWithLabel,
@@ -21,7 +24,6 @@ export const ResetPasswordForm: React.FC<IProps> = ({ tokenParam }) => {
 
   const {
     error: formError,
-    isToken,
   } = useAppSelector((state) => state.userApi);
   const dispatch = useAppDispatch();
 
@@ -38,9 +40,8 @@ export const ResetPasswordForm: React.FC<IProps> = ({ tokenParam }) => {
 
   const onSubmit: SubmitHandler<IUserResetPasswordData> = data => {
     if (typeof tokenParam === 'string') {
-      const user = {
+      const user: IUserResetPasswordRequest = {
         password: data.password.trim(),
-        isToken,
         token: tokenParam,
       };
 
